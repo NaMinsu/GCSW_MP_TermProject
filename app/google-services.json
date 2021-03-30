@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "761369854753",
+    "project_id": "teamone-mptp",
+    "storage_bucket": "teamone-mptp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761369854753:android:8f6771adb7755d83643460",
+        "android_client_info": {
+          "package_name": "com.MPTP.TeamOne"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "761369854753-rfletbqm978qv66gufr0u7v3puart7fn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNJRYi0H9BcibjrTMWn0281qOg9y7S2oM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761369854753-rfletbqm978qv66gufr0u7v3puart7fn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
