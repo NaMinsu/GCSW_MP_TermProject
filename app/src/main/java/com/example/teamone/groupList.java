@@ -22,7 +22,8 @@ public class groupList extends AppCompatActivity {
         groupAddB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), groupAdder.class);
+                startActivity(intent);
             }
         });
 
@@ -30,7 +31,8 @@ public class groupList extends AppCompatActivity {
         myPageB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), myPage.class);
+                startActivity(intent);
             }
         });
 
@@ -40,7 +42,8 @@ public class groupList extends AppCompatActivity {
         friendB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), friendList.class);
+                startActivity(intent);
             }
         });
 
@@ -48,7 +51,8 @@ public class groupList extends AppCompatActivity {
         settingB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), settings.class);
+                startActivity(intent);
             }
         });
 

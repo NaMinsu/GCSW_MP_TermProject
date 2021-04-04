@@ -17,13 +17,22 @@ public class friendList extends AppCompatActivity {
         View selfLayout = (View)findViewById(R.id.flLayout);
         View infoLayout = (View)findViewById(R.id.fiLayout);
 
-        ScrollView groups = (ScrollView)selfLayout.findViewById(R.id.flist);
+        ScrollView friends = (ScrollView)selfLayout.findViewById(R.id.flist);
+        Button friendAddB = (Button)selfLayout.findViewById(R.id.btnAddFriend);
+        friendAddB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), friendAdder.class);
+                startActivity(intent);
+            }
+        });
 
         Button myPageB = (Button)selfLayout.findViewById(R.id.btnMyPage);
         myPageB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), myPage.class);
+                startActivity(intent);
             }
         });
 
@@ -31,7 +40,8 @@ public class friendList extends AppCompatActivity {
         groupB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), groupList.class);
+                startActivity(intent);
             }
         });
 
@@ -41,7 +51,8 @@ public class friendList extends AppCompatActivity {
         settingB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), settings.class);
+                startActivity(intent);
             }
         });
 
