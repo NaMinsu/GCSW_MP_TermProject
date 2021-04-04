@@ -1,28 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/glLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/gContents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="그룹 목록"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/btnAddGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="+" />
 
         <ScrollView
+            android:id="@+id/glist"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical">
+
+            </LinearLayout>
         </ScrollView>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal"
+        android:layout_weight="5">
+
+        <Button
+            android:id="@+id/btnMyPage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="마이페이지" />
+
+        <Button
+            android:id="@+id/btnGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="그룹" />
+
+        <Button
+            android:id="@+id/btnFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="친구" />
+
+        <Button
+            android:id="@+id/btnSetUp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="설정" />
+    </LinearLayout>
 
 </LinearLayout>
