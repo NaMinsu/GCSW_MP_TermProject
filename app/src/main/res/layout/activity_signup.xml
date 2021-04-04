@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     tools:context=".SignUpActivity">
+=======
+    tools:context=".signUp">
+>>>>>>> 784914bf9162e1514ac071c7d2047733b40b4e0a
 
     <TextView
         android:id="@+id/textView"
