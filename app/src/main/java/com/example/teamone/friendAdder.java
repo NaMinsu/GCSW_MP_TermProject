@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
-public class groupAdder extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class friendAdder extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     @NonNull
