@@ -25,6 +25,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button groupB = (Button)selfLayout.findViewById(R.id.btnGroup);
+        groupB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), groupList.class);
+                startActivity(intent);
+            }
+        });
 
         Button friendB = (Button)selfLayout.findViewById(R.id.btnFriend);
         friendB.setOnClickListener(new View.OnClickListener() {
