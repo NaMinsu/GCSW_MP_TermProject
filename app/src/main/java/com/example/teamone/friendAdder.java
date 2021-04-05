@@ -1,28 +1,18 @@
 package com.example.teamone;
 
-import androidx.annotation.NonNull;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.ViewGroup;
-
-public class friendAdder extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
-    }
+public class friendAdder extends AppCompatActivity {
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_friendadder);
 
-    }
-
-    @Override
-    public int getItemCount() {
-        return 0;
+        RecyclerView fView = (RecyclerView)findViewById(R.id.rcViewFriend);
+        fView.setHasFixedSize(true);
     }
 }
