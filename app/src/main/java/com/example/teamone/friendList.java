@@ -33,7 +33,7 @@ public class friendList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), myPage.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 

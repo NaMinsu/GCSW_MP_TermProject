@@ -1,5 +1,6 @@
 package com.example.teamone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +26,7 @@ public class groupAdder extends AppCompatActivity {
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
 
@@ -33,7 +34,7 @@ public class groupAdder extends AppCompatActivity {
         cancelB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                finish();
             }
         });
     }

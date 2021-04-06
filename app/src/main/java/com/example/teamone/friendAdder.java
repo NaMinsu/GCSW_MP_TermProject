@@ -26,7 +26,7 @@ public class friendAdder extends AppCompatActivity {
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                finish();
             }
         });
 
@@ -34,7 +34,7 @@ public class friendAdder extends AppCompatActivity {
         cancelB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
     }

@@ -24,7 +24,7 @@ public class groupList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), groupAdder.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
