@@ -1,6 +1,7 @@
 package com.example.teamone;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,5 +57,7 @@ public class friendList extends AppCompatActivity {
             }
         });
 
+        RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewFriend);
+        listView.setHasFixedSize(true);
     }
 }
