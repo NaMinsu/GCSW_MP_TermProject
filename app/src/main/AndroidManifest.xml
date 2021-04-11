@@ -19,6 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".groupList"></activity>
+        <activity android:name=".friendList"></activity>
+        <activity android:name=".settings"></activity>
+        <activity android:name=".groupTable"></activity>
+        <activity android:name=".groupAdder"></activity>
+        <activity android:name=".friendAdder"></activity>
+        <activity android:name=".friendInfo"></activity>
     </application>
 
 </manifest>

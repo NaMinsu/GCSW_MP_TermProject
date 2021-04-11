@@ -16,13 +16,13 @@ public class MainActivity extends AppCompatActivity {
         View selfLayout = (View)findViewById(R.id.mainLayout);
 
         Button myPageB = (Button)selfLayout.findViewById(R.id.btnMyPage);
-        myPageB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), myPage.class);
-                startActivity(intent);
-            }
-        });
+//        myPageB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), myPage.class);
+//                startActivity(intent);
+//            }
+//        });
 
         Button groupB = (Button)selfLayout.findViewById(R.id.btnGroup);
         groupB.setOnClickListener(new View.OnClickListener() {
@@ -50,5 +50,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

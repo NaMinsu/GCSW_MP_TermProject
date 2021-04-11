@@ -60,4 +60,14 @@ public class groupList extends AppCompatActivity {
         RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewGroup);
         listView.setHasFixedSize(true);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
