@@ -1,11 +1,13 @@
 package com.example.teamone;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
 
@@ -69,5 +71,41 @@ public class groupList extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            String gName = data.getStringExtra("groupName");
+        }
+        else if (resultCode == RESULT_CANCELED)
+            return;
+    }
+
+    public class groupAdapter extends RecyclerView.Adapter<groupList.groupAdapter.CustomViewHolder> {
+
+        @NonNull
+        @Override
+        public groupList.groupAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return null;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull groupList.groupAdapter.CustomViewHolder holder, int position) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+
+        public class CustomViewHolder extends RecyclerView.ViewHolder {
+
+            public CustomViewHolder(@NonNull View itemView) {
+                super(itemView);
+            }
+        }
     }
 }

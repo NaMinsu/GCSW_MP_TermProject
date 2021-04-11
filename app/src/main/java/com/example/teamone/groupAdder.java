@@ -7,10 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 public class groupAdder extends AppCompatActivity {
     View selfLayout = findViewById(R.id.gAdder);
@@ -22,10 +25,16 @@ public class groupAdder extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_groupadder);
 
+        EditText gnameTxt = (EditText)findViewById(R.id.txtGname);
+
         okB = (Button)selfLayout.findViewById(R.id.btnOK);
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String gName = gnameTxt.getText().toString();
+                Intent intent = new Intent(getApplicationContext(), groupList.class);
+                intent.putExtra("groupName", gName);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -34,6 +43,7 @@ public class groupAdder extends AppCompatActivity {
         cancelB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -50,31 +60,5 @@ public class groupAdder extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         return;
-    }
-
-    public class groupAdapter extends RecyclerView.Adapter<groupAdapter.CustomViewHolder> {
-
-        @NonNull
-        @Override
-        public groupAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull groupAdapter.CustomViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
-
-        public class CustomViewHolder extends RecyclerView.ViewHolder {
-
-            public CustomViewHolder(@NonNull View itemView) {
-                super(itemView);
-            }
-        }
     }
 }
