@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">TeamOne</string>
+
+    <string-array name="my_header_title">
+        <item></item>
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+
 </resources>

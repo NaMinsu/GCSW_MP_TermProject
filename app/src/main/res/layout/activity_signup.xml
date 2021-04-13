@@ -12,8 +12,6 @@
         android:id="@+id/textView"
         android:layout_width="102dp"
         android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:gravity="center"
         android:text="Email"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,8 +23,6 @@
         android:id="@+id/textView2"
         android:layout_width="102dp"
         android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:gravity="center"
         android:text="Password"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
@@ -37,8 +33,6 @@
         android:id="@+id/textView3"
         android:layout_width="102dp"
         android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:gravity="center"
         android:text="Password Check"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +52,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.468" />
+        app:layout_constraintVertical_bias="0.47" />
 
     <EditText
         android:id="@+id/signUpPW"
