@@ -16,7 +16,6 @@ public class groupTable extends AppCompatActivity {
         setContentView(R.layout.activity_grouptable);
         View selfLayout = (View) findViewById(R.id.gtLayout);
 
-
         Button AddMember = (Button)selfLayout.findViewById(R.id.btnAddMember);
         AddMember.setOnClickListener(new View.OnClickListener() {
             @Override

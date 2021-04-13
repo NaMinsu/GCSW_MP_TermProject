@@ -21,5 +21,21 @@ public class groupMemberAdder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groupmemberadder);
+
+        okB = (Button)selfLayout.findViewById(R.id.btnOK);
+        okB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        cancelB = (Button)selfLayout.findViewById(R.id.btnCancel);
+        cancelB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

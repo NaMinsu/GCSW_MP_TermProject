@@ -25,6 +25,7 @@
         <activity android:name=".groupAdder"></activity>
         <activity android:name=".friendAdder"></activity>
         <activity android:name=".friendInfo"></activity>
+        <activity android:name = ".groupMemberAdder"></activity>
     </application>
 
 </manifest>
