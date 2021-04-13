@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/mainLayout"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -57,25 +58,29 @@
         android:orientation="horizontal">
 
         <Button
-            android:text="Menu 1"
+            android:id="@+id/btnMyPage"
+            android:text="My Page"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"></Button>
 
         <Button
-            android:text="Menu 2"
+            android:id="@+id/btnGroup"
+            android:text="Groups"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"></Button>
 
         <Button
-            android:text="Menu 3"
+            android:id="@+id/btnFriend"
+            android:text="Friends"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"></Button>
 
         <Button
-            android:text="Menu 4"
+            android:id="@+id/btnSetUp"
+            android:text="Setting"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"></Button>

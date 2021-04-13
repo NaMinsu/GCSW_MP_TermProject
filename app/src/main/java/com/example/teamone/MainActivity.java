@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         init();
         getData();
 
+        View selfLayout = (View)findViewById(R.id.mainLayout);
+
         timetable = (TimetableView)findViewById(R.id.timetable);
 
         addNew(1,"자료구조","우리집", "원킴", new Time(13,00),new Time(16,18));
@@ -44,7 +46,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button myPageB = (Button)findViewById(R.id.btnMyPage);
+        myPageB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), myPage.class);
+                startActivity(intent);
+            }
+        });
+
+
+        Button groupB = (Button)findViewById(R.id.btnGroup);
+        groupB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), groupList.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+        Button friendB = (Button)findViewById(R.id.btnFriend);
+        friendB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), friendList.class);
+                startActivity(intent);
+            }
+        });
+
+        Button settingB = (Button)findViewById(R.id.btnSetUp);
+        settingB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), settings.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
+
+
 
     protected void addNew(int day, String title, String place, String prof, Time startTime, Time endTime){
         ArrayList<Schedule> schedules = new ArrayList<Schedule>();
@@ -87,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
     }
+
+
 
     @Override
     public void onStart() {
