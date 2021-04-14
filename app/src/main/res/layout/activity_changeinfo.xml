@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:hint = "닉네임 변경란"
             android:layout_weight="1"
+            android:id="@+id/nickValue"
         />
 
         <Button
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:hint = "대학이름 변경란"
             android:layout_weight="1"
+            android:id="@+id/schoolValue"
             />
 
         <Button
