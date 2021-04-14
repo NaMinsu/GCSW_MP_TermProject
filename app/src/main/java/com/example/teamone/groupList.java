@@ -2,6 +2,7 @@ package com.example.teamone;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -10,16 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class groupList extends AppCompatActivity {
+    ArrayList<String> groupItems;
+    groupAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grouplist);
+
         View selfLayout = (View)findViewById(R.id.glLayout);
 
-        ScrollView groups = (ScrollView)selfLayout.findViewById(R.id.glist);
+        groupItems = new ArrayList<>();
+        adapter = new groupAdapter(groupItems);
+        RecyclerView rcView = findViewById(R.id.rcViewGroup);
+        rcView.setLayoutManager(new LinearLayoutManager(this));
+        rcView.setAdapter(adapter);
 
         Button groupAddB = (Button)selfLayout.findViewById(R.id.btnAddGroup);
         groupAddB.setOnClickListener(new View.OnClickListener() {
@@ -78,34 +89,10 @@ public class groupList extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             String gName = data.getStringExtra("groupName");
+            groupItems.add(gName);
+            adapter.notifyDataSetChanged();
         }
         else if (resultCode == RESULT_CANCELED)
             return;
-    }
-
-    public class groupAdapter extends RecyclerView.Adapter<groupList.groupAdapter.CustomViewHolder> {
-
-        @NonNull
-        @Override
-        public groupList.groupAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull groupList.groupAdapter.CustomViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
-
-        public class CustomViewHolder extends RecyclerView.ViewHolder {
-
-            public CustomViewHolder(@NonNull View itemView) {
-                super(itemView);
-            }
-        }
     }
 }
