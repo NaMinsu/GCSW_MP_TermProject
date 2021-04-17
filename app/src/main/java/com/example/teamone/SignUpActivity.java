@@ -1,4 +1,4 @@
-package com.example.teamone;
+ package com.example.teamone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -87,20 +87,17 @@ public class SignUpActivity extends AppCompatActivity {
                                             //Log.d(TAG, "createUserWithEmail:success"); Tag 설정 해주신후 주석해제 해주세요 !
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             //    updateUI(user);
-                                            String[] emailID = ID.split("@");
-                                            // 우선 정해진 것이 없어서 회원정보를 아이디로 했는데, 검색을 위해 계획을 해봐야 한다
-
-                                            DatabaseReference myRef = database.getReference("users").child(emailID[0]);
-
+                                            String[] emailID = ID.split("\\.");
+                                            String DBEmail = emailID[0]+"_"+emailID[1];
+                                            //lili13245@naver.com -> lili13245@naver_com 형식으로 저장됩니다.
+                                            DatabaseReference myRef = database.getReference("users").child(DBEmail);
                                             Hashtable<String, String> Message_log
                                                     = new Hashtable<String, String>();
 
-
                                             Message_log.put("email", user.getEmail());
                                             myRef.setValue(Message_log);
-                                            MakeBasicProfile(emailID[0], myRef);
+                                            MakeBasicProfile(DBEmail, myRef);
                                             // 기본 프로필을 만드는 것
-
 
                                             user.sendEmailVerification()
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -140,7 +137,7 @@ public class SignUpActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         String datetime = dateformat.format(c.getTime());
         Glide.with(getApplicationContext()).asFile()
-                .load("https://ifh.cc/g/sephR3.png") // 12월에 만료 (무료 이미지 호스팅)
+                .load("https://ifh.cc/g/sephR3.png") // 12월에 만료 (무료 이미지 호스팅) 이미지를  load해서 Storage 에 올린후 그 링크를 받는 코드입니다
                 .into(new CustomTarget<File>() {
                     @Override
                     public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {

@@ -14,14 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class groupMemberAdder extends AppCompatActivity {
-    View selfLayout = findViewById(R.id.gmAdder);
     Button okB, cancelB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groupmemberadder);
-
+        View selfLayout = findViewById(R.id.gmAdder);
         okB = (Button)selfLayout.findViewById(R.id.btnOK);
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
