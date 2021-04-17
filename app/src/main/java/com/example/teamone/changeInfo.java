@@ -32,7 +32,7 @@ public class changeInfo extends AppCompatActivity {
             public void onClick(View v) {
                 Nickname = String.valueOf (nickname.getText());
 
-                Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
+                Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class); 
                 intent.putExtra("value",Nickname);
                 startActivity(intent);
             }
