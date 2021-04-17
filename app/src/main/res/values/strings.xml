@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">TeamOne</string>
 
+
     <string-array name="my_header_title">
-        <item></item>
         <item>Sun</item>
         <item>Mon</item>
         <item>Tue</item>
