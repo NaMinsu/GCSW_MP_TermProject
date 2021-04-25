@@ -23,10 +23,10 @@ public class groupList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grouplist);
-
         View selfLayout = (View)findViewById(R.id.glLayout);
 
-        groupItems = new ArrayList<>();
+        groupItems = new ArrayList<String>();
+        groupItems.add("Test Group");
         adapter = new groupAdapter(groupItems);
         RecyclerView rcView = findViewById(R.id.rcViewGroup);
         rcView.setLayoutManager(new LinearLayoutManager(this));
@@ -45,7 +45,7 @@ public class groupList extends AppCompatActivity {
         myPageB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), myPage.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -69,9 +69,6 @@ public class groupList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewGroup);
-        listView.setHasFixedSize(true);
     }
 
     @Override
@@ -91,6 +88,7 @@ public class groupList extends AppCompatActivity {
             String gName = data.getStringExtra("groupName");
             groupItems.add(gName);
             adapter.notifyDataSetChanged();
+
         }
         else if (resultCode == RESULT_CANCELED)
             return;

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.github.tlaabs.timetableview.Schedule;
 import com.github.tlaabs.timetableview.Time;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LinearLayout selfLayout = (LinearLayout)findViewById(R.id.mainLayout);
 
         init();
         getData();
@@ -41,6 +43,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void OnStickerSelected(int idx, ArrayList<Schedule> schedules) {
                 // ...
+            }
+        });
+
+        Button myPageB = (Button)selfLayout.findViewById(R.id.btnMyPage);
+
+        Button groupB = (Button)selfLayout.findViewById(R.id.btnGroup);
+        groupB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), groupList.class);
+                startActivity(intent);
+            }
+        });
+
+        Button friendB = (Button)selfLayout.findViewById(R.id.btnFriend);
+        friendB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), friendList.class);
+                startActivity(intent);
+            }
+        });
+
+        Button settingB = (Button)selfLayout.findViewById(R.id.btnSetUp);
+        settingB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), settings.class);
+                startActivity(intent);
             }
         });
 

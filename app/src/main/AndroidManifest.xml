@@ -10,8 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamOne">
         <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <activity android:name=".FirstAuthActivity">
             <intent-filter>
