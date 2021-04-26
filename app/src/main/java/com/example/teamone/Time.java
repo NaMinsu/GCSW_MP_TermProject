@@ -2,7 +2,7 @@ package com.example.teamone;
 
 import java.io.Serializable;
 
-public class Time implements Serializable {
+public class Time extends com.github.tlaabs.timetableview.Time implements Serializable {
     private int hour = 0;
     private int minute = 0;
 

@@ -47,11 +47,13 @@ public class calculateTable {
         Schedule[][] merged = new Schedule[7][index];
 
         for (int i = 0; i < 7; i++) {
+
             for(int j=0;j<index;j++){
                 merged[i][j] = new Schedule();
             }
+
             if(Merging(day[i],merged[i],newSchedule,indicies[i],length)) {
-                i = 0;
+                break;
             }
         }
     }
@@ -123,8 +125,21 @@ public class calculateTable {
     //만약 여기서 true가 나온다면 전체 함수 끝
     public boolean available(Schedule[] days, Schedule sample, int index,int length){
 
-        if(index == 0) { // 한개로 전체가 merging된 경우 시작시간 - 9시 && 10시 - 끝난시간 해서 이게 length 안이면 return true
-            return true;
+        if(index == 0) { // 한개로 전체가 merging된 경우 시작시간 - 9시 or 10시 - 끝난시간 해서 이게 length 안이면 return true
+
+            if(days[0].getStartTime().getHour()*100 + days[0].getStartTime().getMinute() - 900 > length) {
+                sample.setStartTime(new Time(9,0));
+                //end타임 추가하기
+                return true;
+            }
+
+            else if(2200 - days[0].getEndTime().getHour()*100 + days[0].getEndTime().getMinute() > length) {
+                sample.setStartTime(days[0].getEndTime());
+                //end타임 추가하기
+                return true;
+            }
+
+            else return false;
         }
 
         else{   // index가 2개 이상이면 index 0 의 시작시간 - 9시 해서 length 안쪽이면 return true 아닐 경우  (index i+1 시작 시간) - (index i 끝시간) 일 경우 return true, 아니면 10시(default 마지막 시간) - (index i 끝시간) 이면 return true
