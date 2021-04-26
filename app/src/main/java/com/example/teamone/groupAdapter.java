@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class groupAdapter extends RecyclerView.Adapter<CustomViewHolder>{
+public class groupAdapter extends RecyclerView.Adapter<GroupViewHolder>{
     Context mContext;
     ArrayList<String> dataList;
 
@@ -24,17 +24,17 @@ public class groupAdapter extends RecyclerView.Adapter<CustomViewHolder>{
 
     @NonNull
     @Override
-    public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context ctx = parent.getContext();
         LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.items_group, parent, false);
-        CustomViewHolder cvh = new CustomViewHolder(view, mContext);
+        GroupViewHolder cvh = new GroupViewHolder(view, mContext);
 
         return cvh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
         holder.onBind((String)dataList.get(position));
     }
 
@@ -47,11 +47,11 @@ public class groupAdapter extends RecyclerView.Adapter<CustomViewHolder>{
     }
 }
 
-class CustomViewHolder extends RecyclerView.ViewHolder {
+class GroupViewHolder extends RecyclerView.ViewHolder {
     public TextView txtView;
     Context ctx;
 
-    public CustomViewHolder(@NonNull View itemView, Context c) {
+    public GroupViewHolder(@NonNull View itemView, Context c) {
         super(itemView);
         ctx = c;
         txtView = itemView.findViewById(R.id.groupName);

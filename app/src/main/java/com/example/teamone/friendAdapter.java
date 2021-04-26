@@ -1,6 +1,7 @@
 package com.example.teamone;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class friendAdapter extends RecyclerView.Adapter<CustomViewHolder>{
+public class friendAdapter extends RecyclerView.Adapter<FriendViewHolder>{
     Context mContext;
     ArrayList<String> dataList;
 
@@ -22,17 +23,17 @@ public class friendAdapter extends RecyclerView.Adapter<CustomViewHolder>{
 
     @NonNull
     @Override
-    public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context ctx = parent.getContext();
         LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.items_group, parent, false);
-        CustomViewHolder cvh = new CustomViewHolder(view, mContext);
+        FriendViewHolder cvh = new FriendViewHolder(view, mContext);
 
         return cvh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FriendViewHolder holder, int position) {
         holder.onBind((String)dataList.get(position));
     }
 
@@ -42,5 +43,31 @@ public class friendAdapter extends RecyclerView.Adapter<CustomViewHolder>{
             return dataList.size();
         else
             return 0;
+    }
+}
+
+class FriendViewHolder extends RecyclerView.ViewHolder {
+    public TextView txtView;
+    Context ctx;
+
+    public FriendViewHolder(@NonNull View itemView, Context c) {
+        super(itemView);
+        ctx = c;
+        txtView = itemView.findViewById(R.id.groupName);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    Intent intent = new Intent(ctx, groupTable.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ctx.startActivity(intent);
+                }
+            }
+        });
+    }
+
+    public void onBind(String dataTxt) {
+        txtView.setText(dataTxt);
     }
 }

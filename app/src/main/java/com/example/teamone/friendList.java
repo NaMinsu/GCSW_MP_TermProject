@@ -1,6 +1,7 @@
 package com.example.teamone;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -18,17 +19,15 @@ public class friendList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grouplist);
+        setContentView(R.layout.activity_friendlist);
         View selfLayout = (View)findViewById(R.id.flLayout);
-        View infoLayout = (View)findViewById(R.id.fiLayout);
 
         friendItems = new ArrayList<String>();
-        friendItems.add("Test Friend");
         adapter = new friendAdapter(getApplicationContext(), friendItems);
-        RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewFriend);
-        listView.setHasFixedSize(true);
+        RecyclerView rcView = findViewById(R.id.rcViewFriend);
+        rcView.setLayoutManager(new LinearLayoutManager(this));
+        rcView.setAdapter(adapter);
 
-        ScrollView friends = (ScrollView)selfLayout.findViewById(R.id.flist);
         Button friendAddB = (Button)selfLayout.findViewById(R.id.btnAddFriend);
         friendAddB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,5 +75,17 @@ public class friendList extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            String fName = data.getStringExtra("friendName");
+            friendItems.add(fName);
+        }
+
+        adapter.notifyDataSetChanged();
     }
 }

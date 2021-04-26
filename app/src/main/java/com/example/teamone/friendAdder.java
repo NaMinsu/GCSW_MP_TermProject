@@ -15,7 +15,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class friendAdder extends AppCompatActivity {
-    View selfLayout = findViewById(R.id.fAdder);
+    View selfLayout;
     Button okB, cancelB;
 
     @Override
@@ -25,6 +25,7 @@ public class friendAdder extends AppCompatActivity {
         setContentView(R.layout.activity_friendadder);
 
         EditText fnameTxt = (EditText)findViewById(R.id.txtFname);
+        selfLayout = findViewById(R.id.fAdder);
 
         okB = (Button)selfLayout.findViewById(R.id.btnOK);
         okB.setOnClickListener(new View.OnClickListener() {
