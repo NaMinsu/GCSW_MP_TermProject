@@ -24,7 +24,7 @@ public class friendList extends AppCompatActivity {
 
         friendItems = new ArrayList<String>();
         friendItems.add("Test Friend");
-        adapter = new friendAdapter(friendItems);
+        adapter = new friendAdapter(getApplicationContext(), friendItems);
         RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewFriend);
         listView.setHasFixedSize(true);
 

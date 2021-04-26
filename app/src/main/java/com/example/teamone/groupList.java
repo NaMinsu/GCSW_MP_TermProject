@@ -27,7 +27,7 @@ public class groupList extends AppCompatActivity {
         View selfLayout = (View)findViewById(R.id.glLayout);
 
         groupItems = new ArrayList<String>();
-        adapter = new groupAdapter(groupItems);
+        adapter = new groupAdapter(getApplicationContext(), groupItems);
         RecyclerView rcView = findViewById(R.id.rcViewGroup);
         rcView.setLayoutManager(new LinearLayoutManager(this));
         rcView.setAdapter(adapter);

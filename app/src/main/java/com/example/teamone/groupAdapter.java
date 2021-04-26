@@ -1,6 +1,7 @@
 package com.example.teamone;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class groupAdapter extends RecyclerView.Adapter<CustomViewHolder>{
+    Context mContext;
     ArrayList<String> dataList;
 
-    groupAdapter(ArrayList<String> list) {
+    groupAdapter(Context c, ArrayList<String> list) {
+        mContext = c;
         dataList = list;
     }
 
@@ -25,7 +28,7 @@ public class groupAdapter extends RecyclerView.Adapter<CustomViewHolder>{
         Context ctx = parent.getContext();
         LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.items_group, parent, false);
-        CustomViewHolder cvh = new CustomViewHolder(view);
+        CustomViewHolder cvh = new CustomViewHolder(view, mContext);
 
         return cvh;
     }
@@ -42,18 +45,27 @@ public class groupAdapter extends RecyclerView.Adapter<CustomViewHolder>{
         else
             return 0;
     }
-
-    public void add(String dataTxt) {
-        dataList.add(dataTxt);
-    }
 }
 
 class CustomViewHolder extends RecyclerView.ViewHolder {
     public TextView txtView;
+    Context ctx;
 
-    public CustomViewHolder(@NonNull View itemView) {
+    public CustomViewHolder(@NonNull View itemView, Context c) {
         super(itemView);
+        ctx = c;
         txtView = itemView.findViewById(R.id.groupName);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    Intent intent = new Intent(ctx, groupTable.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ctx.startActivity(intent);
+                }
+            }
+        });
     }
 
     public void onBind(String dataTxt) {
