@@ -1,19 +1,22 @@
 package com.example.teamone;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class friendAdder extends AppCompatActivity {
-    View selfLayout = findViewById(R.id.fAdder);
+public class friendAdder extends Activity {
+    View selfLayout;
     Button okB, cancelB;
 
     @Override
@@ -22,10 +25,17 @@ public class friendAdder extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_friendadder);
 
+        EditText fnameTxt = (EditText)findViewById(R.id.txtFname);
+        selfLayout = findViewById(R.id.fAdder);
+
         okB = (Button)selfLayout.findViewById(R.id.btnOK);
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String fName = fnameTxt.getText().toString();
+                Intent intent = new Intent(getApplicationContext(), friendList.class);
+                intent.putExtra("friendName", fName);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -34,6 +44,7 @@ public class friendAdder extends AppCompatActivity {
         cancelB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -49,31 +60,5 @@ public class friendAdder extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         return;
-    }
-
-    public class friendAdapter extends RecyclerView.Adapter<friendAdapter.CustomViewHolder> {
-
-        @NonNull
-        @Override
-        public friendAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull friendAdapter.CustomViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
-
-        public class CustomViewHolder extends RecyclerView.ViewHolder {
-
-            public CustomViewHolder(@NonNull View itemView) {
-                super(itemView);
-            }
-        }
     }
 }

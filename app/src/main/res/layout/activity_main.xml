@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/mainLayout"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -44,9 +44,9 @@
                 android:id="@+id/timetable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:column_count="8"
                 app:header_title="@array/my_header_title"
                 app:row_count="16"
+                app:column_count="8"
                 app:start_time="9" />
         </LinearLayout>
     </ScrollView>
@@ -59,28 +59,28 @@
 
         <Button
             android:id="@+id/btnMyPage"
-            android:text="My Page"
+            android:text="마이페이지"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"></Button>
 
         <Button
             android:id="@+id/btnGroup"
-            android:text="Groups"
+            android:text="그룹"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"></Button>
 
         <Button
             android:id="@+id/btnFriend"
-            android:text="Friends"
+            android:text="친구"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"></Button>
 
         <Button
             android:id="@+id/btnSetUp"
-            android:text="Setting"
+            android:text="설정"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"></Button>

@@ -1,6 +1,7 @@
 package com.example.teamone;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -9,22 +10,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 
+import java.util.ArrayList;
+
 public class friendList extends AppCompatActivity {
+    ArrayList<String> friendItems;
+    friendAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grouplist);
+        setContentView(R.layout.activity_friendlist);
         View selfLayout = (View)findViewById(R.id.flLayout);
-        View infoLayout = (View)findViewById(R.id.fiLayout);
 
-        ScrollView friends = (ScrollView)selfLayout.findViewById(R.id.flist);
+        friendItems = new ArrayList<String>();
+        adapter = new friendAdapter(getApplicationContext(), friendItems);
+        RecyclerView rcView = findViewById(R.id.rcViewFriend);
+        rcView.setLayoutManager(new LinearLayoutManager(this));
+        rcView.setAdapter(adapter);
+
         Button friendAddB = (Button)selfLayout.findViewById(R.id.btnAddFriend);
         friendAddB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), friendAdder.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -32,8 +41,8 @@ public class friendList extends AppCompatActivity {
         myPageB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), myPage.class);
-                startActivityForResult(intent, 1);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -56,9 +65,6 @@ public class friendList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewFriend);
-        listView.setHasFixedSize(true);
     }
 
     @Override
@@ -69,5 +75,16 @@ public class friendList extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            String fName = data.getStringExtra("friendName");
+            friendItems.add(fName);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

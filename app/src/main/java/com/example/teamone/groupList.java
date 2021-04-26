@@ -1,15 +1,24 @@
 package com.example.teamone;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class groupList extends AppCompatActivity {
+    ArrayList<String> groupItems;
+    groupAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +26,11 @@ public class groupList extends AppCompatActivity {
         setContentView(R.layout.activity_grouplist);
         View selfLayout = (View)findViewById(R.id.glLayout);
 
-        ScrollView groups = (ScrollView)selfLayout.findViewById(R.id.glist);
+        groupItems = new ArrayList<String>();
+        adapter = new groupAdapter(getApplicationContext(), groupItems);
+        RecyclerView rcView = findViewById(R.id.rcViewGroup);
+        rcView.setLayoutManager(new LinearLayoutManager(this));
+        rcView.setAdapter(adapter);
 
         Button groupAddB = (Button)selfLayout.findViewById(R.id.btnAddGroup);
         groupAddB.setOnClickListener(new View.OnClickListener() {
@@ -28,11 +41,20 @@ public class groupList extends AppCompatActivity {
             }
         });
 
+        Button groupDeleteB = (Button)selfLayout.findViewById(R.id.btnDeleteGroup);
+        groupDeleteB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), groupDeleter.class);
+                startActivityForResult(intent, 2);
+            }
+        });
+
         Button myPageB = (Button)selfLayout.findViewById(R.id.btnMyPage);
         myPageB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), myPage.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -56,9 +78,6 @@ public class groupList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewGroup);
-        listView.setHasFixedSize(true);
     }
 
     @Override
@@ -69,5 +88,27 @@ public class groupList extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String gName = data.getStringExtra("groupName");
+                groupItems.add(gName);
+            }
+        }
+        else if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                String gName = data.getStringExtra("groupName");
+                if (groupItems.contains(gName))
+                    groupItems.remove(gName);
+                else
+                    Toast.makeText(getApplicationContext(), "해당 그룹이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 }
