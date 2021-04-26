@@ -4,18 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
-public class groupAdder extends AppCompatActivity {
+public class groupDeleter extends AppCompatActivity {
     View selfLayout;
     Button okB, cancelB;
 
@@ -23,8 +19,8 @@ public class groupAdder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_groupadder);
-        selfLayout = findViewById(R.id.gAdder);
+        setContentView(R.layout.activity_groupdeleter);
+        selfLayout = findViewById(R.id.gDeleter);
 
         EditText gnameTxt = (EditText)selfLayout.findViewById(R.id.txtGname);
 

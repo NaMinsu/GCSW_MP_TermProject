@@ -9,7 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 
+import java.util.ArrayList;
+
 public class friendList extends AppCompatActivity {
+    ArrayList<String> friendItems;
+    friendAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +22,19 @@ public class friendList extends AppCompatActivity {
         View selfLayout = (View)findViewById(R.id.flLayout);
         View infoLayout = (View)findViewById(R.id.fiLayout);
 
+        friendItems = new ArrayList<String>();
+        friendItems.add("Test Friend");
+        adapter = new friendAdapter(friendItems);
+        RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewFriend);
+        listView.setHasFixedSize(true);
+
         ScrollView friends = (ScrollView)selfLayout.findViewById(R.id.flist);
         Button friendAddB = (Button)selfLayout.findViewById(R.id.btnAddFriend);
         friendAddB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), friendAdder.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -33,7 +43,7 @@ public class friendList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivityForResult(intent, 1);
+                startActivity(intent);
             }
         });
 
@@ -56,9 +66,6 @@ public class friendList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewFriend);
-        listView.setHasFixedSize(true);
     }
 
     @Override

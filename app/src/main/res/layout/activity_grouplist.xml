@@ -21,12 +21,23 @@
             android:text="그룹 목록"
             android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/btnAddGroup"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="+" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAddGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+" />
+
+            <Button
+                android:id="@+id/btnDeleteGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-" />
+        </LinearLayout>
 
         <ScrollView
             android:id="@+id/glist"
