@@ -21,6 +21,7 @@ public class settings  extends AppCompatActivity{
         setContentView(R.layout.activity_settings);
         View selfLayout = (View) findViewById(R.id.miLayout);
         SharedPreferences sf = getSharedPreferences("Users", MODE_PRIVATE);
+
         Button changeInfo = (Button) selfLayout.findViewById(R.id.btnChangeInfo);
         changeInfo.setOnClickListener(new View.OnClickListener() {
             @Override

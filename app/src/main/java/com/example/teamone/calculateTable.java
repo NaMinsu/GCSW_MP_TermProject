@@ -62,12 +62,10 @@ public class calculateTable {
             }
         }
 
-
     }
 
-
-    // 요일별 시간표를 한개로 합치기 -> 예를들어 월요일 9시부터 1시 수업, 다른 그룹멤버의 사간표가 12시부터 2시까지 수업이면 이 일정들을 합해 9시 ~ 2시 로 만들기.
-   //merging 함수에서 합치기
+    //요일별 시간표를 한개로 합치기 -> 예를들어 월요일 9시부터 1시 수업, 다른 그룹멤버의 사간표가 12시부터 2시까지 수업이면 이 일정들을 합해 9시 ~ 2시 로 만들기.
+    //merging 함수에서 합치기
     public void Merging(Schedule[] days,Schedule[] merging) {
         int index = days.length;
 
