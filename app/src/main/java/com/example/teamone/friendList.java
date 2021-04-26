@@ -85,7 +85,6 @@ public class friendList extends AppCompatActivity {
             String fName = data.getStringExtra("friendName");
             friendItems.add(fName);
         }
-
         adapter.notifyDataSetChanged();
     }
 }

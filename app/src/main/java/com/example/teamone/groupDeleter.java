@@ -1,5 +1,6 @@
 package com.example.teamone;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -11,7 +12,7 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class groupDeleter extends AppCompatActivity {
+public class groupDeleter extends Activity {
     View selfLayout;
     Button okB, cancelB;
 

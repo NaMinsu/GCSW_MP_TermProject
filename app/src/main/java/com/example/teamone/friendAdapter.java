@@ -26,7 +26,7 @@ public class friendAdapter extends RecyclerView.Adapter<FriendViewHolder>{
     public FriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context ctx = parent.getContext();
         LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.items_group, parent, false);
+        View view = inflater.inflate(R.layout.items_friend, parent, false);
         FriendViewHolder cvh = new FriendViewHolder(view, mContext);
 
         return cvh;
@@ -47,20 +47,21 @@ public class friendAdapter extends RecyclerView.Adapter<FriendViewHolder>{
 }
 
 class FriendViewHolder extends RecyclerView.ViewHolder {
-    public TextView txtView;
+    public TextView txt_name;
+    public TextView txt_email;
     Context ctx;
 
     public FriendViewHolder(@NonNull View itemView, Context c) {
         super(itemView);
         ctx = c;
-        txtView = itemView.findViewById(R.id.groupName);
+        txt_name = itemView.findViewById(R.id.friendName);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    Intent intent = new Intent(ctx, groupTable.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Intent intent = new Intent(ctx, friendInfo.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     ctx.startActivity(intent);
                 }
             }
@@ -68,6 +69,6 @@ class FriendViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(String dataTxt) {
-        txtView.setText(dataTxt);
+        txt_name.setText(dataTxt);
     }
 }

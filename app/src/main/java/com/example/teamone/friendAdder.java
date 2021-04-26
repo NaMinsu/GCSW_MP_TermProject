@@ -1,5 +1,6 @@
 package com.example.teamone;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -14,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class friendAdder extends AppCompatActivity {
+public class friendAdder extends Activity {
     View selfLayout;
     Button okB, cancelB;
 
@@ -33,7 +34,7 @@ public class friendAdder extends AppCompatActivity {
             public void onClick(View v) {
                 String fName = fnameTxt.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), friendList.class);
-                intent.putExtra("groupName", fName);
+                intent.putExtra("friendName", fName);
                 setResult(RESULT_OK, intent);
                 finish();
             }

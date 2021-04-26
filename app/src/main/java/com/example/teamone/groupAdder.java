@@ -1,5 +1,6 @@
 package com.example.teamone;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Text;
 
-public class groupAdder extends AppCompatActivity {
+public class groupAdder extends Activity {
     View selfLayout;
     Button okB, cancelB;
 
