@@ -25,8 +25,10 @@
         <activity android:name=".friendList"></activity>
         <activity android:name=".settings"></activity>
         <activity android:name=".groupTable"></activity>
-        <activity android:name=".groupAdder"></activity>
-        <activity android:name=".friendAdder"></activity>
+        <activity android:name=".groupAdder"
+            android:theme="@android:style/Theme.Dialog"></activity>
+        <activity android:name=".friendAdder"
+            android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".friendInfo"></activity>
         <activity android:name = ".groupMemberAdder"></activity>
     </application>
