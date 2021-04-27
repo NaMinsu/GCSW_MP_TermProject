@@ -11,27 +11,30 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9">
+        android:layout_weight="9"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Today's schedules"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:background="@color/mainColor"></TextView>
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="150dp">
+                android:layout_height="170dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Today's schedules"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:background="#ee77bb33"></TextView>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/scheduleRecyler"
                         android:layout_width="match_parent"
@@ -40,14 +43,15 @@
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
-            <com.github.tlaabs.timetableview.TimetableView
+            <com.example.teamone.TimetableView
                 android:id="@+id/timetable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:header_title="@array/my_header_title"
                 app:row_count="16"
                 app:column_count="8"
-                app:start_time="9" />
+                app:start_time="9"
+                />
         </LinearLayout>
     </ScrollView>
 
@@ -55,35 +59,54 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        >
 
         <Button
             android:id="@+id/btnMyPage"
             android:text="마이페이지"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"></Button>
+            android:layout_weight="1"
+            android:background="@drawable/button1"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+            ></Button>
 
         <Button
             android:id="@+id/btnGroup"
             android:text="그룹"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"></Button>
+            android:layout_weight="1"
+            android:background="@drawable/button1"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+            ></Button>
 
         <Button
             android:id="@+id/btnFriend"
             android:text="친구"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"></Button>
+            android:layout_weight="1"
+            android:background="@drawable/button1"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+
+            ></Button>
 
         <Button
             android:id="@+id/btnSetUp"
             android:text="설정"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"></Button>
+            android:layout_weight="1"
+            android:background="@drawable/button1"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+            ></Button>
 
     </LinearLayout>
 

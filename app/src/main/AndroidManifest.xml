@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamOne">
         <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity">
+        </activity>
 
         <activity android:name=".FirstAuthActivity">
             <intent-filter>
@@ -24,11 +25,10 @@
         <activity android:name=".friendList"></activity>
         <activity android:name=".settings"></activity>
         <activity android:name=".groupTable"></activity>
-        <activity android:name=".groupAdder" android:theme="@android:style/Theme.Dialog"></activity>
-        <activity android:name=".friendAdder" android:theme="@android:style/Theme.Dialog"></activity>
+        <activity android:name=".groupAdder"></activity>
+        <activity android:name=".friendAdder"></activity>
         <activity android:name=".friendInfo"></activity>
         <activity android:name = ".groupMemberAdder"></activity>
-        <activity android:name=".groupDeleter" android:theme="@android:style/Theme.Dialog"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TeamOne</string>
 
+    <string name="sign_up_text">Create an account!</string>
 
     <string-array name="my_header_title">
         <item></item>
@@ -11,6 +12,15 @@
         <item>Thu</item>
         <item>Fri</item>
         <item>Sat</item>
+    </string-array>
+
+    <string-array name="default_header_title">
+        <item></item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
     </string-array>
 
 </resources>
