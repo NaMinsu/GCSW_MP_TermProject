@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,6 @@ public class friendAdapter extends RecyclerView.Adapter<FriendViewHolder>{
 
 class FriendViewHolder extends RecyclerView.ViewHolder {
     public TextView txt_name;
-    public TextView txt_email;
     Context ctx;
 
     public FriendViewHolder(@NonNull View itemView, Context c) {
@@ -62,6 +62,7 @@ class FriendViewHolder extends RecyclerView.ViewHolder {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     Intent intent = new Intent(ctx, friendInfo.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("friendname", txt_name.getText().toString());
                     ctx.startActivity(intent);
                 }
             }
