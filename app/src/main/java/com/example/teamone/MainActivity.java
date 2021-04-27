@@ -10,10 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.github.tlaabs.timetableview.Schedule;
-import com.github.tlaabs.timetableview.Time;
-import com.github.tlaabs.timetableview.TimetableView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
         timetable = (TimetableView)findViewById(R.id.timetable);
 
-        addNew(1,"자료구조","우리집", "원킴", new Time(13,00),new Time(16,18));
-        addNew(2, "자료구조","우리집", "원킴", new Time(17,00),new Time(20,30));
-        addNew(4, "자료구조","우리집", "원킴", new Time(17,00),new Time(21,00));
-
+        addNew(1, "자료구조", "IT-402", "원킴", new Time(13, 00), new Time(16, 18));
+        addNew(2, "자료구조", "IT-402", "원킴", new Time(17, 00), new Time(20, 30));
+        addNew(4, "소프트웨어공학", "IT-603", "원킴", new Time(17, 00), new Time(21, 00));
+        addNew(5, "중국어", "비전-302", "원킴", new Time(13, 00), new Time(15, 00));
+        addNew(1, "모바일 프로그래밍", "IT-601", "원킴", new Time(17, 00), new Time(19, 00));
+        addNew(4, "데이터과학", "IT-302", "원킴", new Time(9, 00), new Time(13, 00));
 
         timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
             @Override
@@ -46,7 +44,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button myPageB = (Button)selfLayout.findViewById(R.id.btnMyPage);
+        /*
+        버튼 설정
+         */
+
+        Button myPageB = (Button)findViewById(R.id.btnMyPage);
 
         Button groupB = (Button)selfLayout.findViewById(R.id.btnGroup);
         groupB.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
+
+
 
     protected void addNew(int day, String title, String place, String prof, Time startTime, Time endTime){
         ArrayList<Schedule> schedules = new ArrayList<Schedule>();
@@ -102,9 +107,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getData(){
-        List<String> listTitle = Arrays.asList("철수 만나기", "영희 만나기", "혼자 놀기","다 같이 놀기");
-        List<String> listContent = Arrays.asList("재밌게 놀기", "신나게 놀기", "심심하게 놀기", "북적북적");
-        List<String> listTime = Arrays.asList("12:30 ~ 13:30", "14:40~15:40","17:00~18:00","19:00~21:00");
+
+        String[] arrayTitle;
+        String[] arrayContent;
+        String[] arrayTime;
+
+        /*
+        numOfSchedule로 스케쥴의 개수를 읽은 뒤, 그 수만큼 반복문을 통해 배열에 스케쥴을 입력합니다.
+        이후 배열을 리스트로 바꾸어 스케쥴에 올립니다.
+        이 부분은 어떤 식으로 스케쥴 데이터를 읽어오느냐에 따라 달라질 수 있습니다.
+         */
+        int numOfSchedule = 5;
+        arrayTitle = new String[numOfSchedule];
+        arrayContent = new String[numOfSchedule];
+        arrayTime = new String[numOfSchedule];
+
+        for(int i=0;i<numOfSchedule;i++){
+            arrayTitle[i] = "Title "+i;
+            arrayContent[i] = "Content"+i;
+            arrayTime[i] = "Time"+i;
+        }
+
+        List<String> listTitle = Arrays.asList(arrayTitle);
+        List<String> listContent = Arrays.asList(arrayContent);
+        List<String> listTime = Arrays.asList(arrayTime);
 
         for(int i=0; i<listTitle.size();i++){
             todayScheduleData data = new todayScheduleData();
@@ -118,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
     }
+
+
 
     @Override
     public void onStart() {

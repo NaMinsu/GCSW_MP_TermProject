@@ -32,6 +32,15 @@ public class groupList extends AppCompatActivity {
         rcView.setLayoutManager(new LinearLayoutManager(this));
         rcView.setAdapter(adapter);
 
+        Button groupTableBtn = (Button)selfLayout.findViewById(R.id.groupTableBtn);
+        groupTableBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), groupTable.class);
+                startActivity(intent);
+            }
+        });
+
         Button groupAddB = (Button)selfLayout.findViewById(R.id.btnAddGroup);
         groupAddB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +87,9 @@ public class groupList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewGroup);
+        listView.setHasFixedSize(true);
     }
 
     @Override
