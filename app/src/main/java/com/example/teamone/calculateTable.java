@@ -29,7 +29,7 @@ public class calculateTable {
 
             } else if (groupSchedule[i].getDay() == 1) {
                 day[1][indicies[1]] = groupSchedule[i];
-                indicies[0]++;
+                indicies[1]++;
             } else if (groupSchedule[i].getDay() == 2) {
                 day[2][indicies[2]] = groupSchedule[i];
                 indicies[2]++;
@@ -57,6 +57,7 @@ public class calculateTable {
                 merged[i][j] = new Schedule();
             }
             if (indicies[i] != 0) {
+                System.out.println(i);
                 //요일별로 함수 실행, 그리고 여기서 available이 true가 나오면 true return하기
                 if (Merging(day[i], merged[i], newSchedule, indicies[i], length)) {
                     return true;
@@ -171,15 +172,16 @@ public class calculateTable {
         else if(index > 1){   // index가 2개 이상이면 index 0 의 시작시간 - 9시 해서 length 안쪽이면 return true 아닐 경우  (index i+1 시작 시간) - (index i 끝시간) 일 경우 return true, 아니면 10시(default 마지막 시간) - (index i 끝시간) 이면 return true
 
 
+            if(days[0].getStartTime().getHour()*100 + days[0].getStartTime().getMinute() - 900 >= length) {
+                sample.setStartTime(new Time(9,0));
+                int hour = length/100;
+                int minute = length%100;
+                sample.setEndTime(new Time(sample.getStartTime().getHour()+hour,sample.getStartTime().getMinute()+minute));
+                return true;
+            }
+
             for(int i =0 ; i < index -1 ; i++) {
 
-                if(days[0].getStartTime().getHour()*100 + days[0].getStartTime().getMinute() - 900 >= length) {
-                    sample.setStartTime(new Time(9,0));
-                    int hour = length/100;
-                    int minute = length%100;
-                    sample.setEndTime(new Time(sample.getStartTime().getHour()+hour,sample.getStartTime().getMinute()+minute));
-                    return true;
-                }
 
                 int hour = days[i+1].getStartTime().getHour() - days[i].getEndTime().getHour();
                 int minute = days[i+1].getStartTime().getMinute() - days[i].getEndTime().getMinute();
@@ -189,13 +191,32 @@ public class calculateTable {
                     minute = 60 + minute;
                 }//60분이기 때문에 그에 맞춰서 다시 계산해주기
 
+
                 if(hour * 100 + minute >= length) {
 
+                    sample.setStartTime(new Time(days[i].getEndTime().getHour(),days[i].getEndTime().getMinute()));
 
+                    int endMinute = days[i].getEndTime().getMinute() + length%100;
+                    int endHour = days[i].getEndTime().getHour() + length/100;
+                    if(endMinute >= 60) {
+                        endHour++;
+                        endMinute = endMinute-60;
+                    }
+
+                    sample.setEndTime(new Time(endHour,endMinute));
+
+                    return true;
 
                 }
             }
 
+            if(2200 - days[index-1].getEndTime().getHour()*100 + days[index-1].getEndTime().getMinute() >= length) {
+                sample.setStartTime(days[index-1].getEndTime());
+                int hour = length/100;
+                int minute = length%100;
+                sample.setEndTime(new Time(sample.getStartTime().getHour()+hour,sample.getStartTime().getMinute()+minute));
+                return true;
+            }
 
         }
 
