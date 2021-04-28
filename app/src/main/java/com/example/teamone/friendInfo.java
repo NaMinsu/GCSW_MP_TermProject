@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class friendInfo extends Activity {
@@ -24,6 +25,8 @@ public class friendInfo extends Activity {
         String title_text = "친구 정보: " + friendName;
         title.setText(title_text);
 
+        ImageView profile = findViewById(R.id.profile_image);
+
         TextView fName = findViewById(R.id.fpname);
         String name_text = "이름: " + friendName;
         fName.setText(name_text);
@@ -33,7 +36,7 @@ public class friendInfo extends Activity {
         fid.setText(id_text);
 
         TextView fcol = findViewById(R.id.fpcollage);
-        String collage_text = "Collage: ";
+        String collage_text = "학교: ";
         fcol.setText(collage_text);
     }
 
