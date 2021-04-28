@@ -57,8 +57,7 @@ public class changeInfo extends AppCompatActivity {
             public void onClick(View v) {
                 Nickname = String.valueOf (nickname.getText());
 
-               Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
-                intent.putExtra("value",Nickname);
+               Intent intent = new Intent(getApplicationContext(), settings.class);
                 startActivity(intent);
             }
         });
@@ -71,8 +70,7 @@ public class changeInfo extends AppCompatActivity {
             public void onClick(View v) {
                 School = String.valueOf (school.getText());
 
-                Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
-                intent.putExtra("value",School);
+                Intent intent = new Intent(getApplicationContext(), settings.class);
                 startActivity(intent);
             }
         });
