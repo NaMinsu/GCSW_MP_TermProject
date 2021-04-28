@@ -31,6 +31,7 @@
             android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".friendInfo"></activity>
         <activity android:name = ".groupMemberAdder"></activity>
+        <activity android:name=".groupDeleter" android:theme="@android:style/Theme.Dialog"></activity>
     </application>
 
 </manifest>
