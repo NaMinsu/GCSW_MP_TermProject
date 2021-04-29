@@ -97,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             Message_log.put("email", user.getEmail());
                                             myRef.setValue(Message_log);
                                             MakeBasicProfile(DBEmail, myRef);
-                                            // 기본 프로필을 만드는 것
+                                            // 기본 프로필을 만드는 것 나중에는 가입시 유저가 기본프로필사진 올라가는것보다 빨리 로그인 해버릴 수 있기 때문에 로딩을 추가하겠습니다
 
                                             user.sendEmailVerification()
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
