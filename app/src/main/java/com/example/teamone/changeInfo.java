@@ -28,6 +28,7 @@ import com.google.firebase.storage.UploadTask;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Hashtable;
 import java.util.Locale;
 
 public class changeInfo extends AppCompatActivity {
@@ -51,11 +52,19 @@ public class changeInfo extends AppCompatActivity {
         nickname = (EditText)selfLayout.findViewById(R.id.nickValue);
         school = (EditText)selfLayout.findViewById(R.id.schoolValue);
 
+        SharedPreferences sf = getSharedPreferences("Users", MODE_PRIVATE);
+        String MY_EMAIL=sf.getString("Email","");
+        String[] emailID = MY_EMAIL.split("\\.");
+        String DBEmail = emailID[0]+"_"+emailID[1];
+        DatabaseReference myRef = database.getReference("users").child(DBEmail);
+
         btnNickname = (Button)selfLayout.findViewById(R.id.btnNicknameChange);
         btnNickname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Nickname = String.valueOf (nickname.getText());
+
+                myRef.child("nickname").setValue(Nickname);
 
                Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
                 intent.putExtra("value",Nickname);
@@ -70,7 +79,7 @@ public class changeInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 School = String.valueOf (school.getText());
-
+                myRef.child("school").setValue(School);
                 Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
                 intent.putExtra("value",School);
                 startActivity(intent);
