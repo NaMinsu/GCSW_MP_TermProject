@@ -11,11 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class friendAdapter extends RecyclerView.Adapter<FriendViewHolder>{
     Context mContext;
     ArrayList<String> dataList;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference friendshipRef = database.getReference("friendship");
+    DatabaseReference userRef = database.getReference("users");
 
     friendAdapter(Context c, ArrayList<String> list) {
         mContext = c;
@@ -45,6 +51,7 @@ public class friendAdapter extends RecyclerView.Adapter<FriendViewHolder>{
         else
             return 0;
     }
+
 }
 
 class FriendViewHolder extends RecyclerView.ViewHolder {

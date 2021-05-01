@@ -87,9 +87,6 @@ public class groupList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        RecyclerView listView = (RecyclerView)findViewById(R.id.rcViewGroup);
-        listView.setHasFixedSize(true);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class friendInfo extends Activity {
         String friendName = intent_receive.getStringExtra("friendname");
 
         TextView title = findViewById(R.id.fptitle);
-        String title_text = "친구 정보: " + friendName;
+        String title_text = friendName + "님의 정보";
         title.setText(title_text);
 
         ImageView profile = findViewById(R.id.profile_image);
@@ -34,10 +34,6 @@ public class friendInfo extends Activity {
         TextView fid = findViewById(R.id.fpid);
         String id_text = "E-mail: ";
         fid.setText(id_text);
-
-        TextView fcol = findViewById(R.id.fpcollage);
-        String collage_text = "학교: ";
-        fcol.setText(collage_text);
     }
 
     @Override
