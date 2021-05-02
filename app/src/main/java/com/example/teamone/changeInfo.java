@@ -36,7 +36,7 @@ public class changeInfo extends AppCompatActivity {
     private StorageReference mStorageRef; // 프로필 사진 등록을 위한 mStorageRef
     FirebaseDatabase database;
     int REQUEST_IMAGE_CODE=1001; //이미지 변경용 코드입니다
-    Button btnNickname,btnSchool,btnChangeImage;  // 이미지 변경용 임시 버튼을 만들었습니다
+    Button btnNickname,btnSchool,btnChangeImage,btnBack;  // 이미지 변경용 임시 버튼을 만들었습니다
     String Nickname,School;
     EditText nickname,school;
     TextView Image_info; //우선 업로드 정보를 임시로 text 로 남겨놓았습니다
@@ -58,17 +58,22 @@ public class changeInfo extends AppCompatActivity {
         String DBEmail = emailID[0]+"_"+emailID[1];
         DatabaseReference myRef = database.getReference("users").child(DBEmail);
 
+        btnBack = (Button)selfLayout.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),settings.class);
+                startActivity(intent);
+            }
+        });
+
+
         btnNickname = (Button)selfLayout.findViewById(R.id.btnNicknameChange);
         btnNickname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Nickname = String.valueOf (nickname.getText());
-
                 myRef.child("nickname").setValue(Nickname);
-
-               Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
-                intent.putExtra("value",Nickname);
-                startActivity(intent);
             }
         });
 
@@ -80,9 +85,6 @@ public class changeInfo extends AppCompatActivity {
             public void onClick(View v) {
                 School = String.valueOf (school.getText());
                 myRef.child("school").setValue(School);
-                Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
-                intent.putExtra("value",School);
-                startActivity(intent);
             }
         });
         btnChangeImage = (Button)selfLayout.findViewById(R.id.btn_Change_Image);

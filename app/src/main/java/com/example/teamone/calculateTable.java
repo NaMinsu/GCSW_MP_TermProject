@@ -68,6 +68,67 @@ public class calculateTable {
     }
 
 
+    public static boolean input(Schedule[] personal,Schedule newone){
+
+        int index = personal.length;
+
+        Schedule[][] day = new Schedule[7][index];
+
+        int[] indicies = new int[7];
+
+        for (int j = 0; j < 7; j++){
+            for (int i = 0; i < index; i++) {
+                day[j][i] = new Schedule();
+            }
+        }
+
+        //요일 나누기
+        for (int i = 0; i < index; i++) {
+            if (personal[i].getDay() == 0) {
+                day[0][indicies[0]] = personal[i];
+                indicies[0]++;
+
+            } else if (personal[i].getDay() == 1) {
+                day[1][indicies[1]] = personal[i];
+                indicies[1]++;
+            } else if (personal[i].getDay() == 2) {
+                day[2][indicies[2]] = personal[i];
+                indicies[2]++;
+            } else if (personal[i].getDay() == 3) {
+                day[3][indicies[3]] = personal[i];
+                indicies[3]++;
+            } else if (personal[i].getDay() == 4) {
+                day[4][indicies[4]] = personal[i];
+                indicies[4]++;
+            } else if (personal[i].getDay() == 5) {
+                day[5][indicies[5]] = personal[i];
+                indicies[5]++;
+            } else if (personal[i].getDay() == 6) {
+                day[6][indicies[6]] = personal[i];
+                indicies[6]++;
+            }
+        }
+
+        for(int i = 0; i < 6; i++){
+            if(newone.getDay() == i){
+                for(int j = 0; j < indicies[i];j++){
+                    // 끝나는 시간이 원래 시작시간과 끝 시간 사이일때 false (insert 불가)
+                    if(newone.getEndTime().getHour()*100 + newone.getEndTime().getMinute() >= day[i][j].getStartTime().getHour()*100 + day[i][j].getStartTime().getMinute()
+                    && newone.getEndTime().getHour()*100 + newone.getEndTime().getMinute() <= day[i][j].getEndTime().getHour()*100 + day[i][j].getEndTime().getMinute()
+                    )
+                        return false;
+
+                    //시작시간의 기존의 시간표의 시작시간과 끝 시간 사이에 있을때 false ( insert 불가)
+                    else if(newone.getStartTime().getHour()*100 + newone.getStartTime().getMinute() >= day[i][j].getStartTime().getHour()*100 + day[i][j].getStartTime().getMinute()
+                            && newone.getStartTime().getHour()*100 + newone.getStartTime().getMinute() <= day[i][j].getEndTime().getHour()*100 + day[i][j].getEndTime().getMinute())
+                        return false;
+                }
+            }
+        }
+
+        return true; // true가 오면 TimeTableView의 addnew 사용해서 insert
+    }
+
 
     //요일별 시간표를 한개로 합치기 -> 예를들어 월요일 9시부터 1시 수업, 다른 그룹멤버의 사간표가 12시부터 2시까지 수업이면 이 일정들을 합해 9시 ~ 2시 로 만들기.
     //merging 함수에서 합치기
