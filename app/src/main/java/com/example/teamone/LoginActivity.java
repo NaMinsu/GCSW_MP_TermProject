@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-    private static String myID;
     private FirebaseAuth mAuth;
     FirebaseDatabase database;
     EditText idText;
@@ -83,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                                             String[] emailID = stUserEmail.split("\\.");
                                             String DBEmail = emailID[0] + "_" + emailID[1];
                                             DatabaseReference users_ref = database.getReference("users").child(DBEmail);
-                                            myID = DBEmail; // 다른 액티비티에서 자신의 아이디를 참조 할 수 있도록 했습니다.
                                             users_ref.addListenerForSingleValueEvent(new ValueEventListener() {//와!!
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -150,9 +148,5 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         //로그인 화면 백버튼 시 이전 Activity 로 돌아가는 상황을 막기 위한 코드
         moveTaskToBack(true);
-    }
-
-    public static String getMyID() {
-        return myID;
     }
 }

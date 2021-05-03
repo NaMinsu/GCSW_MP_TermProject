@@ -10,7 +10,10 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 public class friendInfo extends Activity {
+    HashMap<String, String> userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +21,10 @@ public class friendInfo extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_friendinfo);
 
+        userInfo = friendList.getInfoTable();
         Intent intent_receive = getIntent();
         String friendName = intent_receive.getStringExtra("friendname");
+        String friendMail = userInfo.get((friendName));
 
         TextView title = findViewById(R.id.fptitle);
         String title_text = friendName + "님의 정보";
@@ -32,7 +37,7 @@ public class friendInfo extends Activity {
         fName.setText(name_text);
 
         TextView fid = findViewById(R.id.fpid);
-        String id_text = "E-mail: ";
+        String id_text = "E-mail: " + friendMail;
         fid.setText(id_text);
     }
 

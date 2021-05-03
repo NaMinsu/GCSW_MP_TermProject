@@ -10,7 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,11 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class friendList extends AppCompatActivity {
-    ArrayList<String> friendList; // 데이터베이스에서 가져오는 데이터
-    ArrayList<String> friendItems; // 액티비티 내 데이터
+    ArrayList<String> friendList;
     friendAdapter adapter;
+    private static HashMap<String, String> infoTable = new HashMap<>();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference friendshipRef = database.getReference("friendship");
     DatabaseReference userRef = database.getReference("users");
@@ -33,42 +37,27 @@ public class friendList extends AppCompatActivity {
         setContentView(R.layout.activity_friendlist);
         View selfLayout = (View)findViewById(R.id.flLayout);
 
+        RecyclerView rcView = findViewById(R.id.rcViewFriend);
+        rcView.setLayoutManager(new LinearLayoutManager(this));
+
         friendList = new ArrayList<String>();
-
-        friendshipRef.child(LoginActivity.getMyID()).addListenerForSingleValueEvent(new ValueEventListener() {
+        friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren())
-                    friendList.add(ds.getValue().toString());
-            }
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DataSnapshot ds = task.getResult();
+                    for (DataSnapshot friend : ds.getChildren()) {
+                        String fname = friend.child("name").getValue().toString();
+                        String fid = friend.child("email").getValue().toString();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Action that Accessing database is failed.
-            }
-        });
-
-        friendItems = new ArrayList<String>();
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    for (String fid : friendList) {
-                        if (fid == ds.child("email").getValue())
-                            friendItems.add(ds.child("name").getValue().toString());
+                        friendList.add(fname);
+                        infoTable.put(fname, fid);
                     }
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Action that Accessing database is failed.
-            }
         });
 
-        adapter = new friendAdapter(getApplicationContext(), friendItems);
-        RecyclerView rcView = findViewById(R.id.rcViewFriend);
-        rcView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new friendAdapter(getApplicationContext(), friendList);
         rcView.setAdapter(adapter);
 
         Button friendAddB = (Button)selfLayout.findViewById(R.id.btnAddFriend);
@@ -108,6 +97,7 @@ public class friendList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -126,8 +116,12 @@ public class friendList extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             String fName = data.getStringExtra("friendName");
-            friendItems.add(fName);
+            Toast.makeText(getApplicationContext(), fName + "님을 추가했습니다.", Toast.LENGTH_SHORT).show();
         }
         adapter.notifyDataSetChanged();
+    }
+
+    public static HashMap<String, String> getInfoTable() {
+        return infoTable;
     }
 }
