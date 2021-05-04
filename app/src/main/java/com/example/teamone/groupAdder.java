@@ -37,6 +37,7 @@ public class groupAdder extends Activity {
 
         listView = (ListView)selfLayout.findViewById(R.id.groupAdderList);
         adapter = new groupAdderAdapter();
+
         listView.setAdapter(adapter);
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.androids_green),
                 "first member") ;
@@ -44,7 +45,9 @@ public class groupAdder extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                groupAdderItemList item = (groupAdderItemList) adapter.getItem(position);
+                String txt = item.getText();
+                Toast.makeText(getApplicationContext(),txt,Toast.LENGTH_SHORT).show();
             }
         });
 
