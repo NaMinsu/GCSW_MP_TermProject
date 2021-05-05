@@ -19,9 +19,6 @@ import java.util.ArrayList;
 public class friendAdapter extends RecyclerView.Adapter<FriendViewHolder>{
     Context mContext;
     ArrayList<String> dataList;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference friendshipRef = database.getReference("friendship");
-    DatabaseReference userRef = database.getReference("users");
 
     friendAdapter(Context c, ArrayList<String> list) {
         mContext = c;

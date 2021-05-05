@@ -24,12 +24,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class friendList extends AppCompatActivity {
-    ArrayList<String> friendList;
+    ArrayList<String> friendList = new ArrayList<>();
     friendAdapter adapter;
     private static HashMap<String, String> infoTable = new HashMap<>();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference friendshipRef = database.getReference("friendship");
-    DatabaseReference userRef = database.getReference("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,6 @@ public class friendList extends AppCompatActivity {
         RecyclerView rcView = findViewById(R.id.rcViewFriend);
         rcView.setLayoutManager(new LinearLayoutManager(this));
 
-        friendList = new ArrayList<String>();
         friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -53,6 +51,7 @@ public class friendList extends AppCompatActivity {
                         friendList.add(fname);
                         infoTable.put(fname, fid);
                     }
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -87,8 +86,6 @@ public class friendList extends AppCompatActivity {
             }
         });
 
-        Button friendB = (Button)selfLayout.findViewById(R.id.btnFriend);
-
         Button settingB = (Button)selfLayout.findViewById(R.id.btnSetUp);
         settingB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,18 +94,19 @@ public class friendList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
