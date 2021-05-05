@@ -52,7 +52,7 @@ public class friendAdder extends Activity {
                 String fName = fnameTxt.getText().toString();
                 String fmail = fmailTxt.getText().toString();
 
-                friendshipRef.child(LoginActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if(task.isSuccessful()) {
@@ -64,7 +64,7 @@ public class friendAdder extends Activity {
                 });
 
                 if (!isInDB) {
-                    friendshipRef.child(LoginActivity.getMyID()).child(fmail).setValue(fmail);
+                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).setValue(fmail);
                     Intent intent = new Intent(getApplicationContext(), friendList.class);
                     intent.putExtra("friendName", fName);
                     setResult(RESULT_OK, intent);
