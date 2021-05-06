@@ -50,7 +50,7 @@ public class friendAdder extends Activity {
             @Override
             public void onClick(View v) {
                 String fName = fnameTxt.getText().toString();
-                String fmail = fmailTxt.getText().toString();
+                String fmail = fmailTxt.getText().toString().replace(".", "_");
 
                 friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
@@ -64,7 +64,8 @@ public class friendAdder extends Activity {
                 });
 
                 if (!isInDB) {
-                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).setValue(fmail);
+                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("email").setValue(fmail.replace("_", "."));
+                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("name").setValue(fName);
                     Intent intent = new Intent(getApplicationContext(), friendList.class);
                     intent.putExtra("friendName", fName);
                     setResult(RESULT_OK, intent);
