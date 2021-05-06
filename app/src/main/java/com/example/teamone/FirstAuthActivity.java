@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class FirstAuthActivity extends AppCompatActivity {
     private Intent intent;
+    private static String myID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -19,10 +20,14 @@ public class FirstAuthActivity extends AppCompatActivity {
             intent = new Intent(FirstAuthActivity.this, LoginActivity.class);
         } else {
             // Call Next Activity
+            myID = sf.getString("Email", "").replace(".", "_");
             intent = new Intent(FirstAuthActivity.this, MainActivity.class);
         }
         startActivity(intent);
         this.finish();
     }
 
+    public static String getMyID() {
+        return myID;
+    }
 }

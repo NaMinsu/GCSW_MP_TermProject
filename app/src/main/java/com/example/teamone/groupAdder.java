@@ -7,24 +7,33 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 public class groupAdder extends Activity {
     View selfLayout;
     Button okB, cancelB;
-    ListView listView;
-    groupAdderAdapter adapter;
+    ArrayList<String> friends = new ArrayList<>();
+    MakeGroupAdapter adapter;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference friendshipRef = database.getReference("friendship");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,31 +44,34 @@ public class groupAdder extends Activity {
 
         EditText gnameTxt = (EditText)selfLayout.findViewById(R.id.txtGname);
 
-        listView = (ListView)selfLayout.findViewById(R.id.groupAdderList);
-        adapter = new groupAdderAdapter();
-
-        listView.setAdapter(adapter);
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.androids_green),
-                "first member") ;
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                groupAdderItemList item = (groupAdderItemList) adapter.getItem(position);
-                String txt = item.getText();
-                Toast.makeText(getApplicationContext(),txt,Toast.LENGTH_SHORT).show();
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                for (DataSnapshot friend : task.getResult().getChildren()) {
+                    friends.add(friend.child("name").getValue().toString());
+                }
+                adapter.notifyDataSetChanged();
             }
         });
+
+        RecyclerView rcview = findViewById(R.id.friendList);
+        rcview.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MakeGroupAdapter(friends);
+        rcview.setAdapter(adapter);
 
         okB = (Button)selfLayout.findViewById(R.id.btnOK);
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String gName = gnameTxt.getText().toString();
-                Intent intent = new Intent(getApplicationContext(), groupList.class);
-                intent.putExtra("groupName", gName);
-                setResult(RESULT_OK, intent);
-                finish();
+                if (gName.equals(""))
+                    Toast.makeText(getApplicationContext(), "그룹명은 반드시 입력해야합니다.", Toast.LENGTH_SHORT).show();
+                else {
+                    Intent intent = new Intent(getApplicationContext(), groupList.class);
+                    intent.putExtra("groupName", gName);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             }
         });
 
