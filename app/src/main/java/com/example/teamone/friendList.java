@@ -1,6 +1,7 @@
 package com.example.teamone;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,11 +15,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,20 +43,45 @@ public class friendList extends AppCompatActivity {
         RecyclerView rcView = findViewById(R.id.rcViewFriend);
         rcView.setLayoutManager(new LinearLayoutManager(this));
 
-        friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        friendshipRef.child(FirstAuthActivity.getMyID()).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DataSnapshot ds = task.getResult();
-                    for (DataSnapshot friend : ds.getChildren()) {
-                        String fname = friend.child("name").getValue().toString();
-                        String fid = friend.child("email").getValue().toString();
+            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                if (snapshot.hasChild("name") && snapshot.hasChild("email")) {
+                    String fname = snapshot.child("name").getValue().toString();
+                    String fid = snapshot.child("email").getValue().toString();
 
-                        friendList.add(fname);
-                        infoTable.put(fname, fid);
-                    }
-                    adapter.notifyDataSetChanged();
+                    friendList.add(fname);
+                    infoTable.put(fname, fid);
                 }
+
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                if (snapshot.hasChild("name") && snapshot.hasChild("email")) {
+                    String fname = snapshot.child("name").getValue().toString();
+                    String fid = snapshot.child("email").getValue().toString();
+
+                    friendList.add(fname);
+                    infoTable.put(fname, fid);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
             }
         });
 
