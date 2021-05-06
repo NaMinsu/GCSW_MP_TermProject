@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class groupAdapter extends RecyclerView.Adapter<GroupViewHolder>{
     Context mContext;
@@ -62,6 +63,9 @@ class GroupViewHolder extends RecyclerView.ViewHolder {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     Intent intent = new Intent(ctx, groupTable.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    HashMap<String, ArrayList<String>> groupdata = groupList.getGroupMap();
+                    ArrayList<String> members = groupdata.get(txtView.getText().toString());
+                    intent.putExtra("members", members);
                     ctx.startActivity(intent);
                 }
             }

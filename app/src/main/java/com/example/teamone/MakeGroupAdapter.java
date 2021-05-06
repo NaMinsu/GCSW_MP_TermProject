@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class MakeGroupAdapter extends RecyclerView.Adapter<MGViewHolder>{
-    ArrayList<String> dataList = new ArrayList<>();
-    ArrayList<Boolean> checklist = new ArrayList<>();
+    ArrayList<String> dataList;
+    private static ArrayList<CheckBox> checklist = new ArrayList<>();
 
     public MakeGroupAdapter(ArrayList<String> list) {
         dataList = list;
@@ -33,7 +33,6 @@ public class MakeGroupAdapter extends RecyclerView.Adapter<MGViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull MGViewHolder holder, int position) {
         holder.onBind(dataList.get(position));
-        checklist.add(holder.isSelected);
     }
 
     @Override
@@ -43,22 +42,24 @@ public class MakeGroupAdapter extends RecyclerView.Adapter<MGViewHolder>{
         else
             return dataList.size();
     }
+
+    public ArrayList<CheckBox> getChecklist() {
+        return checklist;
+    }
+
+    public static void setChecklist(CheckBox state) {
+        checklist.add(state);
+    }
 }
 
 class MGViewHolder extends RecyclerView.ViewHolder {
     CheckBox fbox;
-    Boolean isSelected;
 
     public MGViewHolder(@NonNull View itemView) {
         super(itemView);
         fbox = itemView.findViewById(R.id.target);
 
-        fbox.setOnClickListener(new CheckBox.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isSelected = fbox.isChecked();
-            }
-        });
+        MakeGroupAdapter.setChecklist(fbox);
     }
 
     public void onBind(String datatxt) { fbox.setText(datatxt); }

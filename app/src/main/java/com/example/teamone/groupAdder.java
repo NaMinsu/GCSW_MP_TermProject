@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -64,11 +65,29 @@ public class groupAdder extends Activity {
             @Override
             public void onClick(View v) {
                 String gName = gnameTxt.getText().toString();
+                ArrayList<CheckBox> list = adapter.getChecklist();
+                Boolean isCheckOne = false;
+
+                for (CheckBox box : list) {
+                    if (box.isChecked()) {
+                        isCheckOne = true;
+                        break;
+                    }
+                }
+
                 if (gName.equals(""))
                     Toast.makeText(getApplicationContext(), "그룹명은 반드시 입력해야합니다.", Toast.LENGTH_SHORT).show();
+                else if (!isCheckOne)
+                    Toast.makeText(getApplicationContext(), "친구는 반드시 한명 이상 선택해야 합니다.", Toast.LENGTH_SHORT).show();
                 else {
                     Intent intent = new Intent(getApplicationContext(), groupList.class);
                     intent.putExtra("groupName", gName);
+                    ArrayList<String> selected = new ArrayList<>();
+                    for (CheckBox box : list) {
+                        if (box.isChecked())
+                            selected.add(box.getText().toString());
+                    }
+                    intent.putExtra("selfriends", selected);
                     setResult(RESULT_OK, intent);
                     finish();
                 }

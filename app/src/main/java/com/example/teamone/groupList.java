@@ -15,10 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class groupList extends AppCompatActivity {
-    ArrayList<String> groupItems;
+    ArrayList<String> groupItems = new ArrayList<String>();
     groupAdapter adapter;
+    static HashMap<String, ArrayList<String>> groupMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,6 @@ public class groupList extends AppCompatActivity {
         setContentView(R.layout.activity_grouplist);
         View selfLayout = (View)findViewById(R.id.glLayout);
 
-        groupItems = new ArrayList<String>();
         adapter = new groupAdapter(getApplicationContext(), groupItems);
         RecyclerView rcView = findViewById(R.id.rcViewGroup);
         rcView.setLayoutManager(new LinearLayoutManager(this));
@@ -106,6 +107,8 @@ public class groupList extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 String gName = data.getStringExtra("groupName");
+                ArrayList<String> gfriends = data.getStringArrayListExtra("selfriends");
+                groupMap.put(gName, gfriends);
                 groupItems.add(gName);
             }
         }
@@ -119,5 +122,9 @@ public class groupList extends AppCompatActivity {
             }
         }
         adapter.notifyDataSetChanged();
+    }
+
+    public static HashMap<String, ArrayList<String>> getGroupMap() {
+        return groupMap;
     }
 }
