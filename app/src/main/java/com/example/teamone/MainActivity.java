@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     TimetableView timetable;
     private todaySchedule adapter;
+    int numOfPlan = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +29,8 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout selfLayout = (LinearLayout)findViewById(R.id.mainLayout);
 
         init();
-        getData();
 
         timetable = (TimetableView)findViewById(R.id.timetable);
-
-        addNew(1, "자료구조", "IT-402", "원킴", new Time(13, 00), new Time(16, 18));
-        addNew(2, "자료구조", "IT-402", "원킴", new Time(17, 00), new Time(20, 30));
-        addNew(4, "소프트웨어공학", "IT-603", "원킴", new Time(17, 00), new Time(21, 00));
-        addNew(5, "중국어", "비전-302", "원킴", new Time(13, 00), new Time(15, 00));
-        addNew(1, "모바일 프로그래밍", "IT-601", "원킴", new Time(17, 00), new Time(19, 00));
-        addNew(4, "데이터과학", "IT-302", "원킴", new Time(9, 00), new Time(13, 00));
-
         timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
             @Override
             public void OnStickerSelected(int idx, ArrayList<Schedule> schedules) {
@@ -47,6 +41,26 @@ public class MainActivity extends AppCompatActivity {
         /*
         버튼 설정
          */
+
+        Button addSchedule = findViewById(R.id.addScheduleBtn);
+
+        addSchedule.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), addSchedule.class);
+                startActivityForResult(intent,0);
+            }
+        });
+
+        Button addPlan = findViewById(R.id.addPlanBtn);
+
+        addPlan.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), addPlan.class);
+                startActivityForResult(intent,1);
+            }
+        });
 
         Button myPageB = (Button)findViewById(R.id.btnMyPage);
 
@@ -79,15 +93,51 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode==0){
+            if(resultCode==RESULT_OK){
+                String scheduleName = data.getStringExtra("scheduleName");
+                String startHour = data.getStringExtra("startHour");
+                String startMinute = data.getStringExtra("startMinute");
+                String endHour = data.getStringExtra("endHour");
+                String endMinute = data.getStringExtra("endMinute");
+                int weekdayIndex = data.getIntExtra("weekdayIndex",1);
+                Time start = new Time(Integer.parseInt(startHour),Integer.parseInt(startMinute));
+                Time end = new Time(Integer.parseInt(endHour),Integer.parseInt(endMinute));
+
+                addNew(weekdayIndex,scheduleName,"",start,end);
+            }else if(resultCode==RESULT_CANCELED){
+                Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+
+        }else if(requestCode==1){
+            if(resultCode==RESULT_OK){
+                String scheduleName = data.getStringExtra("planName");
+                String startHour = data.getStringExtra("startHour");
+                String startMinute = data.getStringExtra("startMinute");
+                String endHour = data.getStringExtra("endHour");
+                String endMinute = data.getStringExtra("endMinute");
+                int weekdayIndex = data.getIntExtra("weekdayIndex",1);
+                Time start = new Time(Integer.parseInt(startHour),Integer.parseInt(startMinute));
+                Time end = new Time(Integer.parseInt(endHour),Integer.parseInt(endMinute));
+
+                getData(scheduleName,scheduleName,startHour+":"+startMinute+"~"+endHour+":"+endMinute);
+            }else if(resultCode==RESULT_CANCELED){
+                Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+    }
 
 
 
-    protected void addNew(int day, String title, String place, String prof, Time startTime, Time endTime){
+    protected void addNew(int day, String title, String place, Time startTime, Time endTime){
         ArrayList<Schedule> schedules = new ArrayList<Schedule>();
         Schedule schedule = new Schedule();
         schedule.setClassTitle(title); // sets subject
         schedule.setClassPlace(place); // sets place
-        schedule.setProfessorName(prof); // sets professor
         schedule.setStartTime(startTime); // sets the beginning of class time (hour,minute)
         schedule.setEndTime(endTime); // sets the end of class time (hour,minute)
         schedule.setDay(day);
@@ -106,42 +156,26 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private void getData(){
+    private void getData(String title, String content, String time){
 
-        String[] arrayTitle;
-        String[] arrayContent;
-        String[] arrayTime;
+        numOfPlan++;
 
+        todayScheduleData data = new todayScheduleData();
         /*
         numOfSchedule로 스케쥴의 개수를 읽은 뒤, 그 수만큼 반복문을 통해 배열에 스케쥴을 입력합니다.
         이후 배열을 리스트로 바꾸어 스케쥴에 올립니다.
         이 부분은 어떤 식으로 스케쥴 데이터를 읽어오느냐에 따라 달라질 수 있습니다.
          */
-        int numOfSchedule = 5;
-        arrayTitle = new String[numOfSchedule];
-        arrayContent = new String[numOfSchedule];
-        arrayTime = new String[numOfSchedule];
 
-        for(int i=0;i<numOfSchedule;i++){
-            arrayTitle[i] = "Title "+i;
-            arrayContent[i] = "Content"+i;
-            arrayTime[i] = "Time"+i;
-        }
-
-        List<String> listTitle = Arrays.asList(arrayTitle);
-        List<String> listContent = Arrays.asList(arrayContent);
-        List<String> listTime = Arrays.asList(arrayTime);
-
-        for(int i=0; i<listTitle.size();i++){
-            todayScheduleData data = new todayScheduleData();
-            data.setTitle(listTitle.get(i));
-            data.setContent(listContent.get(i));
-            data.setTime(listTime.get(i));
-
-            adapter.addItem(data);
-        }
+        data.setTitle(title);
+        data.setContent(content);
+        data.setTime(time);
+        adapter.addItem(data);
 
         adapter.notifyDataSetChanged();
+
+    }
+    private void addData(){
 
     }
 

@@ -11,10 +11,10 @@
         android:theme="@style/Theme.TeamOne">
         <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".MainActivity"></activity>
-
         <activity android:name=".FirstAuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,6 +29,12 @@
         <activity android:name=".friendInfo" android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name = ".groupMemberAdder"></activity>
         <activity android:name=".groupDeleter" android:theme="@android:style/Theme.Dialog"></activity>
+        <activity
+            android:name=".addSchedule"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name=".addPlan"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
     </application>
 
 </manifest>
