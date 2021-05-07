@@ -218,6 +218,15 @@ public class TimetableView extends LinearLayout {
         setStickerColor();
     }
 
+    public void removeSchedule(int idx) {
+        Sticker sticker = stickers.get(idx);
+        for (TextView tv : sticker.getView()) {
+            stickerBox.removeView(tv);
+        }
+        stickers.remove(idx);
+        setStickerColor();
+    }
+
     public void setHeaderHighlight(int idx) {
         if(idx < 0)return;
         TableRow row = (TableRow) tableHeader.getChildAt(0);

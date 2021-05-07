@@ -42,7 +42,30 @@
                         ></androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
-
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                >
+            <Button
+                android:background="@drawable/button1"
+                android:id="@+id/addScheduleBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="Add Schedule"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:layout_alignParentRight="true"></Button>
+                <Button
+                    android:background="@drawable/button1"
+                    android:id="@+id/addPlanBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="Add Plan"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:layout_toLeftOf="@+id/addScheduleBtn"></Button>
+            </RelativeLayout>
             <com.example.teamone.TimetableView
                 android:id="@+id/timetable"
                 android:layout_width="match_parent"

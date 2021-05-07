@@ -3,6 +3,7 @@ package com.example.teamone;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -149,4 +150,6 @@ public class LoginActivity extends AppCompatActivity {
         //로그인 화면 백버튼 시 이전 Activity 로 돌아가는 상황을 막기 위한 코드
         moveTaskToBack(true);
     }
+
+
 }

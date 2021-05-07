@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="30dp"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/layout_border"
+    android:layout_marginVertical="25dp"
+    >
+    <TextView
+        android:background="@color/mainColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" 계획 추가"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="@drawable/layout_bottom"
+        >
+        <TextView
+            android:background="@color/lightGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="계획 이름" />
+
+        <EditText
+            android:id="@+id/planNameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textShortMessage"
+            android:hint="계획 이름"
+            android:layout_marginVertical="8dp"/>
+
+        <TextView
+            android:background="@color/lightGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="계획 시간" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp">
+            <TextView
+                android:id="@+id/startTimeTxt_plan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="시작시간"
+                android:textSize="18sp"></TextView>
+            <Button
+                android:id="@+id/startTimeBtn_plan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="변경"
+                android:textSize="18sp"
+                ></Button>
+            <TextView
+                android:id="@+id/endTimeTxt_plan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="종료시간"
+                android:textSize="18sp"></TextView>
+            <Button
+                android:id="@+id/endTimeBtn_plan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="변경"
+                android:textSize="18sp"
+                ></Button>
+        </LinearLayout>
+
+
+        <TextView
+            android:background="@color/lightGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="계획 요일" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginVertical="8dp">
+            <Button
+                android:id="@+id/weekDayLeft_plan"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/left"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/weekDayText_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="월요일"
+                android:textSize="20sp"
+                android:gravity="center">
+            </TextView>
+            <Button
+                android:id="@+id/weekDayRight_plan"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/right"
+                android:textSize="18sp"></Button>
+
+        </LinearLayout>
+
+        <TextView
+            android:background="@color/lightGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="계획 기간" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp">
+            <TextView
+                android:id="@+id/startDateTxt_plan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="시작일"
+                android:textSize="18sp"></TextView>
+            <Button
+                android:id="@+id/startDateBtn_plan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="변경"
+                android:textSize="18sp"
+                ></Button>
+            <TextView
+                android:id="@+id/endDateTxt_plan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="종료일"></TextView>
+            <Button
+                android:id="@+id/endDateBtn_plan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="변경"
+                android:textSize="18sp"
+                ></Button>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp">
+        <Button
+            android:id="@+id/addPlanCancel"
+            android:text="취소"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp">
+        </Button>
+        <Button
+            android:id="@+id/addPlanAdd"
+            android:text="추가"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"></Button>
+    </LinearLayout>
+
+</LinearLayout>

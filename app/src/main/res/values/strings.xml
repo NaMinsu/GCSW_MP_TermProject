@@ -2,6 +2,9 @@
     <string name="app_name">TeamOne</string>
 
     <string name="sign_up_text">Create an account!</string>
+    <string name="left">&lt;</string>
+    <string name="right">&gt;</string>
+
 
     <string-array name="my_header_title">
         <item></item>

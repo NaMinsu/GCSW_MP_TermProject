@@ -24,9 +24,9 @@ public class groupTable extends AppCompatActivity {
 
         timetable = (TimetableView)findViewById(R.id.timetable_group);
 
-        addNew(1,"자료구조","우리집", "원킴", new Time(13,00),new Time(16,18));
-        addNew(2, "자료구조","우리집", "원킴", new Time(17,00),new Time(20,30));
-        addNew(4, "자료구조","우리집", "원킴", new Time(17,00),new Time(21,00));
+        addNew(1,"자료구조","우리집", new Time(13,00),new Time(16,18));
+        addNew(2, "자료구조","우리집", new Time(17,00),new Time(20,30));
+        addNew(4, "자료구조","우리집",  new Time(17,00),new Time(21,00));
 
 
         timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
@@ -85,12 +85,11 @@ public class groupTable extends AppCompatActivity {
 
     }
 
-    protected void addNew(int day, String title, String place, String prof, Time startTime, Time endTime){
+    protected void addNew(int day, String title, String place, Time startTime, Time endTime){
         ArrayList<Schedule> schedules = new ArrayList<Schedule>();
         Schedule schedule = new Schedule();
         schedule.setClassTitle(title); // sets subject
         schedule.setClassPlace(place); // sets place
-        schedule.setProfessorName(prof); // sets professor
         schedule.setStartTime(startTime); // sets the beginning of class time (hour,minute)
         schedule.setEndTime(endTime); // sets the end of class time (hour,minute)
         schedule.setDay(day);

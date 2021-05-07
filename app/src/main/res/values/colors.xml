@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="mainColor">#FFFFaa66</color>
     <color name="layerBGColor">#FFFFFFFF</color>
+    <color name="lightGray">#AAAAAA</color>
 
     <color name="colorHeader">#fcfcfc</color>
     <color name="colorHeaderText">#7d7d7d</color>

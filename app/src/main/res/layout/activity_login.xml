@@ -11,6 +11,7 @@
         android:layout_width="269dp"
         android:layout_height="47dp"
         android:hint="ID"
+        android:inputType="textWebEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,16 +44,17 @@
 
     <TextView
         android:id="@+id/singUpTxt"
-        android:layout_width="119dp"
-        android:layout_height="21dp"
+        android:layout_width="228dp"
+        android:layout_height="20dp"
         android:gravity="end"
         android:text="Create An Acount"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.756"
+        app:layout_constraintHorizontal_bias="0.612"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logInBtn"
-        app:layout_constraintVertical_bias="0.078" />
+        app:layout_constraintVertical_bias="0.117"
+        />
 
     <ImageView
         android:id="@+id/loginImg"
