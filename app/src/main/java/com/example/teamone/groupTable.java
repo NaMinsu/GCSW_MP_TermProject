@@ -8,13 +8,15 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class groupTable extends AppCompatActivity {
 
     TimetableView timetable;
     private todaySchedule adapter;
-
+    FirebaseDatabase mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
