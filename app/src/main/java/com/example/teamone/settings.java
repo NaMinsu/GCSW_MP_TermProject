@@ -43,10 +43,22 @@ public class settings  extends AppCompatActivity{
         TextView email = (TextView)findViewById(R.id.Email);
         TextView School = (TextView)findViewById(R.id.schools);
 
-        email.setText(FirstAuthActivity.getMyID());
+
 
         mDatabase = FirebaseDatabase.getInstance();
         Users = mDatabase.getReference("users").child(DBEmail);
+
+        Users.child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    String emails = String.valueOf(task.getResult().getValue());
+                    email.setText(emails);
+                }
+            }
+        });
+
+
         Users.child("nickname").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
