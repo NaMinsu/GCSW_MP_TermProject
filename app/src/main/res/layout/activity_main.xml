@@ -8,83 +8,18 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Today's schedules"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:background="@color/mainColor"></TextView>
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="170dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/scheduleRecyler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        ></androidx.recyclerview.widget.RecyclerView>
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="5dp"
-                >
-            <Button
-                android:background="@drawable/button1"
-                android:id="@+id/addScheduleBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:text="Add Schedule"
-                android:gravity="center"
-                android:textSize="10sp"
-                android:layout_alignParentRight="true"></Button>
-                <Button
-                    android:background="@drawable/button1"
-                    android:id="@+id/addPlanBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:text="Add Plan"
-                    android:gravity="center"
-                    android:textSize="10sp"
-                    android:layout_toLeftOf="@+id/addScheduleBtn"></Button>
-            </RelativeLayout>
-            <com.example.teamone.TimetableView
-                android:id="@+id/timetable"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:header_title="@array/my_header_title"
-                app:row_count="16"
-                app:column_count="8"
-                app:start_time="9"
-                />
-        </LinearLayout>
-    </ScrollView>
+        android:id="@+id/fragment_container"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        >
+        android:layout_marginTop="5dp">
 
         <Button
             android:id="@+id/btnMyPage"
@@ -94,8 +29,8 @@
             android:layout_weight="1"
             android:background="@drawable/button1"
             android:layout_margin="5dp"
-            android:textColor="@color/white"
-            ></Button>
+            android:textColor="@color/white">
+        </Button>
 
         <Button
             android:id="@+id/btnGroup"
@@ -105,8 +40,8 @@
             android:layout_weight="1"
             android:background="@drawable/button1"
             android:layout_margin="5dp"
-            android:textColor="@color/white"
-            ></Button>
+            android:textColor="@color/white">
+        </Button>
 
         <Button
             android:id="@+id/btnFriend"
@@ -116,9 +51,8 @@
             android:layout_weight="1"
             android:background="@drawable/button1"
             android:layout_margin="5dp"
-            android:textColor="@color/white"
-
-            ></Button>
+            android:textColor="@color/white">
+        </Button>
 
         <Button
             android:id="@+id/btnSetUp"
@@ -128,8 +62,8 @@
             android:layout_weight="1"
             android:background="@drawable/button1"
             android:layout_margin="5dp"
-            android:textColor="@color/white"
-            ></Button>
+            android:textColor="@color/white">
+        </Button>
 
     </LinearLayout>
 

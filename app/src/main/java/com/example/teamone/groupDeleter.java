@@ -9,9 +9,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 public class groupDeleter extends Activity {
     View selfLayout;
     Button okB, cancelB;
@@ -30,7 +27,7 @@ public class groupDeleter extends Activity {
             @Override
             public void onClick(View v) {
                 String gName = gnameTxt.getText().toString();
-                Intent intent = new Intent(getApplicationContext(), groupList.class);
+                Intent intent = new Intent(getApplicationContext(), GroupListFragment.class);
                 intent.putExtra("groupName", gName);
                 setResult(RESULT_OK, intent);
                 finish();

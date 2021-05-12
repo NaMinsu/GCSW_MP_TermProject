@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,7 +62,7 @@ class GroupViewHolder extends RecyclerView.ViewHolder {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     Intent intent = new Intent(ctx, groupTable.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    HashMap<String, ArrayList<String>> groupdata = groupList.getGroupMap();
+                    HashMap<String, ArrayList<String>> groupdata = GroupListFragment.getGroupMap();
                     ArrayList<String> members = groupdata.get(txtView.getText().toString());
                     intent.putExtra("members", members);
                     ctx.startActivity(intent);

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Today's schedules"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:background="@color/mainColor"/>
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="170dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/scheduleRecyler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp">
+                <Button
+                    android:background="@drawable/button1"
+                    android:id="@+id/addScheduleBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="Add Schedule"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:layout_alignParentRight="true"/>
+                <Button
+                    android:background="@drawable/button1"
+                    android:id="@+id/addPlanBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:text="Add Plan"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:layout_toLeftOf="@+id/addScheduleBtn"/>
+            </RelativeLayout>
+            <com.example.teamone.TimetableView
+                android:id="@+id/timetable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:header_title="@array/my_header_title"
+                app:row_count="16"
+                app:column_count="8"
+                app:start_time="9" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
