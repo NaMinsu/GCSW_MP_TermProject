@@ -31,6 +31,7 @@ public class groupAdder extends Activity {
     MakeGroupAdapter adapter;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference friendshipRef = database.getReference("friendship");
+    DatabaseReference groupRef = database.getReference("grouplist");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,24 @@ public class groupAdder extends Activity {
                 else if (!isCheckOne)
                     Toast.makeText(getApplicationContext(), "친구는 반드시 한명 이상 선택해야 합니다.", Toast.LENGTH_SHORT).show();
                 else {
+                    groupRef.child(FirstAuthActivity.getMyID()).child(gName).child("name").setValue(gName);
+                    for (CheckBox box : list) {
+                        friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                                String fname = box.getText().toString();
+                                for (DataSnapshot friend : task.getResult().getChildren()) {
+                                    if (box.isChecked() && friend.child("name").getValue().toString().equals(fname)) {
+                                        groupRef.child(FirstAuthActivity.getMyID()).child(gName).child(fname).
+                                                child("email").setValue(friend.child("email").getValue().toString());
+                                        groupRef.child(FirstAuthActivity.getMyID()).child(gName).child(fname).
+                                                child("name").setValue(friend.child("name").getValue().toString());
+                                    }
+                                }
+                            }
+                        });
+                    }
+
                     Intent intent = new Intent(getApplicationContext(), GroupListFragment.class);
                     intent.putExtra("groupName", gName);
                     ArrayList<String> selected = new ArrayList<>();
