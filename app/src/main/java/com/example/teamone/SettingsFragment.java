@@ -12,15 +12,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class SettingsFragment extends Fragment {
+
+    TextView schoolname,nicknames,eMails;
+    FirebaseDatabase mDatabase;
+    DatabaseReference Users;
+
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -28,6 +40,39 @@ public class SettingsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_settings,container,false);
         View selfLayout = v. findViewById(R.id.miLayout);
         SharedPreferences sf = this.getActivity().getSharedPreferences("Users", MODE_PRIVATE);
+        String MY_EMAIL=sf.getString("Email","");
+        String[] emailID = MY_EMAIL.split("\\.");
+        String DBEmail = emailID[0]+"_"+emailID[1];
+
+        TextView schoolname = (TextView)selfLayout.findViewById(R.id.schools);
+        TextView nickname = (TextView)selfLayout.findViewById(R.id.nicknames);
+        TextView eMails = (TextView)selfLayout.findViewById(R.id.Email);
+
+        mDatabase = FirebaseDatabase.getInstance();
+
+        eMails.setText(FirstAuthActivity.getMyID())
+
+        Users = mDatabase.getReference("users").child(DBEmail);
+        Users.child("nickname").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    String nicknames = String.valueOf(task.getResult().getValue());
+                    nickname.setText(nicknames);
+                }
+            }
+        });
+
+        Users.child("school").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    String schools = String.valueOf(task.getResult().getValue());
+                    schoolname.setText(schools);
+                }
+            }
+        });
+
         Button changeInfo = (Button) selfLayout.findViewById(R.id.btnChangeInfo);
         changeInfo.setOnClickListener(new View.OnClickListener() {
             @Override
