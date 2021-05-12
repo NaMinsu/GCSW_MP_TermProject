@@ -19,11 +19,6 @@
             </intent-filter>
         </activity>
 
-        <fragment android:name=".MainScheduleFragment"></fragment>
-        <fragment android:name=".GroupListFragment"></fragment>
-        <fragment android:name=".FriendListFragment"></fragment>
-        <fragment android:name=".SettingsFragment"></fragment>
-
         <activity android:name=".changeInfo"></activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".groupTable"></activity>
