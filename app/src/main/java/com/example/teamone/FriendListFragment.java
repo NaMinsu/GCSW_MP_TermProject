@@ -2,46 +2,47 @@ package com.example.teamone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class friendList extends AppCompatActivity {
+import static android.app.Activity.RESULT_OK;
+
+public class FriendListFragment extends Fragment {
     ArrayList<String> friendList = new ArrayList<>();
     friendAdapter adapter;
     private static HashMap<String, String> infoTable = new HashMap<>();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference friendshipRef = database.getReference("friendship");
 
+    @Nullable
+    @org.jetbrains.annotations.Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friendlist);
-        View selfLayout = (View)findViewById(R.id.flLayout);
+    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+       View v = inflater.inflate(R.layout.fragment_friendlist,container,false);
+        View selfLayout = v.findViewById(R.id.flLayout);
 
-        RecyclerView rcView = findViewById(R.id.rcViewFriend);
-        rcView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView rcView = v.findViewById(R.id.rcViewFriend);
+        rcView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         friendshipRef.child(FirstAuthActivity.getMyID()).addChildEventListener(new ChildEventListener() {
             @Override
@@ -85,44 +86,20 @@ public class friendList extends AppCompatActivity {
             }
         });
 
-        adapter = new friendAdapter(getApplicationContext(), friendList);
+        adapter = new friendAdapter(getActivity(), friendList);
         rcView.setAdapter(adapter);
 
         Button friendAddB = (Button)selfLayout.findViewById(R.id.btnAddFriend);
         friendAddB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), friendAdder.class);
+                Intent intent = new Intent(getActivity(), friendAdder.class);
                 startActivityForResult(intent, 1);
             }
         });
 
-        Button myPageB = (Button)selfLayout.findViewById(R.id.btnMyPage);
-        myPageB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        Button groupB = (Button)selfLayout.findViewById(R.id.btnGroup);
-        groupB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), groupList.class);
-                startActivity(intent);
-            }
-        });
-
-        Button settingB = (Button)selfLayout.findViewById(R.id.btnSetUp);
-        settingB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), settings.class);
-                startActivity(intent);
-            }
-        });
+       return v;
     }
 
     @Override
@@ -138,12 +115,12 @@ public class friendList extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
             String fName = data.getStringExtra("friendName");
-            Toast.makeText(getApplicationContext(), fName + "님을 추가했습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), fName + "님을 추가했습니다.", Toast.LENGTH_SHORT).show();
         }
         adapter.notifyDataSetChanged();
     }

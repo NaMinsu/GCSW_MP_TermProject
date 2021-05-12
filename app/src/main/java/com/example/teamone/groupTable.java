@@ -47,7 +47,7 @@ public class groupTable extends AppCompatActivity {
             }
         });
 
-
+  /* 수정 예정
         Button myPageB = (Button)selfLayout.findViewById(R.id.btnMyPage);
         myPageB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +61,7 @@ public class groupTable extends AppCompatActivity {
         groupB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), groupList.class);
+                Intent intent = new Intent(getApplicationContext(), GroupListFragment.class);
                 startActivity(intent);
             }
         });
@@ -70,7 +70,7 @@ public class groupTable extends AppCompatActivity {
         friendB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), friendList.class);
+                Intent intent = new Intent(getApplicationContext(), FriendListFragment.class);
                 startActivity(intent);
             }
         });
@@ -80,10 +80,10 @@ public class groupTable extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), settings.class);
+                Intent intent = new Intent(getApplicationContext(), SettingsFragment.class);
                 startActivity(intent);
             }
-        });
+        }); */
 
     }
 

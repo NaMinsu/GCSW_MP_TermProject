@@ -18,11 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <fragment android:name=".MainScheduleFragment"></fragment>
+        <fragment android:name=".GroupListFragment"></fragment>
+        <fragment android:name=".FriendListFragment"></fragment>
+        <fragment android:name=".SettingsFragment"></fragment>
+
         <activity android:name=".changeInfo"></activity>
         <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".groupList"></activity>
-        <activity android:name=".friendList"></activity>
-        <activity android:name=".settings"></activity>
         <activity android:name=".groupTable"></activity>
         <activity android:name=".groupAdder" android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".friendAdder" android:theme="@android:style/Theme.Dialog"></activity>
