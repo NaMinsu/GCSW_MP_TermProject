@@ -3,6 +3,7 @@ package com.example.teamone;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -83,6 +84,14 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        ImageView ivProfile = (ImageView)selfLayout.findViewById(R.id.imageView);
+        String MYProfile=sf.getString ("profile_image","");
+        Glide.with(this)
+                .load(MYProfile)
+                .override(200,200)
+                .circleCrop() // 원으로 깎는거 (원을 원치 않으시면 이줄 지워주세요)
+                .into(ivProfile);
+
 
         Button btnLogout = (Button) selfLayout.findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -98,17 +107,14 @@ public class SettingsFragment extends Fragment {
                 startActivity(logout);
             }
         });
-        Button settingB = (Button)selfLayout.findViewById(R.id.btnSetUp);
 
-        ImageView ivProfile = (ImageView)selfLayout.findViewById(R.id.imageView);
-        String MYProfile=sf.getString ("profile_image","");
-        Glide.with(this)
-                .load(MYProfile)
-                .override(200,200)
-                .circleCrop() // 원으로 깎는거 (원을 원치 않으시면 이줄 지워주세요)
-                .into(ivProfile);
 
         return v;
     }
 
+    @Override
+    public void onResume() { // 프래그먼트가 재시작 하면 새로고침 하게 만들었습니다
+        super.onResume();
+
+    }
 }

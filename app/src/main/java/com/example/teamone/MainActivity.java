@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container,ScheduleFragment).commit();
+                ft.replace(R.id.fragment_container,ScheduleFragment);
+                ft.addToBackStack(null).commit();
             }
         });
 
@@ -59,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container,GroupListFragment).commit();
+                ft.replace(R.id.fragment_container,GroupListFragment);
+                ft.addToBackStack(null).commit();
             }
         });
 
@@ -68,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container,FriendListFragment).commit();
+                ft.replace(R.id.fragment_container,FriendListFragment);
+                ft.addToBackStack(null).commit();
             }
         });
 
@@ -77,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container,SettingsFragment).commit();
+                ft.replace(R.id.fragment_container,SettingsFragment);
+                ft.addToBackStack(null).commit();
             }
         });
 
