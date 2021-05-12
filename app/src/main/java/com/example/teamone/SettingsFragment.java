@@ -29,7 +29,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SettingsFragment extends Fragment {
 
-    TextView schoolname,nicknames,eMails;
+    TextView schoolname,nickname,eMails;
     FirebaseDatabase mDatabase;
     DatabaseReference Users;
 
@@ -44,13 +44,13 @@ public class SettingsFragment extends Fragment {
         String[] emailID = MY_EMAIL.split("\\.");
         String DBEmail = emailID[0]+"_"+emailID[1];
 
-        TextView schoolname = (TextView)selfLayout.findViewById(R.id.schools);
-        TextView nickname = (TextView)selfLayout.findViewById(R.id.nicknames);
-        TextView eMails = (TextView)selfLayout.findViewById(R.id.Email);
+        schoolname = (TextView)selfLayout.findViewById(R.id.schools);
+         nickname = (TextView)selfLayout.findViewById(R.id.nicknames);
+         eMails = (TextView)selfLayout.findViewById(R.id.Email);
 
         mDatabase = FirebaseDatabase.getInstance();
 
-        eMails.setText(FirstAuthActivity.getMyID())
+        eMails.setText(FirstAuthActivity.getMyID());
 
         Users = mDatabase.getReference("users").child(DBEmail);
         Users.child("nickname").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
