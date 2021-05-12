@@ -105,7 +105,13 @@ public class FriendListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.notifyDataSetChanged();
+       adapter.notifyDataSetChanged();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        friendList.clear();
+        // When Fragment was not seen on the screen, cleared the list.
     }
 
     @Override
