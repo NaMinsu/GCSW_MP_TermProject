@@ -39,6 +39,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings,container,false);
         View selfLayout = v. findViewById(R.id.miLayout);
+
         SharedPreferences sf = this.getActivity().getSharedPreferences("Users", MODE_PRIVATE);
         String MY_EMAIL=sf.getString("Email","");
         String[] emailID = MY_EMAIL.split("\\.");
