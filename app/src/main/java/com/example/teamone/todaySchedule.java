@@ -36,6 +36,7 @@ public class todaySchedule extends RecyclerView.Adapter<todaySchedule.ItemViewHo
         return listData.size();
     }
 
+    public void remove(){listData.clear();}
     public void addItem(todayScheduleData data) {
         listData.add(data);
     }

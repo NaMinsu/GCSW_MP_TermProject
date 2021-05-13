@@ -24,66 +24,66 @@
         android:layout_margin="10dp"
         android:background="@drawable/layout_bottom"
         >
-    <TextView
-        android:background="@color/lightGray"
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="스케쥴 이름" />
-
-    <EditText
-        android:id="@+id/scheduleNameTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textShortMessage"
-        android:hint="스케쥴 이름"
-        android:layout_marginVertical="8dp"/>
-
-    <TextView
-        android:id="@+id/textView6"
-        android:background="@color/lightGray"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="스케쥴 시간" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp">
         <TextView
-            android:id="@+id/startTimeTxt_main"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="시작시간"
-            android:textSize="18sp"></TextView>
-        <Button
-            android:id="@+id/startTimeBtn_main"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="변경"
-            android:textSize="18sp"
-            ></Button>
+            android:background="@color/lightGray"
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="스케쥴 이름" />
+
+        <EditText
+            android:id="@+id/scheduleNameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textShortMessage"
+            android:hint="스케쥴 이름"
+            android:layout_marginVertical="8dp"/>
+
         <TextView
-            android:id="@+id/endTimeTxt_main"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="종료시간"
-            android:textSize="18sp"></TextView>
-        <Button
-            android:id="@+id/endTimeBtn_main"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="변경"
-            android:textSize="18sp"
-            ></Button>
-    </LinearLayout>
+            android:id="@+id/textView6"
+            android:background="@color/lightGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="스케쥴 시간" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp">
+            <TextView
+                android:id="@+id/startTimeTxt_main"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="시작시간"
+                android:textSize="18sp"></TextView>
+            <Button
+                android:id="@+id/startTimeBtn_main"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="변경"
+                android:textSize="18sp"
+                ></Button>
+            <TextView
+                android:id="@+id/endTimeTxt_main"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="종료시간"
+                android:textSize="18sp"></TextView>
+            <Button
+                android:id="@+id/endTimeBtn_main"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="변경"
+                android:textSize="18sp"
+                ></Button>
+        </LinearLayout>
         <TextView
             android:background="@color/lightGray"
             android:layout_width="match_parent"
@@ -116,51 +116,51 @@
                 android:textSize="18sp"></Button>
 
         </LinearLayout>
-    
-    <TextView
-        android:background="@color/lightGray"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="스케쥴 기간" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp">
-       <TextView
-           android:id="@+id/startDateTxt_main"
-           android:layout_width="0dp"
-           android:layout_height="match_parent"
-           android:layout_weight="1"
-           android:gravity="center"
-           android:text="시작일"
-           android:textSize="18sp"></TextView>
-        <Button
-            android:id="@+id/startDateBtn_main"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="변경"
-            android:textSize="18sp"
-            ></Button>
         <TextView
-            android:id="@+id/endDateTxt_main"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:text="종료일"></TextView>
-        <Button
-            android:id="@+id/endDateBtn_main"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="변경"
-            android:textSize="18sp"
-            ></Button>
-        
-    </LinearLayout>
+            android:background="@color/lightGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="스케쥴 기간" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp">
+            <TextView
+                android:id="@+id/startDateTxt_main"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="시작일"
+                android:textSize="18sp"></TextView>
+            <Button
+                android:id="@+id/startDateBtn_main"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="변경"
+                android:textSize="18sp"
+                ></Button>
+            <TextView
+                android:id="@+id/endDateTxt_main"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="종료일"></TextView>
+            <Button
+                android:id="@+id/endDateBtn_main"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="변경"
+                android:textSize="18sp"
+                ></Button>
+
+        </LinearLayout>
 
     </LinearLayout>
 

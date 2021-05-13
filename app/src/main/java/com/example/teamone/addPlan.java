@@ -15,14 +15,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Calendar;
 
 public class addPlan extends Activity {
 
-    Button startTimeBtn, endTimeBtn, weekdayLeftBtn, weekdayRightBtn, startDateBtn, endDateBtn, cancelBtn, addBtn;
+    Button startTimeBtn, endTimeBtn, weekdayLeftBtn, weekdayRightBtn, startDateBtn, cancelBtn, addBtn;
     EditText planName;
-    TextView startTimeTxt, endTimeTxt, weekdayTxt, startDateTxt, endDateTxt;
+    TextView startTimeTxt, endTimeTxt, weekdayTxt, startDateTxt;
     TimePickerDialog timePickerDialog;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference planRef = database.getReference("plan");
     int weekdayIndex;
 
     private DatePickerDialog.OnDateSetListener callbackMethod;
@@ -43,7 +48,6 @@ public class addPlan extends Activity {
         weekdayRightBtn = findViewById(R.id.weekDayRight_plan);
 
         startDateBtn = findViewById(R.id.startDateBtn_plan);
-        endDateBtn = findViewById(R.id.endDateBtn_plan);
         cancelBtn = findViewById(R.id.addPlanCancel);
         addBtn = findViewById(R.id.addPlanAdd);
 
@@ -55,7 +59,6 @@ public class addPlan extends Activity {
         weekdayTxt = findViewById(R.id.weekDayText_plan);
 
         startDateTxt = findViewById(R.id.startDateTxt_plan);
-        endDateTxt = findViewById(R.id.endDateTxt_plan);
 
         String[] weekday = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
         weekdayIndex = 1;
@@ -174,39 +177,10 @@ public class addPlan extends Activity {
                 datePickerDialog.show();
             }
         });
-        endDateBtn.setOnClickListener(new View.OnClickListener() {
-            DatePickerDialog datePickerDialog;
 
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(addPlan.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            String month, day;
-
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                                i1 += 1;
-                                if (i1 < 10) {
-                                    month = "0" + Integer.toString(i1);
-                                } else {
-                                    month = Integer.toString(i1);
-                                }
-                                if (i2 < 10) {
-                                    day = "0" + Integer.toString(i2);
-                                } else {
-                                    day = Integer.toString(i2);
-                                }
-                                endDateTxt.setText(i + "/" + month + "/" + day);
-                            }
-                        }, mYear, mMonth, mDay);
-                datePickerDialog.show();
-            }
-        });
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -220,17 +194,13 @@ public class addPlan extends Activity {
                 String startTimeTxtV = startTimeTxt.getText().toString();
                 String endTimeTxtV = endTimeTxt.getText().toString();
                 String startDateTxtV = startDateTxt.getText().toString();
-                String endDateTxtV = endDateTxt.getText().toString();
 
-                if (planNameV.length() != 0 && !startTimeTxtV.equals("시작시간") && !endTimeTxtV.equals("종료시간") && !startDateTxtV.equals("시작일") && !endDateTxtV.equals("종료일")) {
+                if (planNameV.length() != 0 && !startTimeTxtV.equals("시작시간") && !endTimeTxtV.equals("종료시간") && !startDateTxtV.equals("계획일")) {
                     int startHour, startMinute, endHour, endMinute, startYear, startMonth, startDay, endYear, endMonth, endDay;
 
                     String[] startTimeSplit = startTimeTxtV.split(":");
                     String[] endTimeSplit = endTimeTxtV.split(":");
                     String[] startDateSplit = startDateTxtV.split("/");
-                    String[] endDateSplit = endDateTxtV.split("/");
-
-
 
                     boolean correct = true;
                     int i = 0;
@@ -242,36 +212,11 @@ public class addPlan extends Activity {
                         }
                     }
 
-                    if (startDateSplit[0].compareTo(endDateSplit[0]) > 0) {
-                        correct = false;
-                    } else if(startDateSplit[0].compareTo(endDateSplit[0]) == 0){
-                        if (startDateSplit[1].compareTo(endDateSplit[1]) > 0) {
-                            correct = false;
-                        } else if(startDateSplit[1].compareTo(endDateSplit[1]) == 0){
-                            if (startDateSplit[2].compareTo(endDateSplit[2]) > 0) {
-                                correct = false;
-                            }
-                        }
-                    }
-                    if (startTimeSplit[0].compareTo("09") < 0) {
-                        correct = false;
-                        Toast.makeText(getApplicationContext(), "시간표를 벗어난 범위의 스케쥴", Toast.LENGTH_SHORT).show();
-                    }
                     if (correct) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("startHour", startTimeSplit[0]);
-                        intent.putExtra("startMinute", startTimeSplit[1]);
-                        intent.putExtra("endHour", endTimeSplit[0]);
-                        intent.putExtra("endMinute", endTimeSplit[1]);
-                        intent.putExtra("startYear", startDateSplit[0]);
-                        intent.putExtra("startMonth", startDateSplit[1]);
-                        intent.putExtra("startDay", startDateSplit[2]);
-                        intent.putExtra("endYear", endDateSplit[0]);
-                        intent.putExtra("endMonth", endDateSplit[1]);
-                        intent.putExtra("endDay", endDateSplit[2]);
-                        intent.putExtra("planName", planNameV);
-                        intent.putExtra("weekdayIndex", weekdayIndex);
-                        setResult(RESULT_OK, intent);
+                        planRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0]+startDateSplit[1]+startDateSplit[2]+"_"+startTimeTxtV+"~"+endTimeTxtV+"_"+planNameV).child("title").setValue(planNameV);
+                        planRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0]+startDateSplit[1]+startDateSplit[2]+"_"+startTimeTxtV+"~"+endTimeTxtV+"_"+planNameV).child("date").setValue(startDateTxtV);
+                        planRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0]+startDateSplit[1]+startDateSplit[2]+"_"+startTimeTxtV+"~"+endTimeTxtV+"_"+planNameV).child("time").setValue(startTimeTxtV+"~"+endTimeTxtV);
+
                         finish();
 
                     } else {
@@ -288,4 +233,5 @@ public class addPlan extends Activity {
 
 
     }
+
 }

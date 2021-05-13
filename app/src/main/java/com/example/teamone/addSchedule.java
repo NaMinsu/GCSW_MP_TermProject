@@ -21,6 +21,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.teamone.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,7 +33,8 @@ public class addSchedule extends Activity {
     Button startTimeBtn, endTimeBtn, weekdayLeftBtn, weekdayRightBtn, startDateBtn, endDateBtn, cancelBtn, addBtn;
     EditText scheduleName;
     TextView startTimeTxt, endTimeTxt, weekdayTxt, startDateTxt, endDateTxt;
-    TimePickerDialog timePickerDialog;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference scheduleRef = database.getReference("schedule");
     int weekdayIndex;
 
 
@@ -211,8 +214,6 @@ public class addSchedule extends Activity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -235,18 +236,6 @@ public class addSchedule extends Activity {
                     String[] endTimeSplit = endTimeTxtV.split(":");
                     String[] startDateSplit = startDateTxtV.split("/");
                     String[] endDateSplit = endDateTxtV.split("/");
-
-                    Log.d("text", startTimeSplit[0]);
-                    Log.d("text", startTimeSplit[1]);
-                    Log.d("text", endTimeSplit[0]);
-                    Log.d("text", endTimeSplit[1]);
-                    Log.d("text", startDateSplit[0]);
-                    Log.d("text", startDateSplit[1]);
-                    Log.d("text", startDateSplit[2]);
-                    Log.d("text", endDateSplit[0]);
-                    Log.d("text", endDateSplit[1]);
-                    Log.d("text", endDateSplit[2]);
-
 
                     boolean correct = true;
                     int i = 0;
@@ -274,20 +263,12 @@ public class addSchedule extends Activity {
                         Toast.makeText(getApplicationContext(), "시간표를 벗어난 범위의 스케쥴", Toast.LENGTH_SHORT).show();
                     }
                     if (correct) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("startHour", startTimeSplit[0]);
-                        intent.putExtra("startMinute", startTimeSplit[1]);
-                        intent.putExtra("endHour", endTimeSplit[0]);
-                        intent.putExtra("endMinute", endTimeSplit[1]);
-                        intent.putExtra("startYear", startDateSplit[0]);
-                        intent.putExtra("startMonth", startDateSplit[1]);
-                        intent.putExtra("startDay", startDateSplit[2]);
-                        intent.putExtra("endYear", endDateSplit[0]);
-                        intent.putExtra("endMonth", endDateSplit[1]);
-                        intent.putExtra("endDay", endDateSplit[2]);
-                        intent.putExtra("scheduleName", scheduleNameV);
-                        intent.putExtra("weekdayIndex", weekdayIndex);
-                        setResult(RESULT_OK, intent);
+                        scheduleRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0]+startDateSplit[1]+startDateSplit[2]+"~"+endDateSplit[0]+endDateSplit[1]+endDateSplit[2]+"_"+startTimeTxtV+"~"+endTimeTxtV+"_"+scheduleNameV).child("title").setValue(scheduleNameV);
+                        scheduleRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0]+startDateSplit[1]+startDateSplit[2]+"~"+endDateSplit[0]+endDateSplit[1]+endDateSplit[2]+"_"+startTimeTxtV+"~"+endTimeTxtV+"_"+scheduleNameV).child("startDate").setValue(startDateTxtV);
+                        scheduleRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0]+startDateSplit[1]+startDateSplit[2]+"~"+endDateSplit[0]+endDateSplit[1]+endDateSplit[2]+"_"+startTimeTxtV+"~"+endTimeTxtV+"_"+scheduleNameV).child("endDate").setValue(endDateTxtV);
+                        scheduleRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0]+startDateSplit[1]+startDateSplit[2]+"~"+endDateSplit[0]+endDateSplit[1]+endDateSplit[2]+"_"+startTimeTxtV+"~"+endTimeTxtV+"_"+scheduleNameV).child("time").setValue(startTimeTxtV+"~"+endTimeTxtV);
+                        scheduleRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0]+startDateSplit[1]+startDateSplit[2]+"~"+endDateSplit[0]+endDateSplit[1]+endDateSplit[2]+"_"+startTimeTxtV+"~"+endTimeTxtV+"_"+scheduleNameV).child("weekday").setValue(Integer.toString(weekdayIndex));
+
                         finish();
 
                     } else {

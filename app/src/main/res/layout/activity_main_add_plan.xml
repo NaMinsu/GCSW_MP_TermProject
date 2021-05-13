@@ -132,26 +132,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="시작일"
+                android:text="계획일"
                 android:textSize="18sp"></TextView>
             <Button
                 android:id="@+id/startDateBtn_plan"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="변경"
-                android:textSize="18sp"
-                ></Button>
-            <TextView
-                android:id="@+id/endDateTxt_plan"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:text="종료일"></TextView>
-            <Button
-                android:id="@+id/endDateBtn_plan"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
