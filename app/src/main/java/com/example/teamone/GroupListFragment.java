@@ -14,6 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -25,6 +31,8 @@ public class GroupListFragment extends Fragment {
     ArrayList<String> groupItems = new ArrayList<String>();
     groupAdapter adapter;
     static HashMap<String, ArrayList<String>> groupMap = new HashMap<>();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference groupRef = database.getReference("grouplist");
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -34,9 +42,43 @@ public class GroupListFragment extends Fragment {
 
         View selfLayout = v.findViewById(R.id.glLayout);
 
-        adapter = new groupAdapter(getActivity(), groupItems);
         RecyclerView rcView = v.findViewById(R.id.rcViewGroup);
         rcView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        groupRef.child(FirstAuthActivity.getMyID()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                if(snapshot.hasChild("name") && snapshot.hasChild("email")) {
+                    String gname = snapshot.child("name").getValue().toString();
+                    groupItems.add(gname);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                if(snapshot.hasChild("name") && snapshot.hasChild("email")) {
+                    String gname = snapshot.child("name").getValue().toString();
+                    groupItems.add(gname);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+        adapter = new groupAdapter(getActivity(), groupItems);
         rcView.setAdapter(adapter);
 
         Button groupAddB = (Button)selfLayout.findViewById(R.id.btnAddGroup);

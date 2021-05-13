@@ -9,9 +9,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class groupDeleter extends Activity {
     View selfLayout;
     Button okB, cancelB;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference groupRef = database.getReference("grouplist");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,7 @@ public class groupDeleter extends Activity {
             @Override
             public void onClick(View v) {
                 String gName = gnameTxt.getText().toString();
+                groupRef.child(FirstAuthActivity.getMyID()).child(gName).removeValue();
                 Intent intent = new Intent(getApplicationContext(), GroupListFragment.class);
                 intent.putExtra("groupName", gName);
                 setResult(RESULT_OK, intent);
