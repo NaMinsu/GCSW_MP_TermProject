@@ -87,14 +87,16 @@ public class SignUpActivity extends AppCompatActivity {
                                             //Log.d(TAG, "createUserWithEmail:success"); Tag 설정 해주신후 주석해제 해주세요 !
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             //    updateUI(user);
+
                                             String[] emailID = ID.split("\\.");
                                             String DBEmail = emailID[0]+"_"+emailID[1];
                                             //lili13245@naver.com -> lili13245@naver_com 형식으로 저장됩니다.
                                             DatabaseReference myRef = database.getReference("users").child(DBEmail);
                                             Hashtable<String, String> Message_log
                                                     = new Hashtable<String, String>();
-
-                                            Message_log.put("email", user.getEmail());
+                                            String UserID =user.getEmail();
+                                            Message_log.put("email",UserID);
+                                            Message_log.put("nickname",UserID); // 기본 닉네임 설정
                                             myRef.setValue(Message_log);
                                             MakeBasicProfile(DBEmail, myRef);
                                             // 기본 프로필을 만드는 것 나중에는 가입시 유저가 기본프로필사진 올라가는것보다 빨리 로그인 해버릴 수 있기 때문에 로딩을 추가하겠습니다

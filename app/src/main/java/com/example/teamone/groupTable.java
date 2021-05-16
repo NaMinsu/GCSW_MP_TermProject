@@ -70,34 +70,6 @@ public class groupTable extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-/*
-        Button groupB = (Button)selfLayout.findViewById(R.id.btnGroup);
-        groupB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GroupListFragment.class);
-                startActivity(intent);
-            }
-        });
-
-        Button friendB = (Button)selfLayout.findViewById(R.id.btnFriend);
-        friendB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), FriendListFragment.class);
-                startActivity(intent);
-            }
-        });
-
-        Button settingB = (Button)selfLayout.findViewById(R.id.btnSetUp);
-        settingB.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsFragment.class);
-                startActivity(intent);
-            }
-        }); */
 
     }
 

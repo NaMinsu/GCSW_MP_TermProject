@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                                             String[] emailID = stUserEmail.split("\\.");
                                             String DBEmail = emailID[0] + "_" + emailID[1];
                                             DatabaseReference users_ref = database.getReference("users").child(DBEmail);
-                                            users_ref.addListenerForSingleValueEvent(new ValueEventListener() {//와!!
+                                            users_ref.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     // Log.d(TAG, "onDataChange: " + snapshot.getValue().toString());
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 }
                                             });
 
-                                            Intent in = new Intent(LoginActivity.this, MainActivity.class);
+                                            Intent in = new Intent(LoginActivity.this, FirstAuthActivity.class); // 첫 로그인시에 데이터 꼬이는 현상제거
                                             in.putExtra("fragment","0");
                                             startActivity(in);
                                         } else {

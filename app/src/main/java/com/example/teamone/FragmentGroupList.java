@@ -39,7 +39,7 @@ public class FragmentGroupList extends Fragment {
     groupAdapter adapter;
     static HashMap<String, ArrayList<String>> groupMap = new HashMap<>();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference groupRef = database.getReference("grouplist");
+    DatabaseReference groupRef = database.getReference("UsersGroupInfo"); // 기존의 그룹리스트 참조하는 곳이 있다면 없애야 합니다
 
     @Nullable
     @org.jetbrains.annotations.Nullable
