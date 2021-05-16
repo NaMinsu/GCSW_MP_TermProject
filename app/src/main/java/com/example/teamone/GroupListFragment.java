@@ -47,7 +47,7 @@ public class GroupListFragment extends Fragment {
         groupRef.child(FirstAuthActivity.getMyID()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                if(snapshot.hasChild("name") && snapshot.hasChild("email")) {
+                if(snapshot.hasChild("name")) {
                     String gname = snapshot.child("name").getValue().toString();
                     groupItems.add(gname);
                 }
@@ -56,7 +56,7 @@ public class GroupListFragment extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                if(snapshot.hasChild("name") && snapshot.hasChild("email")) {
+                if(snapshot.hasChild("name")) {
                     String gname = snapshot.child("name").getValue().toString();
                     groupItems.add(gname);
                 }

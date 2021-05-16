@@ -33,6 +33,7 @@ public class groupMemberAdder extends AppCompatActivity {
     MakeGroupAdapter adapter;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference friendshipRef = database.getReference("friendship");
+    DatabaseReference groupRef = database.getReference("grouplist");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
