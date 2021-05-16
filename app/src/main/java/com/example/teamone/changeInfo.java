@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,7 +59,8 @@ public class changeInfo extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SettingsFragment.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("fragment","2");
                 startActivity(intent);
             }
         });
@@ -70,6 +72,8 @@ public class changeInfo extends AppCompatActivity {
             public void onClick(View v) {
                 Nickname = String.valueOf (nickname.getText());
                 myRef.child("nickname").setValue(Nickname);
+                nickname.setText("");
+                Toast.makeText(getApplicationContext(),"닉네임이 변경되었습니다!",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -81,6 +85,8 @@ public class changeInfo extends AppCompatActivity {
             public void onClick(View v) {
                 School = String.valueOf (school.getText());
                 myRef.child("school").setValue(School);
+                school.setText("");
+                Toast.makeText(getApplicationContext(),"학교가 변경되었습니다!",Toast.LENGTH_SHORT).show();
             }
         });
         btnChangeImage = (Button)selfLayout.findViewById(R.id.btn_Change_Image);

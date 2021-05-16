@@ -31,9 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String s = intent.getStringExtra("fragment");
-        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
+
         if(s.equals("1")){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, GroupListFragment).commit();
+        }
+        else if(s.equals("2")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment).commit();
         }
         else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ScheduleFragment).commit();
