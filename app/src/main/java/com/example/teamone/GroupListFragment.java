@@ -27,6 +27,13 @@ import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
 
+/*
+
+그룹 list가 안읽어와져서 뒷부분 진행하기 위해서 현재 DB에 맞게 onChildAdded에서만 읽어올 수 있도록하고 진행했습니다.
+
+*/
+
+
 public class GroupListFragment extends Fragment {
     ArrayList<String> groupItems = new ArrayList<String>();
     groupAdapter adapter;
@@ -56,11 +63,7 @@ public class GroupListFragment extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                if(snapshot.hasChild("name")) {
-                    String gname = snapshot.child("name").getValue().toString();
-                    groupItems.add(gname);
-                }
-                adapter.notifyDataSetChanged();
+
             }
 
             @Override

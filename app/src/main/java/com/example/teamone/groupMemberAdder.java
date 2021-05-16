@@ -30,7 +30,7 @@ public class groupMemberAdder extends AppCompatActivity {
     View selfLayout;
     Button okB, cancelB;
     ArrayList<String> friends = new ArrayList<>();
-    MakeGroupAdapter adapter;
+    groupMemberAdderAdapter adapter;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference friendshipRef = database.getReference("friendship");
     DatabaseReference groupRef = database.getReference("grouplist");
@@ -42,6 +42,9 @@ public class groupMemberAdder extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_groupmemberadder);
         View selfLayout = findViewById(R.id.gmAdder);
+
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
 
         friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -55,7 +58,7 @@ public class groupMemberAdder extends AppCompatActivity {
 
         RecyclerView rcview = findViewById(R.id.friendList);
         rcview.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MakeGroupAdapter(friends);
+        adapter = new groupMemberAdderAdapter(friends);
         rcview.setAdapter(adapter);
 
         okB = (Button)selfLayout.findViewById(R.id.btnOK);
@@ -72,15 +75,26 @@ public class groupMemberAdder extends AppCompatActivity {
                     }
                 }
                 if (!isCheckOne)
-                    Toast.makeText(getApplicationContext(), "친구는 반드시 한명 이상 선택해야 합니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "선택된 친구가 없습니다.", Toast.LENGTH_SHORT).show();
                 else {
-                    ArrayList<String> selected = new ArrayList<>();
                     for (CheckBox box : list) {
-                        if (box.isChecked())
-                            selected.add(box.getText().toString());
+                        friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+                                String fname = box.getText().toString();
+                                Toast.makeText(getApplicationContext(),fname,Toast.LENGTH_SHORT).show();
+                                for (DataSnapshot friend : task.getResult().getChildren()) {
+                                    if (box.isChecked() && friend.child("name").getValue().toString().equals(fname)) {
+                                        groupRef.child(FirstAuthActivity.getMyID()).child(name).child(fname).
+                                                child("email").setValue(friend.child("email").getValue().toString());
+                                        groupRef.child(FirstAuthActivity.getMyID()).child(name).child(fname).
+                                                child("name").setValue(friend.child("name").getValue().toString());
+                                    }
+                                }
+                            }
+                        });
                     }
-                    //그룹창에 선택한 친구 추가하기
-                    Toast.makeText(getApplicationContext(),selected.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "선택한 친구가 그룹에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }

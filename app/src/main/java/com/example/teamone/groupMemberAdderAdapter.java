@@ -57,7 +57,7 @@ public class groupMemberAdderAdapter extends RecyclerView.Adapter<GMAViewHolder>
             super(itemView);
             fbox = itemView.findViewById(R.id.target);
 
-            MakeGroupAdapter.setChecklist(fbox);
+            groupMemberAdderAdapter.setChecklist(fbox);
         }
 
 

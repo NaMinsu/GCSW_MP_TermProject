@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+//67번째 줄에 그룹name도 같이 넘기도록 수정했습니다.
 public class groupAdapter extends RecyclerView.Adapter<GroupViewHolder>{
     Context mContext;
     ArrayList<String> dataList;
@@ -64,6 +64,7 @@ class GroupViewHolder extends RecyclerView.ViewHolder {
                     Intent intent = new Intent(ctx, groupTable.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     HashMap<String, ArrayList<String>> groupdata = GroupListFragment.getGroupMap();
                     ArrayList<String> members = groupdata.get(txtView.getText().toString());
+                    intent.putExtra("name",txtView.getText().toString());
                     intent.putExtra("members", members);
                     ctx.startActivity(intent);
                 }

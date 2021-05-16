@@ -22,6 +22,7 @@ public class groupTable extends AppCompatActivity {
     private todaySchedule adapter;
     FirebaseDatabase mDatabase;
     ArrayList<String> members;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +34,8 @@ public class groupTable extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        members = intent.getStringArrayListExtra("members");
-
+        name = intent.getStringExtra("name");
+        Toast.makeText(getApplicationContext(),name,Toast.LENGTH_SHORT).show();
 
 
         timetable = (TimetableView)findViewById(R.id.timetable_group);
@@ -54,6 +55,7 @@ public class groupTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
+                intent.putExtra("name",name);
                 startActivity(intent);
             }
         });
