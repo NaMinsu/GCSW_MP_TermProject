@@ -19,7 +19,7 @@ public class friendInfo extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_friendinfo);
 
-        userInfo = FriendListFragment.getInfoTable();
+        userInfo = FragmentFriendList.getInfoTable();
         Intent intent_receive = getIntent();
         String friendName = intent_receive.getStringExtra("friendname");
         String friendMail = userInfo.get((friendName));

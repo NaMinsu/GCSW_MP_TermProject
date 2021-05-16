@@ -73,7 +73,7 @@ public class friendAdder extends Activity {
                             if (!isInDB) {
                                 friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("email").setValue(fmail.replace("_", "."));
                                 friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("name").setValue(fName);
-                                Intent intent = new Intent(getApplicationContext(), FriendListFragment.class);
+                                Intent intent = new Intent(getApplicationContext(), FragmentFriendList.class);
                                 intent.putExtra("friendName", fName);
                                 setResult(RESULT_OK, intent);
                             } else {

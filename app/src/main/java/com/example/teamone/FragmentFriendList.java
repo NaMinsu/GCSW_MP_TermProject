@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
 
-public class FriendListFragment extends Fragment {
+public class FragmentFriendList extends Fragment {
     ArrayList<String> friendList = new ArrayList<>();
     friendAdapter adapter;
     private static HashMap<String, String> infoTable = new HashMap<>();
@@ -50,9 +50,10 @@ public class FriendListFragment extends Fragment {
                 if (snapshot.hasChild("name") && snapshot.hasChild("email")) {
                     String fname = snapshot.child("name").getValue().toString();
                     String fid = snapshot.child("email").getValue().toString();
-
-                    friendList.add(fname);
-                    infoTable.put(fname, fid);
+                    if(!friendList.contains(fname)) {
+                        friendList.add(fname);
+                        infoTable.put(fname, fid);
+                    }
                 }
 
                 adapter.notifyDataSetChanged();
@@ -63,9 +64,10 @@ public class FriendListFragment extends Fragment {
                 if (snapshot.hasChild("name") && snapshot.hasChild("email")) {
                     String fname = snapshot.child("name").getValue().toString();
                     String fid = snapshot.child("email").getValue().toString();
-
-                    friendList.add(fname);
-                    infoTable.put(fname, fid);
+                    if(!friendList.contains(fname)) {
+                        friendList.add(fname);
+                        infoTable.put(fname, fid);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -106,12 +108,6 @@ public class FriendListFragment extends Fragment {
     public void onStart() {
         super.onStart();
        adapter.notifyDataSetChanged();
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        friendList.clear();
-        // When Fragment was not seen on the screen, cleared the list.
     }
 
     @Override

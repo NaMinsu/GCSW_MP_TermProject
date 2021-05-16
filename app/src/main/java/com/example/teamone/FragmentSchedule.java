@@ -1,4 +1,4 @@
-package com.example;
+package com.example.teamone;
 
 import android.content.Intent;
 import android.os.Build;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class MainScheduleFragment extends Fragment {
+public class FragmentSchedule extends Fragment {
 
     TimetableView timetable;
     private todaySchedule adapter;

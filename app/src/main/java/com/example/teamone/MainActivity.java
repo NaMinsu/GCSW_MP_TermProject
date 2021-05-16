@@ -10,13 +10,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.MainScheduleFragment;
-
 public class MainActivity extends AppCompatActivity {
-    MainScheduleFragment ScheduleFragment;
-    GroupListFragment GroupListFragment;
-    FriendListFragment FriendListFragment;
-    SettingsFragment SettingsFragment;
+    FragmentSchedule ScheduleFragment;
+    FragmentGroupList FragmentGroupList;
+    FragmentFriendList FragmentFriendList;
+    FragmentSettings FragmentSettings;
 
 
 
@@ -24,19 +22,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ScheduleFragment = new MainScheduleFragment();
-        GroupListFragment = new GroupListFragment();
-        FriendListFragment = new FriendListFragment();
-        SettingsFragment = new SettingsFragment();
+        ScheduleFragment = new FragmentSchedule();
+        FragmentGroupList = new FragmentGroupList();
+        FragmentFriendList = new FragmentFriendList();
+        FragmentSettings = new FragmentSettings();
 
         Intent intent = getIntent();
         String s = intent.getStringExtra("fragment");
 
         if(s.equals("1")){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, GroupListFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentGroupList).commit();
         }
         else if(s.equals("2")){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentSettings).commit();
         }
         else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ScheduleFragment).commit();
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container,GroupListFragment);
+                ft.replace(R.id.fragment_container, FragmentGroupList);
                 ft.addToBackStack(null).commit();
             }
         });
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container,FriendListFragment);
+                ft.replace(R.id.fragment_container, FragmentFriendList);
                 ft.addToBackStack(null).commit();
             }
         });
@@ -80,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container,SettingsFragment);
+                ft.replace(R.id.fragment_container, FragmentSettings);
                 ft.addToBackStack(null).commit();
             }
         });
 
-
     }
+
 }

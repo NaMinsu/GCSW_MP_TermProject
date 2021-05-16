@@ -33,7 +33,7 @@ public class groupDeleter extends Activity {
             public void onClick(View v) {
                 String gName = gnameTxt.getText().toString();
                 groupRef.child(FirstAuthActivity.getMyID()).child(gName).removeValue();
-                Intent intent = new Intent(getApplicationContext(), GroupListFragment.class);
+                Intent intent = new Intent(getApplicationContext(), FragmentGroupList.class);
                 intent.putExtra("groupName", gName);
                 setResult(RESULT_OK, intent);
                 finish();

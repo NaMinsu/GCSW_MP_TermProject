@@ -34,7 +34,7 @@ import static android.app.Activity.RESULT_OK;
 */
 
 
-public class GroupListFragment extends Fragment {
+public class FragmentGroupList extends Fragment {
     ArrayList<String> groupItems = new ArrayList<String>();
     groupAdapter adapter;
     static HashMap<String, ArrayList<String>> groupMap = new HashMap<>();
@@ -45,7 +45,7 @@ public class GroupListFragment extends Fragment {
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_grouplist,container,false); // 이름 fragment_grouplist  로 수정예정
+        View v = inflater.inflate(R.layout.fragment_grouplist,container,false);
 
         View selfLayout = v.findViewById(R.id.glLayout);
 
@@ -56,7 +56,9 @@ public class GroupListFragment extends Fragment {
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
                 if(snapshot.hasChild("name")) {
                     String gname = snapshot.child("name").getValue().toString();
-                    groupItems.add(gname);
+                    if(!groupItems.contains(gname)){ // 중복 입력 방지
+                         groupItems.add(gname);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -106,65 +108,6 @@ public class GroupListFragment extends Fragment {
         return v;
     }
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        setContentView(R.layout.activity_grouplist);
-//        View selfLayout = (View)findViewById(R.id.glLayout);
-//
-//        adapter = new groupAdapter(getApplicationContext(), groupItems);
-//        RecyclerView rcView = findViewById(R.id.rcViewGroup);
-//        rcView.setLayoutManager(new LinearLayoutManager(this));
-//        rcView.setAdapter(adapter);
-//
-//        Button groupAddB = (Button)selfLayout.findViewById(R.id.btnAddGroup);
-//        groupAddB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), groupAdder.class);
-//                startActivityForResult(intent, 1);
-//            }
-//        });
-//
-//        Button groupDeleteB = (Button)selfLayout.findViewById(R.id.btnDeleteGroup);
-//        groupDeleteB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), groupDeleter.class);
-//                startActivityForResult(intent, 2);
-//            }
-//        });
-//
-//        Button myPageB = (Button)selfLayout.findViewById(R.id.btnMyPage);
-//        myPageB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        Button groupB = (Button)selfLayout.findViewById(R.id.btnGroup);
-//
-//        Button friendB = (Button)selfLayout.findViewById(R.id.btnFriend);
-//        friendB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), friendList.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        Button settingB = (Button)selfLayout.findViewById(R.id.btnSetUp);
-//        settingB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), settings.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
 
     @Override
     public void onStart() {

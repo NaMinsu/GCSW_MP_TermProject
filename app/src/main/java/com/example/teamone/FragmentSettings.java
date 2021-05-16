@@ -28,7 +28,7 @@ import org.w3c.dom.Text;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class SettingsFragment extends Fragment {
+public class FragmentSettings extends Fragment {
 
     TextView schoolname,nickname,eMails;
     FirebaseDatabase mDatabase;
@@ -81,6 +81,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), changeInfo.class);
                 startActivity(intent);
+
             }
         });
 
@@ -113,8 +114,8 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public void onResume() { // 프래그먼트가 재시작 하면 새로고침 하게 만들었습니다
+    public void onResume() {
         super.onResume();
-
+        // 나중에 데이터를 새로고침 하기위해 어뎁터를 만들어서  adapter.notifydatasetchanged() 해주자
     }
 }

@@ -95,7 +95,7 @@ public class groupAdder extends Activity {
                         });
                     }
 
-                    Intent intent = new Intent(getApplicationContext(), GroupListFragment.class);
+                    Intent intent = new Intent(getApplicationContext(), FragmentGroupList.class);
                     intent.putExtra("groupName", gName);
                     ArrayList<String> selected = new ArrayList<>();
                     for (CheckBox box : list) {
@@ -128,7 +128,5 @@ public class groupAdder extends Activity {
     }
 
     @Override
-    public void onBackPressed() {
-        return;
-    }
+    public void onBackPressed() { return; }
 }
