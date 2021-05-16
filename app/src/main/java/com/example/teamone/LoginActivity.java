@@ -105,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                                             });
 
                                             Intent in = new Intent(LoginActivity.this, MainActivity.class);
+                                            in.putExtra("fragment","0");
                                             startActivity(in);
                                         } else {
                                             Toast.makeText(LoginActivity.this, "이메일 인증을 완료해주세요.", Toast.LENGTH_LONG).show();

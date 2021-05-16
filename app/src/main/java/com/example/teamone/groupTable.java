@@ -35,11 +35,7 @@ public class groupTable extends AppCompatActivity {
         Intent intent = getIntent();
         members = intent.getStringArrayListExtra("members");
 
-        for(String s : members){
 
-
-
-        }
 
         timetable = (TimetableView)findViewById(R.id.timetable_group);
 
@@ -62,16 +58,17 @@ public class groupTable extends AppCompatActivity {
             }
         });
 
-  /* 수정 예정
-        Button myPageB = (Button)selfLayout.findViewById(R.id.btnMyPage);
-        myPageB.setOnClickListener(new View.OnClickListener() {
+
+        Button goBack = (Button)selfLayout.findViewById(R.id.btnToGList);
+        goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("fragment","1");
                 startActivity(intent);
             }
         });
-
+/*
         Button groupB = (Button)selfLayout.findViewById(R.id.btnGroup);
         groupB.setOnClickListener(new View.OnClickListener() {
             @Override

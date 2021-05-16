@@ -23,6 +23,7 @@ public class FirstAuthActivity extends AppCompatActivity {
             myID = sf.getString("Email", "").replace(".", "_");
             intent = new Intent(FirstAuthActivity.this, MainActivity.class);
         }
+        intent.putExtra("fragment","0");
         startActivity(intent);
         this.finish();
     }

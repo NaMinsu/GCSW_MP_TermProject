@@ -60,32 +60,11 @@
         android:layout_weight="1">
 
         <Button
-            android:id="@+id/btnMyPage"
+            android:id="@+id/btnToGList"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="마이페이지" />
+            android:layout_height="wrap_content"
+            android:text="돌아가기" />
 
-        <Button
-            android:id="@+id/btnGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="그룹" />
-
-        <Button
-            android:id="@+id/btnFriend"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="친구" />
-
-        <Button
-            android:id="@+id/btnSetUp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="설정" />
     </LinearLayout>
 
     </LinearLayout>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.MainScheduleFragment;
 
@@ -28,7 +29,16 @@ public class MainActivity extends AppCompatActivity {
         FriendListFragment = new FriendListFragment();
         SettingsFragment = new SettingsFragment();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,ScheduleFragment).commit();
+        Intent intent = getIntent();
+        String s = intent.getStringExtra("fragment");
+        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
+        if(s.equals("1")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, GroupListFragment).commit();
+        }
+        else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ScheduleFragment).commit();
+        }
+
         LinearLayout selfLayout = (LinearLayout) findViewById(R.id.mainLayout);
 
 
