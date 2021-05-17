@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.widget.ImageView;
@@ -14,10 +15,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,11 +33,14 @@ import java.util.HashMap;
 public class friendInfo extends Activity {
     HashMap<String, String> userInfo;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference userRef = database.getReference("users");
     DatabaseReference friendRef = database.getReference("friendship");
+    DatabaseReference userRef = database.getReference("users");
     String friendName;
     String link_image;
     String friendMail;
+    TextView title;
+    TextView fName;
+    TextView fid;
     ImageView profile;
 
     @Override
@@ -43,47 +50,48 @@ public class friendInfo extends Activity {
         setContentView(R.layout.activity_friendinfo);
 
         Intent intent_rec = getIntent();
-        String fname_temp = intent_rec.getStringExtra("friendName");
+        String fname_temp = intent_rec.getStringExtra("friendname");
+
+        title = findViewById(R.id.fptitle);
+        profile = findViewById(R.id.profile_image);
+        fName = findViewById(R.id.fpname);
+        fid = findViewById(R.id.fpid);
 
         friendRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                if(task.isSuccessful()) {
-                    DataSnapshot data = task.getResult();
-                    for (DataSnapshot ds : data.getChildren()) {
-                        if (ds.child("name").equals(fname_temp)) {
-                            friendMail = ds.child("email").getValue().toString();
-                        }
+            public void onComplete(Task<DataSnapshot> task) {
+                DataSnapshot dataSnapshot = task.getResult();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String username = ds.child("name").getValue().toString();
+                    if (username.equals(fname_temp)) {
+                        friendMail = ds.child("email").getValue().toString();
+                        String id_text = "E-mail: " + friendMail;
+                        fid.setText(id_text);
                     }
                 }
             }
         });
 
-        userRef.child(friendMail.replace('.', '_')).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                DataSnapshot info = task.getResult();
-                if (info != null) {
+                DataSnapshot users = task.getResult();
+                if (friendMail != null) {
+                    String fid = friendMail.replace('.', '_');
+                    DataSnapshot info = users.child(fid);
+
                     friendName = info.child("nickname").getValue().toString();
+                    String title_text = friendName + "님의 정보";
+                    title.setText(title_text);
+                    String name_text = "이름: " + friendName;
+                    fName.setText(name_text);
+
                     link_image = info.child("profile_image").getValue().toString();
+                    profile = findViewById(R.id.profile_image);
+                    new DownloadFilesTask().execute(link_image);
                 }
             }
         });
-
-        TextView title = findViewById(R.id.fptitle);
-        String title_text = friendName + "님의 정보";
-        title.setText(title_text);
-
-        profile = findViewById(R.id.profile_image);
-        new DownloadFilesTask().execute(link_image);
-
-        TextView fName = findViewById(R.id.fpname);
-        String name_text = "이름: " + friendName;
-        fName.setText(name_text);
-
-        TextView fid = findViewById(R.id.fpid);
-        String id_text = "E-mail: " + friendMail;
-        fid.setText(id_text);
     }
 
     @Override
