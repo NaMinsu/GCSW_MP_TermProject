@@ -78,7 +78,7 @@ class GroupViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(String data) {
-    String[] Data = data.split("@");
+    String[] Data = data.split("@Admin_split@");
         CodeView.setText(Data[0]);
         txtView.setText(Data[1]);
     }

@@ -58,7 +58,7 @@ public class FragmentGroupList extends Fragment {
 
                     String gname = snapshot.child("name").getValue().toString();
                     String code = snapshot.getKey();
-                    String groupData = code + "@" + gname;
+                    String groupData = code + "@Admin_split@" + gname; // 방이름으로 사용하기 힘든 문자로 붙였습니다
                     if (!groupItems.contains(groupData)) { /* 중복 입력 방지 */
                         groupItems.add(groupData);
                     }
