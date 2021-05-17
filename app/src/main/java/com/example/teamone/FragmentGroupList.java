@@ -133,9 +133,8 @@ public class FragmentGroupList extends Fragment {
                 ArrayList<String> gfriends = data.getStringArrayListExtra("selfriends");
                 String groupData = gCode + "_" + gName;
                 groupMap.put(gName, gfriends);
-                if (!groupItems.contains(groupData)) { /* 중복 입력 방지 */
-                    groupItems.add(groupData);
-                }
+                groupItems.add(groupData);
+
             }
         } else if (requestCode == 2) { // groupDeleter
             if (resultCode == RESULT_OK) {
