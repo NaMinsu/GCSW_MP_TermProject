@@ -112,6 +112,7 @@ public class groupAdder extends Activity {
                                         if (box.isChecked() && task.getResult().child(getEmail).child("nickname").getValue().toString().equals(fName)) {
                                             UserGroupInfoRef.child(getEmail).child(datetime).child("name").setValue(gName);
                                             groupRef.child(datetime).child("members").child(getEmail).child("email").setValue(getEmail);
+                                            //아직 그룹을 만든 사람은 members 에 올라가게 만들지 않았습니다 (수정예정)
                                         }
                                     }
                                 }
