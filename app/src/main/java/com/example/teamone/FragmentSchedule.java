@@ -186,7 +186,10 @@ public class FragmentSchedule extends Fragment {
                     startMinute = Integer.parseInt(timeSplit[0].substring(3,5));
                     endHour = Integer.parseInt(timeSplit[1].substring(0,2));
                     endMinute = Integer.parseInt(timeSplit[1].substring(3,5));
-
+                    /* 오프라인이면 팅기는 현상이 일어납니다 기기가 인터넷에 연결되어있는지를 확인하여
+                     연결되어있을때만 불러와주거나 sf 를 이용할 방법을 생각해보아야 할것같습니다
+                      https://developer.android.com/training/monitoring-device-state/connectivity-status-type#java
+                      */
                     String[] dateSplit = date.split("/");
                     LocalDate tmpDate = LocalDate.of(Integer.parseInt(dateSplit[0]),Integer.parseInt(dateSplit[1]),Integer.parseInt(dateSplit[2]));
                     weekday = getWeekdayIndex(tmpDate.getDayOfWeek().toString());

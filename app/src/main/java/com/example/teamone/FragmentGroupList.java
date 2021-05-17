@@ -1,11 +1,5 @@
 package com.example.teamone;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +35,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class FragmentGroupList extends Fragment {
-    ArrayList<String> groupItems = new ArrayList<String>();
+    ArrayList<String> groupItems = new ArrayList<>();
     groupAdapter adapter;
     static HashMap<String, ArrayList<String>> groupMap = new HashMap<>();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -45,7 +45,7 @@ public class FragmentGroupList extends Fragment {
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_grouplist,container,false);
+        View v = inflater.inflate(R.layout.fragment_grouplist, container, false);
 
         View selfLayout = v.findViewById(R.id.glLayout);
 
@@ -55,9 +55,12 @@ public class FragmentGroupList extends Fragment {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
                 if(snapshot.hasChild("name")) {
+
                     String gname = snapshot.child("name").getValue().toString();
-                    if(!groupItems.contains(gname)){ // 중복 입력 방지
-                         groupItems.add(gname);
+                    String code = snapshot.getKey();
+                    String groupData = code + "@" + gname;
+                    if (!groupItems.contains(groupData)) { /* 중복 입력 방지 */
+                        groupItems.add(groupData);
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -123,20 +126,23 @@ public class FragmentGroupList extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1) {
+        if (requestCode == 1) { //groupAdder
             if (resultCode == RESULT_OK) {
                 String gName = data.getStringExtra("groupName");
+                String gCode = data.getStringExtra("groupCode");
                 ArrayList<String> gfriends = data.getStringArrayListExtra("selfriends");
-                groupMap.put(gName, gfriends);
-                groupItems.add(gName);
+                String groupData = gCode + "_" + gName;
+                groupMap.put(gName, gfriends); //이부분은 어떻게 할지 생각해봐야겠디
+                groupItems.add(groupData);
             }
-        }
-        else if (requestCode == 2) {
+        } else if (requestCode == 2) { // groupDeleter
             if (resultCode == RESULT_OK) {
                 String gName = data.getStringExtra("groupName");
-                if (groupItems.contains(gName))
-                    groupItems.remove(gName);
-                else
+                String gCode = data.getStringExtra("groupCode");
+                String groupData = gCode + "_" + gName;
+                if (groupItems.contains(groupData)) {
+                    groupItems.remove(groupData);
+                } else
                     Toast.makeText(getActivity(), "해당 그룹이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
             }
         }
@@ -146,4 +152,5 @@ public class FragmentGroupList extends Fragment {
     public static HashMap<String, ArrayList<String>> getGroupMap() {
         return groupMap;
     }
+
 }

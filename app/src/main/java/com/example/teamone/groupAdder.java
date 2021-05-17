@@ -41,7 +41,7 @@ public class groupAdder extends Activity {
     DatabaseReference friendshipRef = database.getReference("friendship");
     DatabaseReference usersRef = database.getReference("users");
     DatabaseReference groupRef = database.getReference("UsersGroupInfo");
-    SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy--MM--dd HH:mm:ss", Locale.KOREA);
+    SimpleDateFormat DateFormat = new SimpleDateFormat("yyyyMMdd_HH:mm:ss", Locale.KOREA);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +131,7 @@ public class groupAdder extends Activity {
 
                     Intent intent = new Intent(getApplicationContext(), FragmentGroupList.class);
                     intent.putExtra("groupName", gName);
+                    intent.putExtra("groupCode", datetime); // 또한 확인 필요 (디버깅해서 위의 날짜 값과 같은지)
                       ArrayList<String> selected = new ArrayList<>();
                     for (CheckBox box : list) {
                         if (box.isChecked())
