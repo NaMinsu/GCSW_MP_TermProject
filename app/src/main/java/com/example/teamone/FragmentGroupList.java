@@ -131,16 +131,18 @@ public class FragmentGroupList extends Fragment {
                 String gName = data.getStringExtra("groupName");
                 String gCode = data.getStringExtra("groupCode");
                 ArrayList<String> gfriends = data.getStringArrayListExtra("selfriends");
-                String groupData = gCode + "_" + gName;
+                String groupData = gCode + "@Admin_split@" + gName;
                 groupMap.put(gName, gfriends);
-                groupItems.add(groupData);
+                if (!groupItems.contains(groupData)) { /* 중복 입력 방지 */
+                    groupItems.add(groupData);
+                }
 
             }
         } else if (requestCode == 2) { // groupDeleter
             if (resultCode == RESULT_OK) {
                 String gName = data.getStringExtra("groupName");
                 String gCode = data.getStringExtra("groupCode");
-                String groupData = gCode + "_" + gName;
+                String groupData = gCode + "@Admin_split@" + gName;
                 if (groupItems.contains(groupData)) {
                     groupItems.remove(groupData);
                 } else
