@@ -111,7 +111,7 @@ public class groupAdder extends Activity {
                                     if (task.getResult().hasChild(getEmail)) { //<-혹시나 모르는 중간에 탈퇴하는 회원을 위해 한번 더 검사
                                         if (box.isChecked() && task.getResult().child(getEmail).child("nickname").getValue().toString().equals(fName)) {
                                             UserGroupInfoRef.child(getEmail).child(datetime).child("name").setValue(gName);
-                                            groupRef.child(datetime).child("members").child("email").setValue(getEmail);
+                                            groupRef.child(datetime).child("members").child(getEmail).child("email").setValue(getEmail);
                                         }
                                     }
                                 }

@@ -101,7 +101,7 @@ public class groupMemberAdder extends AppCompatActivity {
                                     if (task.getResult().hasChild(getEmail)) { //<-혹시나 모르는 중간에 탈퇴하는 회원을 위해 한번 더 검사
                                         if (box.isChecked() && task.getResult().child(getEmail).child("nickname").getValue().toString().equals(fname)) {
                                             UsersGroupRef.child(getEmail).child(timeCode).child("name").setValue(RoomName); /*친구의 그룹리스트에 해당그룹 추가 (친구화면에서 보이게)*/
-                                            groupRef.child(timeCode).child("members").child("email").setValue(getEmail); /*맴버 리스트에 추가 (맴버들의 데이터 접근이 쉽게 DBEmail 로 */
+                                            groupRef.child(timeCode).child("members").child(getEmail).child("email").setValue(getEmail); /*맴버 리스트에 추가 (맴버들의 데이터 접근이 쉽게 DBEmail 로 */
                                         }
                                     }
                                 }
