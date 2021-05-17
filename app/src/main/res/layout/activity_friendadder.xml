@@ -10,14 +10,6 @@
         android:layout_height="wrap_content"
         android:text="친구 이름" />
 
-    <EditText
-        android:id="@+id/txtFname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="친구 이름을 입력하세요." />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

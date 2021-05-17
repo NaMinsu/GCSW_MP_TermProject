@@ -28,6 +28,7 @@ public class friendAdder extends Activity {
     DatabaseReference friendshipRef = database.getReference("friendship");
     DatabaseReference userRef = database.getReference("users");
     protected boolean isInDB;
+    String fName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,6 @@ public class friendAdder extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_friendadder);
         SharedPreferences sf = getSharedPreferences("Users", MODE_PRIVATE);
-        EditText fnameTxt = (EditText) findViewById(R.id.txtFname);
         EditText fmailTxt = (EditText) findViewById(R.id.txtAccount);
         String MY_EMAIL = sf.getString("Email", "");
         selfLayout = findViewById(R.id.fAdder);
@@ -44,7 +44,6 @@ public class friendAdder extends Activity {
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fName = fnameTxt.getText().toString();
                 String fmail = fmailTxt.getText().toString().replace(".", "_");
 
                 if (fmail.equals(MY_EMAIL)) {
@@ -58,7 +57,9 @@ public class friendAdder extends Activity {
                         if (null == snapshot.getValue()) {
                             Toast.makeText(friendAdder.this, "존재하지 않는 계정입니다", Toast.LENGTH_SHORT).show();
                             setResult(RESULT_CANCELED);
-                        } else {
+                        }
+                        else {
+                            fName = snapshot.child("nickname").getValue().toString();
                             friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DataSnapshot> task) {
