@@ -132,8 +132,10 @@ public class FragmentGroupList extends Fragment {
                 String gCode = data.getStringExtra("groupCode");
                 ArrayList<String> gfriends = data.getStringArrayListExtra("selfriends");
                 String groupData = gCode + "_" + gName;
-                groupMap.put(gName, gfriends); //이부분은 어떻게 할지 생각해봐야겠디
-                groupItems.add(groupData);
+                groupMap.put(gName, gfriends);
+                if (!groupItems.contains(groupData)) { /* 중복 입력 방지 */
+                    groupItems.add(groupData);
+                }
             }
         } else if (requestCode == 2) { // groupDeleter
             if (resultCode == RESULT_OK) {
