@@ -21,8 +21,9 @@ public class groupTable extends AppCompatActivity {
     TimetableView timetable;
     private todaySchedule adapter;
     FirebaseDatabase mDatabase;
-    ArrayList<String> members;
-    String name;
+    ArrayList<String> members; /*이 리스트는 나중에 푸시 알림을 보낼때*/
+    String name;               /*선택한 맴버들의 토큰 정보를 저장하는곳으로 ?*/
+    String groupCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class groupTable extends AppCompatActivity {
 
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
+        groupCode = intent.getStringExtra("code");
         Toast.makeText(getApplicationContext(),name,Toast.LENGTH_SHORT).show();
 
 
@@ -56,6 +58,7 @@ public class groupTable extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
                 intent.putExtra("name",name);
+                intent.putExtra("code",groupCode);
                 startActivity(intent);
             }
         });

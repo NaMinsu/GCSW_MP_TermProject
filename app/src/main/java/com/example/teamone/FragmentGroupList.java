@@ -39,7 +39,7 @@ public class FragmentGroupList extends Fragment {
     groupAdapter adapter;
     static HashMap<String, ArrayList<String>> groupMap = new HashMap<>();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference groupRef = database.getReference("UsersGroupInfo"); // 기존의 그룹리스트 참조하는 곳이 있다면 없애야 합니다
+    DatabaseReference UsersGroupRef = database.getReference("UsersGroupInfo"); // 기존의 그룹리스트 참조하는 곳이 있다면 없애야 합니다
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -51,10 +51,11 @@ public class FragmentGroupList extends Fragment {
 
         RecyclerView rcView = v.findViewById(R.id.rcViewGroup);
         rcView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        groupRef.child(FirstAuthActivity.getMyID()).addChildEventListener(new ChildEventListener() {
+
+        UsersGroupRef.child(FirstAuthActivity.getMyID()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                if(snapshot.hasChild("name")) {
+                if (snapshot.hasChild("name")) {
 
                     String gname = snapshot.child("name").getValue().toString();
                     String code = snapshot.getKey();
@@ -143,7 +144,7 @@ public class FragmentGroupList extends Fragment {
                 String gName = data.getStringExtra("groupName");
                 String gCode = data.getStringExtra("groupCode");
                 String groupData = gCode + "@Admin_split@" + gName;
-                if (groupItems.contains(groupData)) {
+                if (groupItems.contains(groupData)) {  // 아직 그룹을 삭제시키는건 안만들었으니 지금 삭제를 하려고 하면 오류가 날  수 있을것입니다
                     groupItems.remove(groupData);
                 } else
                     Toast.makeText(getActivity(), "해당 그룹이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();

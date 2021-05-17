@@ -28,7 +28,5 @@ public class FirstAuthActivity extends AppCompatActivity {
         this.finish();
     }
 
-    public static String getMyID() {
-        return myID;
-    }
+    public static String getMyID() { return myID; }
 }

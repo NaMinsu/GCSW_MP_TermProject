@@ -105,7 +105,6 @@ public class LoginActivity extends AppCompatActivity {
                                             });
 
                                             Intent in = new Intent(LoginActivity.this, FirstAuthActivity.class); // 첫 로그인시에 데이터 꼬이는 현상제거
-                                            in.putExtra("fragment","0");
                                             startActivity(in);
                                         } else {
                                             Toast.makeText(LoginActivity.this, "이메일 인증을 완료해주세요.", Toast.LENGTH_LONG).show();

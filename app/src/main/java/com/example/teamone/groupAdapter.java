@@ -67,9 +67,10 @@ class GroupViewHolder extends RecyclerView.ViewHolder {
                 if (pos != RecyclerView.NO_POSITION) {
                     Intent intent = new Intent(ctx, groupTable.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     HashMap<String, ArrayList<String>> groupdata = FragmentGroupList.getGroupMap();
+
                     ArrayList<String> members = groupdata.get(txtView.getText().toString());
-                    intent.putExtra("code",txtView.getText().toString());
-                    intent.putExtra("name",txtView.getText().toString());
+                    intent.putExtra("code", CodeView.getText().toString());
+                    intent.putExtra("name", txtView.getText().toString());
                     intent.putExtra("members", members);
                     ctx.startActivity(intent);
                 }

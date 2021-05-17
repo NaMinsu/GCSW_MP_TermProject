@@ -3,9 +3,7 @@ package com.example.teamone;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,11 +27,15 @@ public class groupMemberAdder extends AppCompatActivity {
 
     View selfLayout;
     Button okB, cancelB;
+    ArrayList<String> Friend_DBEmails = new ArrayList<>();
     ArrayList<String> friends = new ArrayList<>();
     groupMemberAdderAdapter adapter;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference friendshipRef = database.getReference("friendship");
+    DatabaseReference usersRef = database.getReference("users");
     DatabaseReference groupRef = database.getReference("grouplist");
+    DatabaseReference friendshipRef = database.getReference("friendship");
+    DatabaseReference UsersGroupRef = database.getReference("UsersGroupInfo");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +46,24 @@ public class groupMemberAdder extends AppCompatActivity {
         View selfLayout = findViewById(R.id.gmAdder);
 
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
+        String RoomName = intent.getStringExtra("name"); //방이름
+        String timeCode = intent.getStringExtra("code");
 
         friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for (DataSnapshot friend : task.getResult().getChildren()) {
-                    friends.add(friend.child("name").getValue().toString());
+                    Friend_DBEmails.add(friend.getKey());
+                }
+            }
+        });
+        usersRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+                for (String getEmail : Friend_DBEmails) {
+                    if (task.getResult().hasChild(getEmail)) { // 친구 이름을 친구가 설정한 닉네임으로 불러오게끔 수정하였습니다
+                        friends.add(task.getResult().child(getEmail).child("nickname").getValue().toString());
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -61,7 +74,7 @@ public class groupMemberAdder extends AppCompatActivity {
         adapter = new groupMemberAdderAdapter(friends);
         rcview.setAdapter(adapter);
 
-        okB = (Button)selfLayout.findViewById(R.id.btnOK);
+        okB = (Button) selfLayout.findViewById(R.id.btnOK);
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,21 +87,22 @@ public class groupMemberAdder extends AppCompatActivity {
                         break;
                     }
                 }
+
                 if (!isCheckOne)
                     Toast.makeText(getApplicationContext(), "선택된 친구가 없습니다.", Toast.LENGTH_SHORT).show();
                 else {
                     for (CheckBox box : list) {
-                        friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        usersRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
                             public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
                                 String fname = box.getText().toString();
-                                Toast.makeText(getApplicationContext(),fname,Toast.LENGTH_SHORT).show();
-                                for (DataSnapshot friend : task.getResult().getChildren()) {
-                                    if (box.isChecked() && friend.child("name").getValue().toString().equals(fname)) {
-                                        groupRef.child(FirstAuthActivity.getMyID()).child(name).child(fname).
-                                                child("email").setValue(friend.child("email").getValue().toString());
-                                        groupRef.child(FirstAuthActivity.getMyID()).child(name).child(fname).
-                                                child("name").setValue(friend.child("name").getValue().toString());
+                                //Toast.makeText(getApplicationContext(),fname,Toast.LENGTH_SHORT).show();
+                                for (String getEmail : Friend_DBEmails) {
+                                    if (task.getResult().hasChild(getEmail)) { //<-혹시나 모르는 중간에 탈퇴하는 회원을 위해 한번 더 검사
+                                        if (box.isChecked() && task.getResult().child(getEmail).child("nickname").getValue().toString().equals(fname)) {
+                                            UsersGroupRef.child(getEmail).child(timeCode).child("name").setValue(RoomName); /*친구의 그룹리스트에 해당그룹 추가 (친구화면에서 보이게)*/
+                                            groupRef.child(timeCode).child("members").child("email").setValue(getEmail); /*맴버 리스트에 추가 (맴버들의 데이터 접근이 쉽게 DBEmail 로 */
+                                        }
                                     }
                                 }
                             }
