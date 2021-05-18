@@ -1,13 +1,14 @@
 package com.example.teamone;
 
-import com.github.tlaabs.timetableview.Schedule;
 
 public class calculateTable {
     //기본적으로 group timetable의 background를 가능한 시간에 채울 색으로 선언하기.
 //그 후 시간표 값들을 읽어오면서 채워지는 시간의 background를 바꾸기
 //가능한 시간 선택: 우리가 설정한 시간 조건에 맞춰서 schedule의 이름은 group@@'s meeting 으로, 나머지는 빈 값을 가진 상태로 넘어오기
     //length 는 int 값으로 시간, 분 받아서 시간 * 100  후에 시간 + 분 으로 계산해서 받기.
-    public static boolean calculate(Schedule[] groupSchedule, Schedule newSchedule, int length) {
+
+
+    public static void calculate(Schedule[] groupSchedule,String code) {
 
         int index = groupSchedule.length;
 
@@ -59,12 +60,10 @@ public class calculateTable {
             if (indicies[i] != 0) {
                 System.out.println(i);
                 //요일별로 함수 실행, 그리고 여기서 available이 true가 나오면 true return하기
-                if (Merging(day[i], merged[i], newSchedule, indicies[i], length)) {
-                    return true;
-                }
+                Merging(day[i], merged[i],indicies[i],code);
+
             }
         }
-        return false; //모든요일에서 false가 return되면 return false
     }
 
 
@@ -132,7 +131,7 @@ public class calculateTable {
 
     //요일별 시간표를 한개로 합치기 -> 예를들어 월요일 9시부터 1시 수업, 다른 그룹멤버의 사간표가 12시부터 2시까지 수업이면 이 일정들을 합해 9시 ~ 2시 로 만들기.
     //merging 함수에서 합치기
-    public static boolean Merging(Schedule[] days,Schedule[] merging,Schedule newschedule, int index,int length) {
+    public static void Merging(Schedule[] days,Schedule[] merging, int index,String code) {
 
         Schedule temp = new Schedule();
         int done=0;
@@ -195,7 +194,10 @@ public class calculateTable {
             count++; //한바퀴 다 돌고 아직 모든 array의 value들이 안합쳐졌다면 나머지도 합쳐야함.
         }
 
-        return available(merging,newschedule,count,length);
+        int size = merging.length;
+        for(int i =0;i<size;i++){
+
+        }
 
     }//merging function end
 

@@ -77,7 +77,7 @@ public class groupTable extends AppCompatActivity {
         loading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //이 버튼 클릭시 전체 데이터 지우고, 새로 만든다는 경고문구 띄우고 전체 삭제하고 그룹원들 데이터 읽어오기
                 for(String s:members) {
                     scheduleRef.child(s).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
@@ -96,6 +96,7 @@ public class groupTable extends AppCompatActivity {
                                         loaded.setDay(Integer.parseInt(weekday));
                                         loaded.setStartTime(new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])));
                                         loaded.setEndTime(new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
+                                        Toast.makeText(getApplicationContext(),endTime[0],Toast.LENGTH_SHORT).show();
                                         total.add(loaded);
                                         }
                                 });//한사람의 스케쥴 한개 읽기
@@ -103,7 +104,12 @@ public class groupTable extends AppCompatActivity {
                         }
                     });//한 사람씩 스케쥴읽기 전체 반복
                 }
-
+                Schedule[] SA = new Schedule[total.size()];
+                int size=0;
+                for(Schedule s:total) {
+                    SA[size++] = s;
+                }
+                calculate(SA,groupCode);
             }
         });
 
@@ -154,51 +160,66 @@ public class groupTable extends AppCompatActivity {
         timetable.add(schedules);
     }
 
+    public void calculate(Schedule[] groupSchedule,String code) {
 
-    public void merge(ArrayList<Schedule> totals){
+        int index = groupSchedule.length;
 
-        ArrayList<Schedule>[] forMerge = new ArrayList[7];
+        Schedule[][] day = new Schedule[7][groupSchedule.length];
 
-        for(Schedule s:totals){
-            switch(s.getDay()){
-                case 0:
-                    forMerge[0].add(s);
-                    break;
+        int[] indicies = new int[7];
 
-                case 1:
-                    forMerge[1].add(s);
-                    break;
-
-                case 2:
-                    forMerge[2].add(s);
-                    break;
-
-                case 3:
-                    forMerge[3].add(s);
-                    break;
-
-                case 4:
-                    forMerge[4].add(s);
-                    break;
-
-                case 5:
-                    forMerge[5].add(s);
-                    break;
-
-                case 6:
-                    forMerge[6].add(s);
-                    break;
+        for (int j = 0; j < 7; j++){
+            for (int i = 0; i < index; i++) {
+                day[j][i] = new Schedule();
             }
+        }
 
-        }//요일별로 나누기
+        //요일 나누기
+        for (int i = 0; i < index; i++) {
+            if (groupSchedule[i].getDay() == 0) {
+                day[0][indicies[0]] = groupSchedule[i];
+                indicies[0]++;
 
+            } else if (groupSchedule[i].getDay() == 1) {
+                day[1][indicies[1]] = groupSchedule[i];
+                indicies[1]++;
+            } else if (groupSchedule[i].getDay() == 2) {
+                day[2][indicies[2]] = groupSchedule[i];
+                indicies[2]++;
+            } else if (groupSchedule[i].getDay() == 3) {
+                day[3][indicies[3]] = groupSchedule[i];
+                indicies[3]++;
+            } else if (groupSchedule[i].getDay() == 4) {
+                day[4][indicies[4]] = groupSchedule[i];
+                indicies[4]++;
+            } else if (groupSchedule[i].getDay() == 5) {
+                day[5][indicies[5]] = groupSchedule[i];
+                indicies[5]++;
+            } else if (groupSchedule[i].getDay() == 6) {
+                day[6][indicies[6]] = groupSchedule[i];
+                indicies[6]++;
+            }
+        }
+        //나눈 요일별로 merging function의 결과를 담을 class
+        Schedule[][] merged = new Schedule[7][index];
 
-        ArrayList<Schedule>[] Merged = new ArrayList[7];
+        //전체 초기화 및 요일별로 함수 돌리기
+        for (int i = 0; i < 7; i++) {
 
+            for(int j=0;j<index;j++){//요일 전체 초기화
+                merged[i][j] = new Schedule();
+            }
+            if (indicies[i] != 0) {
+                System.out.println(i);
+                //요일별로 함수 실행, 그리고 여기서 available이 true가 나오면 true return하기
+                Merging(day[i], merged[i],indicies[i],code);
 
+            }
+        }
     }
 
-    public boolean Merging(ArrayList<Schedule> days,ArrayList<Schedule> merging) {
+
+    public void Merging(Schedule[] days,Schedule[] merging, int index,String code) {
 
         Schedule temp = new Schedule();
         int done=0;
@@ -206,19 +227,20 @@ public class groupTable extends AppCompatActivity {
         int minIndex= 0;
         int minStartTime=2400; //시간이기 때문에 24가 가장 큰 수 & 시간계산은 hour * 100 + minute로 할것.
 
-
-        int index = days.size();
         for(int i = 0;i<index-1;i++){
             minIndex = i;
             for(int j = i; j < index; j++){
-                if(days.get(i).getStartTime().getHour()*100 + days.get(i).getStartTime().getMinute() < days.get(minIndex).getStartTime().getHour()*100 + days.get(minIndex).getStartTime().getMinute()) {
+                if(days[j].getStartTime().getHour()*100 + days[i].getStartTime().getMinute() < days[minIndex].getStartTime().getHour()*100 + days[i].getStartTime().getMinute()) {
                     minIndex = j;
                 }
 
-                Collections.swap(days,i,minIndex);
+                temp = days[minIndex];
+                days[minIndex] = days[i];
+                days[i] = temp;
 
             }
         } //sorting
+
 
 
         // need to merging them  -> We don't need to show name and title in this table. So only use time
@@ -260,8 +282,13 @@ public class groupTable extends AppCompatActivity {
             count++; //한바퀴 다 돌고 아직 모든 array의 value들이 안합쳐졌다면 나머지도 합쳐야함.
         }
 
-        return available(merging,newschedule,count,length);
+        int size = merging.length;
+        for(int i =0;i<size;i++){
+            //이부분에서 grouplist - groupcode 안의 시간표에 양식에 맞게 값 채우기
+        }
 
     }//merging function end
+
+
 
 }
