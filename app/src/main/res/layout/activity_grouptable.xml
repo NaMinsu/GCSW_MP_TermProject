@@ -23,12 +23,33 @@
             android:text="그룹 시간표"
             android:textAlignment="center"/>
 
-        <Button
-            android:id="@+id/btnAddMember"
+        <LinearLayout
+            android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="+" />
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "시간표 불러오기"
+                android:id="@+id/loadTable"
+                />
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width = "wrap_content"
+                android:text = "그룹 약속잡기"
+                android:id="@+id/calculate"/>
+
+            <Button
+                android:id="@+id/btnAddMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="+" />
+
+        </LinearLayout>
 
 
     </LinearLayout>
