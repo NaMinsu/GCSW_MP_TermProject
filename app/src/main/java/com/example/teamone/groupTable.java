@@ -92,12 +92,7 @@ public class groupTable extends AppCompatActivity {
                                         String[] times = Time.split("~");
                                         String[] startTime=times[0].split(":");
                                         String[] endTime = times[1].split(":");
-                                        Schedule loaded = new Schedule();
-                                        loaded.setDay(Integer.parseInt(weekday));
-                                        loaded.setStartTime(new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])));
-                                        loaded.setEndTime(new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
-                                        Toast.makeText(getApplicationContext(),loaded.getDay(),Toast.LENGTH_SHORT).show();
-                                        total.add(loaded);
+                                        addNew(Integer.parseInt(weekday),"","",new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])),new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
                                         }
                                 });//한사람의 스케쥴 한개 읽기
                             }
@@ -204,10 +199,8 @@ public class groupTable extends AppCompatActivity {
                 merged[i][j] = new Schedule();
             }
             if (indicies[i] != 0) {
-                System.out.println(i);
-                //요일별로 함수 실행, 그리고 여기서 available이 true가 나오면 true return하기
                 Merging(day[i], merged[i],indicies[i],code);
-
+                //
             }
         }
     }
