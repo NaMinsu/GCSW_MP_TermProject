@@ -96,7 +96,7 @@ public class groupTable extends AppCompatActivity {
                                         loaded.setDay(Integer.parseInt(weekday));
                                         loaded.setStartTime(new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])));
                                         loaded.setEndTime(new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
-                                        Toast.makeText(getApplicationContext(),endTime[0],Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(),loaded.getDay(),Toast.LENGTH_SHORT).show();
                                         total.add(loaded);
                                         }
                                 });//한사람의 스케쥴 한개 읽기
@@ -104,12 +104,6 @@ public class groupTable extends AppCompatActivity {
                         }
                     });//한 사람씩 스케쥴읽기 전체 반복
                 }
-                Schedule[] SA = new Schedule[total.size()];
-                int size=0;
-                for(Schedule s:total) {
-                    SA[size++] = s;
-                }
-                calculate(SA,groupCode);
             }
         });
 
