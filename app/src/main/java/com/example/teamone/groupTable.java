@@ -21,8 +21,8 @@ public class groupTable extends AppCompatActivity {
     TimetableView timetable;
     private todaySchedule adapter;
     FirebaseDatabase mDatabase;
-    ArrayList<String> members; /*이 리스트는 나중에 푸시 알림을 보낼때*/
-    String name;               /*선택한 맴버들의 토큰 정보를 저장하는곳으로 ?*/
+    ArrayList<String> members;
+    String name;
     String groupCode;
 
     @Override

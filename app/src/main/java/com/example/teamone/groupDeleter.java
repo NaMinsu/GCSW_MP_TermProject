@@ -8,15 +8,29 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class groupDeleter extends Activity {
     View selfLayout;
     Button okB, cancelB;
+    String result;
+    ArrayList<String> groupItems;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference groupRef = database.getReference("grouplist");
+    DatabaseReference UserGroupRef = database.getReference("UsersGroupInfo");
+    DatabaseReference GroupRef = database.getReference("grouplist");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,20 +38,39 @@ public class groupDeleter extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_groupdeleter);
         selfLayout = findViewById(R.id.gDeleter);
-
+        String MyID = FirstAuthActivity.getMyID();
         EditText gnameTxt = (EditText)selfLayout.findViewById(R.id.txtGname);
+
+        Intent ReceiveIntent = getIntent();
+        groupItems = ReceiveIntent.getStringArrayListExtra("GroupData");
 
         okB = (Button)selfLayout.findViewById(R.id.btnOK);
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String gName = gnameTxt.getText().toString();
-                groupRef.child(FirstAuthActivity.getMyID()).child(gName).removeValue();
-                Intent intent = new Intent(getApplicationContext(), FragmentGroupList.class);
-                intent.putExtra("groupName", gName);
-                intent.putExtra("groupCode", gName);
-                setResult(RESULT_OK, intent);
-                finish();
+                if(gName.isEmpty()){return;} // 아무것도 입력하지 않으면 중지
+
+                for(String groupData : groupItems){
+                    if(groupData.contains(gName)){ /*같은 이름의 그룹이 있다면 둘다 나가집니다(대응필요)*/
+                        String Code = groupData.replace("@Admin_split@" + gName,"");
+                        UserGroupRef.child(MyID).child(Code).removeValue();
+                        GroupRef.child(Code).child("members").child(MyID).removeValue();
+                        GroupRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                                if(!(task.getResult().child(Code).hasChild("members"))){
+                                    GroupRef.child(Code).removeValue();
+                                }
+                            }
+                        });
+                        result = groupData;
+                    }
+                }
+                    Intent intent = new Intent(getApplicationContext(), FragmentGroupList.class);
+                    intent.putExtra("groupInfo", result);
+                    setResult(RESULT_OK, intent);
+                    finish();
             }
         });
 

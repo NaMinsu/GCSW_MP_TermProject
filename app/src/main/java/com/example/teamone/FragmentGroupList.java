@@ -104,6 +104,7 @@ public class FragmentGroupList extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), groupDeleter.class);
+                intent.putExtra("GroupData",groupItems);
                 startActivityForResult(intent, 2);
             }
         });
@@ -141,11 +142,9 @@ public class FragmentGroupList extends Fragment {
             }
         } else if (requestCode == 2) { // groupDeleter
             if (resultCode == RESULT_OK) {
-                String gName = data.getStringExtra("groupName");
-                String gCode = data.getStringExtra("groupCode");
-                String groupData = gCode + "@Admin_split@" + gName;
-                if (groupItems.contains(groupData)) {  // 아직 그룹을 삭제시키는건 안만들었으니 지금 삭제를 하려고 하면 오류가 날  수 있을것입니다
-                    groupItems.remove(groupData);
+                String Find_group = data.getStringExtra("groupInfo");
+                if (groupItems.contains(Find_group)) {  // 아직 그룹을 삭제시키는건 안만들었으니 지금 삭제를 하려고 하면 오류가 날 수 있을것입니다
+                    groupItems.remove(Find_group);
                 } else
                     Toast.makeText(getActivity(), "해당 그룹이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
             }
