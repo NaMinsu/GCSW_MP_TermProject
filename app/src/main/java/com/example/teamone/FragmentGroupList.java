@@ -2,6 +2,7 @@ package com.example.teamone;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,24 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -35,6 +44,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class FragmentGroupList extends Fragment {
+    private FirebaseFunctions mFunctions;
     ArrayList<String> groupItems = new ArrayList<>();
     groupAdapter adapter;
     static HashMap<String, ArrayList<String>> groupMap = new HashMap<>();
@@ -51,7 +61,7 @@ public class FragmentGroupList extends Fragment {
 
         RecyclerView rcView = v.findViewById(R.id.rcViewGroup);
         rcView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        mFunctions = FirebaseFunctions.getInstance();
         UsersGroupRef.child(FirstAuthActivity.getMyID()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
@@ -130,10 +140,12 @@ public class FragmentGroupList extends Fragment {
 
         if (requestCode == 1) { //groupAdder
             if (resultCode == RESULT_OK) {
+
                 String gName = data.getStringExtra("groupName");
                 String gCode = data.getStringExtra("groupCode");
                 ArrayList<String> gfriends = data.getStringArrayListExtra("selfriends");
                 String groupData = gCode + "@Admin_split@" + gName;
+
                 groupMap.put(gName, gfriends);
                 if (!groupItems.contains(groupData)) { /* 중복 입력 방지 */
                     groupItems.add(groupData);
@@ -150,6 +162,58 @@ public class FragmentGroupList extends Fragment {
             }
         }
         adapter.notifyDataSetChanged();
+    }
+
+
+    public Task<String> sendFCM(String regToken, String title, String message, String PostTitle) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", regToken);
+        data.put("text", message);
+        data.put("title", title); // 그룹명
+        data.put("subtext", PostTitle);
+        data.put("android_channel_id", "Group");
+
+        return mFunctions
+                .getHttpsCallable("sendFCM")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        String result = (String) Objects.requireNonNull(task.getResult()).getData().toString();
+                        Log.d("SendPush", "then: " + result);
+                        return result;
+                    }
+                });
+
+
+    }
+
+    private void On_MakeNotification(String token, String Title, String text, String PostTitle) {
+
+        sendFCM(token, Title, text, PostTitle)
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Exception e = task.getException();
+
+
+                            if (e instanceof FirebaseFunctionsException) {
+                                FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                FirebaseFunctionsException.Code code = ffe.getCode();
+                                Object details = ffe.getDetails();
+                            }
+
+                            Log.w("SendPush", "makeNotification:onFailure", e);
+                            return;
+                        }
+
+                        String result = task.getResult();
+
+                    }
+                });
+
+
     }
 
     public static HashMap<String, ArrayList<String>> getGroupMap() {
