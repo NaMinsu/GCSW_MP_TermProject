@@ -63,8 +63,6 @@ public class FragmentSchedule extends Fragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_schedules,container,false);
 
-        LinearLayout selfLayout = v.findViewById(R.id.mainLayout);
-
         init(v);
 
         timetable = v.findViewById(R.id.timetable);
@@ -99,12 +97,33 @@ public class FragmentSchedule extends Fragment {
             }
         });
 
+        Button deletePlan = v.findViewById(R.id.deletePlanBtn);
+
+        deletePlan.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Intent intent = new Intent(getActivity(), com.example.teamone.deletePlan.class);
+                startActivity(intent);
+            }
+        });
+
+        Button deleteSchedule = v.findViewById(R.id.deleteScheduleBtn);
+
+        deleteSchedule.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Intent intent = new Intent(getActivity(), com.example.teamone.deleteSchedule.class);
+                startActivity(intent);
+            }
+        });
+
         return v;
     }
 
 
 
 
+    /*
+    스케쥴 fragment에 있는 시간표에 추가하는 함수입니다.
+     */
     protected void addNew(int day, String title, String place, Time startTime, Time endTime){
         ArrayList<Schedule> schedules = new ArrayList<Schedule>();
         Schedule schedule = new Schedule();
@@ -133,11 +152,6 @@ public class FragmentSchedule extends Fragment {
         numOfPlan++;
 
         todayScheduleData data = new todayScheduleData();
-        /*
-        numOfSchedule로 스케쥴의 개수를 읽은 뒤, 그 수만큼 반복문을 통해 배열에 스케쥴을 입력합니다.
-        이후 배열을 리스트로 바꾸어 스케쥴에 올립니다.
-        이 부분은 어떤 식으로 스케쥴 데이터를 읽어오느냐에 따라 달라질 수 있습니다.
-         */
 
         data.setTitle(title);
         data.setContent(content);
@@ -147,11 +161,6 @@ public class FragmentSchedule extends Fragment {
         adapter.notifyDataSetChanged();
 
     }
-    private void addData(){
-
-    }
-
-
 
     @Override
     public void onStart() {
@@ -163,10 +172,19 @@ public class FragmentSchedule extends Fragment {
         super.onDestroy();
     }
 
+    /*
+    onResume 할 때 매번 일정과 스케쥴을 다시 읽어들입니다.
+    (추가, 삭제할 경우 onResume이 발생합니다)
+    다시 읽어들이는 과정에서 각각 시간이 지난 일정과 스케쥴은 모두 삭제합니다.
+    일정은 당일 이전이면 모두 삭제하고
+    스케쥴은 해당하는 주의 일요일 이전이면 삭제합니다.
+    또한 해당하는 주의 일요일~토요일 사이라면 시간표에 표시합니다.
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onResume(){
         super.onResume();
         adapter.remove();
+        adapter.notifyDataSetChanged();
         timetable.removeAll();
 
         LocalDate nowDate = LocalDate.now();
@@ -232,7 +250,7 @@ public class FragmentSchedule extends Fragment {
                     if(getDateDif(nowDate,startLocalDate)>=0&&getDateDif(nowDate,endLocalDate)<=0){
                         addNew(weekday,title,"",new Time(startHour,startMinute),new Time(endHour,endMinute));
                     }else if(getDateDif(nowDate,endLocalDate)>0){
-                        deleteSchedule(title,startDateSplit[0]+startDateSplit[1]+startDateSplit[2],endDateSplit[0]+endDateSplit[1]+endDateSplit[2],time);
+                        deleteSchedule(title,startDateSplit[0]+startDateSplit[1]+startDateSplit[2],endDateSplit[0]+endDateSplit[1]+endDateSplit[2],time,Integer.toString(weekday));
                     }
                 }
             }
@@ -270,8 +288,8 @@ public class FragmentSchedule extends Fragment {
         planRef.child(FirstAuthActivity.getMyID()).child(date+"_"+time+"_"+title).setValue(null);
     }
 
-    private void deleteSchedule(String title, String startDate,String endDate, String time){
-        scheduleRef.child(FirstAuthActivity.getMyID()).child(startDate+"~"+endDate+"_"+time+"_"+title).setValue(null);
+    private void deleteSchedule(String title, String startDate,String endDate, String time,String weekdayIndex){
+        scheduleRef.child(FirstAuthActivity.getMyID()).child(startDate+"~"+endDate+"_"+time+"_"+title+"_"+weekdayIndex).setValue(null);
     }
 
 }

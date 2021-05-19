@@ -1,15 +1,17 @@
 package com.example.teamone;
-public class todayScheduleData {
+
+public class todayScheduleDataItem {
+
 
     /*
-     * plan을 저장하기 위한 클래스입니다.
+     * schedule을 저장하기 위한 클래스입니다.
      * todayScheduleData는 plan을 저장하기 위한 클래스인데
      * 계획 초기에 plan을 today schedule로 구상했었기 때문에 명칭이 겹쳐 이렇게 이름을 지었습니다.
      */
-
     private String title;
     private String content;
     private String time;
+    private String weekday;
 
     public String getTitle() {
         return title;
@@ -35,5 +37,10 @@ public class todayScheduleData {
         this.content = content;
     }
 
+    public String getWeekday(){return weekday;}
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
 
 }

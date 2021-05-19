@@ -16,7 +16,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Today's schedules"
+                android:text="일정 목록"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:background="@color/mainColor"/>
@@ -31,35 +31,57 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/scheduleRecyler"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                     </androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="5dp">
                 <Button
                     android:background="@drawable/button1"
-                    android:id="@+id/addScheduleBtn"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/deletePlanBtn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="35dp"
-                    android:text="Add Schedule"
+                    android:text="일정 삭제"
                     android:gravity="center"
-                    android:textSize="10sp"
-                    android:layout_alignParentRight="true"/>
+                    android:textSize="12sp"
+                    android:layout_marginHorizontal="1dp"/>
+                <Button
+                    android:background="@drawable/button1"
+                    android:id="@+id/deleteScheduleBtn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="35dp"
+                    android:text="스케쥴 삭제"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:layout_marginHorizontal="1dp"/>
                 <Button
                     android:background="@drawable/button1"
                     android:id="@+id/addPlanBtn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="35dp"
-                    android:text="Add Plan"
+                    android:text="일정 추가"
                     android:gravity="center"
-                    android:textSize="10sp"
-                    android:layout_toLeftOf="@+id/addScheduleBtn"/>
-            </RelativeLayout>
+                    android:textSize="12sp"
+                    android:layout_marginHorizontal="1dp"/>
+                <Button
+                    android:background="@drawable/button1"
+                    android:id="@+id/addScheduleBtn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="35dp"
+                    android:text="스케쥴 추가"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:layout_marginHorizontal="1dp"/>
+            </LinearLayout>
             <com.example.teamone.TimetableView
                 android:id="@+id/timetable"
                 android:layout_width="match_parent"

@@ -48,10 +48,10 @@ public class groupAdder extends Activity {
         setContentView(R.layout.activity_groupadder);
         selfLayout = findViewById(R.id.gAdder);
         EditText gnameTxt = (EditText) selfLayout.findViewById(R.id.txtGname);
+        String MyID=FirstAuthActivity.getMyID();
 
 
-
-        friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        friendshipRef.child(MyID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for (DataSnapshot friend : task.getResult().getChildren()) {
@@ -100,7 +100,7 @@ public class groupAdder extends Activity {
                 else {
                     Calendar c = Calendar.getInstance();
                     String datetime = DateFormat.format(c.getTime());
-                    UserGroupInfoRef.child(FirstAuthActivity.getMyID()).child(datetime).child("name").setValue(gName);
+                    UserGroupInfoRef.child(MyID).child(datetime).child("name").setValue(gName);
 
                     for (CheckBox box : list) {
                         usersRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -112,6 +112,7 @@ public class groupAdder extends Activity {
                                         if (box.isChecked() && task.getResult().child(getEmail).child("nickname").getValue().toString().equals(fName)) {
                                             UserGroupInfoRef.child(getEmail).child(datetime).child("name").setValue(gName);
                                             groupRef.child(datetime).child("members").child(getEmail).child("email").setValue(getEmail);
+                                            //아직 그룹을 만든 사람은 members 에 올라가게 만들지 않았습니다 (수정예정)
                                         }
                                     }
                                 }
@@ -119,6 +120,7 @@ public class groupAdder extends Activity {
                             }
                         });
                     }
+                    groupRef.child(datetime).child("members").child(MyID).child("email").setValue(MyID); /*그룹을 만든 사람 맴버에 추가*/
                     groupRef.child(datetime).child("GroupName").child("name").setValue(gName);
                     Intent intent = new Intent(getApplicationContext(), FragmentGroupList.class);
                     intent.putExtra("groupName", gName);

@@ -13,7 +13,7 @@
         android:background="@color/mainColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=" 계획 추가"
+        android:text=" 일정 추가"
         android:textSize="25sp"
         android:textStyle="bold" />
     <LinearLayout
@@ -27,7 +27,7 @@
             android:background="@color/lightGray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="계획 이름" />
+            android:text="일정  이름" />
 
         <EditText
             android:id="@+id/planNameTxt"
@@ -35,14 +35,14 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textShortMessage"
-            android:hint="계획 이름"
+            android:hint="일정  이름"
             android:layout_marginVertical="8dp"/>
 
         <TextView
             android:background="@color/lightGray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="계획 시간" />
+            android:text="일정  시간" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,44 +83,13 @@
         </LinearLayout>
 
 
-        <TextView
-            android:background="@color/lightGray"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="계획 요일" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginVertical="8dp">
-            <Button
-                android:id="@+id/weekDayLeft_plan"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="@string/left"
-                android:textSize="18sp"/>
-            <TextView
-                android:id="@+id/weekDayText_plan"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="월요일"
-                android:textSize="20sp"
-                android:gravity="center">
-            </TextView>
-            <Button
-                android:id="@+id/weekDayRight_plan"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="@string/right"
-                android:textSize="18sp"></Button>
 
-        </LinearLayout>
 
         <TextView
             android:background="@color/lightGray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="계획 기간" />
+            android:text="일정  기간" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -132,7 +101,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="계획일"
+                android:text="일정 일"
                 android:textSize="18sp"></TextView>
             <Button
                 android:id="@+id/startDateBtn_plan"
