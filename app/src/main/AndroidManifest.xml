@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.teamone">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,8 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamOne">
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".FirstAuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,15 +20,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".changeInfo"></activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".groupTable"></activity>
-        <activity android:name=".groupAdder" android:theme="@android:style/Theme.Dialog"></activity>
-        <activity android:name=".friendAdder" android:theme="@android:style/Theme.Dialog"></activity>
-        <activity android:name=".friendInfo" android:theme="@android:style/Theme.Dialog"></activity>
-        <activity android:name = ".groupMemberAdder" ></activity>
-        <activity android:name=".groupDeleter" android:theme="@android:style/Theme.Dialog"></activity>
+        <activity
+            android:name=".deletePlan"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name=".deleteSchedule"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".changeInfo" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".groupTable" />
+        <activity
+            android:name=".groupAdder"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".friendAdder"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".friendInfo"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".groupMemberAdder" />
+        <activity
+            android:name=".groupDeleter"
+            android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".addSchedule"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />

@@ -17,6 +17,9 @@ import java.util.ArrayList;
 
 public class todaySchedule extends RecyclerView.Adapter<todaySchedule.ItemViewHolder> {
 
+    /*
+    메인 fragment에서
+     */
     private ArrayList<todayScheduleData> listData = new ArrayList<todayScheduleData>();
 
     @NonNull
