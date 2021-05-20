@@ -3,6 +3,7 @@ package com.example.teamone;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -15,18 +16,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 public class groupAdder extends Activity {
     View selfLayout;
@@ -40,15 +48,18 @@ public class groupAdder extends Activity {
     DatabaseReference UserGroupInfoRef = database.getReference("UsersGroupInfo");
     DatabaseReference groupRef = database.getReference("grouplist");
     SimpleDateFormat DateFormat = new SimpleDateFormat("yyyyMMdd_HH:mm:ss", Locale.KOREA);
+    private FirebaseFunctions mFunctions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_groupadder);
+        mFunctions = FirebaseFunctions.getInstance();
         selfLayout = findViewById(R.id.gAdder);
         EditText gnameTxt = (EditText) selfLayout.findViewById(R.id.txtGname);
         String MyID=FirstAuthActivity.getMyID();
+
 
 
         friendshipRef.child(MyID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -92,7 +103,6 @@ public class groupAdder extends Activity {
                         break;
                     }
                 }
-                // 그룹 장 어찌할지 정하기 (추가자)
                 if (gName.equals(""))
                     Toast.makeText(getApplicationContext(), "그룹명은 반드시 입력해야합니다.", Toast.LENGTH_SHORT).show();
                 else if (!isCheckOne)
@@ -112,19 +122,29 @@ public class groupAdder extends Activity {
                                         if (box.isChecked() && task.getResult().child(getEmail).child("nickname").getValue().toString().equals(fName)) {
                                             UserGroupInfoRef.child(getEmail).child(datetime).child("name").setValue(gName);
                                             groupRef.child(datetime).child("members").child(getEmail).child("email").setValue(getEmail);
-                                            //아직 그룹을 만든 사람은 members 에 올라가게 만들지 않았습니다 (수정예정)
+                                            groupRef.child(datetime).child("members").child(getEmail).child("WantPush").setValue("1");
+                                            if (task.getResult().child(getEmail).hasChild("token")) {
+                                                String token = task.getResult().child(getEmail).child("token").getValue().toString();
+                                                On_MakeNotification(token, gName, "새로운 그룹에 초대되었습니다.", "TeamOne");
+                                            }
+
                                         }
                                     }
                                 }
-
+                                if (task.getResult().child(MyID).hasChild("token")) {
+                                    String MyToken = task.getResult().child(MyID).child("token").getValue().toString();
+                                    On_MakeNotification(MyToken, gName, "새로운 그룹이 만들어졌습니다.", "TeamOne");
+                                }
                             }
                         });
                     }
+
+
                     groupRef.child(datetime).child("members").child(MyID).child("email").setValue(MyID); /*그룹을 만든 사람 맴버에 추가*/
                     groupRef.child(datetime).child("GroupName").child("name").setValue(gName);
                     Intent intent = new Intent(getApplicationContext(), FragmentGroupList.class);
                     intent.putExtra("groupName", gName);
-                    intent.putExtra("groupCode", datetime); // 또한 확인 필요 (디버깅해서 위의 날짜 값과 같은지)
+                    intent.putExtra("groupCode", datetime);
                       ArrayList<String> selected = new ArrayList<>();
                     for (CheckBox box : list) {
                         if (box.isChecked())
@@ -156,5 +176,55 @@ public class groupAdder extends Activity {
     }
 
     @Override
-    public void onBackPressed() { return; }
+    public void onBackPressed() {
+        return;
+    }
+
+    public Task<String> sendFCM(String regToken, String title, String message, String SubTitle) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", regToken);
+        data.put("text", message);
+        data.put("title", title); // 그룹명
+        data.put("subtext", SubTitle);
+        data.put("android_channel_id", "Group");
+
+        return mFunctions
+                .getHttpsCallable("sendFCM")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        String result = (String) Objects.requireNonNull(task.getResult()).getData().toString();
+                        Log.d("SendPush", "then: " + result);
+                        return result;
+                    }
+                });
+
+
+    }
+
+    private void On_MakeNotification(String token, String Title, String text, String SubTitle) {
+        sendFCM(token, Title, text, SubTitle)
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Exception e = task.getException();
+
+                            if (e instanceof FirebaseFunctionsException) {
+                                FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                FirebaseFunctionsException.Code code = ffe.getCode();
+                                Object details = ffe.getDetails();
+                            }
+
+                            Log.w("SendPush", "makeNotification:onFailure", e);
+                            return;
+                        }
+
+                        String result = task.getResult();
+
+                    }
+                });
+
+    }
 }

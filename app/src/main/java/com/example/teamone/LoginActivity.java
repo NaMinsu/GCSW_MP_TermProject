@@ -3,12 +3,12 @@ package com.example.teamone;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.KeyEvent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.Hashtable;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -103,7 +106,23 @@ public class LoginActivity extends AppCompatActivity {
 
                                                 }
                                             });
+                                            FirebaseMessaging.getInstance().getToken()
+                                                    .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<String> task) {
+                                                            if (!task.isSuccessful()) {
+                                                                Log.w("LoginActivity", "Fetching FCM registration token failed", task.getException());
+                                                                return;
+                                                            }
+                                                            // Get new FCM registration token
+                                                            String token = task.getResult();
+                                                            DatabaseReference usersToken_ref =
+                                                                    FirebaseDatabase.getInstance().getReference("users").child(DBEmail).child("token");
+                                                            usersToken_ref.setValue(token);
+                                                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
 
+                                                        }
+                                                    });
                                             Intent in = new Intent(LoginActivity.this, FirstAuthActivity.class); // 첫 로그인시에 데이터 꼬이는 현상제거
                                             startActivity(in);
                                         } else {

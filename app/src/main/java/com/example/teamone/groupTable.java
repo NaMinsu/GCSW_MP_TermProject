@@ -13,18 +13,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 
 public class groupTable extends AppCompatActivity {
 
@@ -44,7 +51,6 @@ public class groupTable extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grouptable);
         View selfLayout = (View) findViewById(R.id.gtLayout);
-
         members = new ArrayList<>();
         total = new ArrayList<>();
 
@@ -436,6 +442,5 @@ public class groupTable extends AppCompatActivity {
 
         return false; //위 경우 모두 아니면 return false
     }
-
 
 }
