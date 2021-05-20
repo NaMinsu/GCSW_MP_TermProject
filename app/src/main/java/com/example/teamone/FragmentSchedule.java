@@ -3,6 +3,7 @@ package com.example.teamone;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class FragmentSchedule extends Fragment {
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_my_schedules,container,false);
 
         init(v);
@@ -112,6 +114,14 @@ public class FragmentSchedule extends Fragment {
             public void onClick(View view){
                 Intent intent = new Intent(getActivity(), com.example.teamone.deleteSchedule.class);
                 startActivity(intent);
+            }
+        });
+
+        Button refresh = v.findViewById(R.id.refreshBtn);
+        refresh.setOnClickListener(new View.OnClickListener(){
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            public void onClick(View view){
+                onResume();
             }
         });
 
@@ -183,79 +193,100 @@ public class FragmentSchedule extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onResume(){
         super.onResume();
-        adapter.remove();
-        adapter.notifyDataSetChanged();
-        timetable.removeAll();
+        /*
+        LTE와 WIFI 둘 중 하나라도 연결되어있다면
+         */
+        if(connectStatus.getConnectivityStatus(getContext())!=3) {
 
-        LocalDate nowDate = LocalDate.now();
-        LocalDate sunday = nowDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-        LocalDate satday = nowDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+            adapter.remove();
+            adapter.notifyDataSetChanged();
+            timetable.removeAll();
 
-        planRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onComplete(Task<DataSnapshot> task) {
-                for (DataSnapshot plan : task.getResult().getChildren()) {
-                    title = plan.child("title").getValue().toString();
-                    date = plan.child("date").getValue().toString();
-                    time = plan.child("time").getValue().toString();
-                    String[] timeSplit = time.split("~");
-                    startHour = Integer.parseInt(timeSplit[0].substring(0,2));
-                    startMinute = Integer.parseInt(timeSplit[0].substring(3,5));
-                    endHour = Integer.parseInt(timeSplit[1].substring(0,2));
-                    endMinute = Integer.parseInt(timeSplit[1].substring(3,5));
-                    /* 오프라인이면 팅기는 현상이 일어납니다 기기가 인터넷에 연결되어있는지를 확인하여
-                     연결되어있을때만 불러와주거나 sf 를 이용할 방법을 생각해보아야 할것같습니다
-                      https://developer.android.com/training/monitoring-device-state/connectivity-status-type#java
-                      */
-                    String[] dateSplit = date.split("/");
-                    LocalDate tmpDate = LocalDate.of(Integer.parseInt(dateSplit[0]),Integer.parseInt(dateSplit[1]),Integer.parseInt(dateSplit[2]));
-                    weekday = getWeekdayIndex(tmpDate.getDayOfWeek().toString());
+            database.goOnline();
 
-                    if(getDateDif(tmpDate,sunday)<0) {
-                        deletePlan(title,dateSplit[0]+dateSplit[1]+dateSplit[2],time);
-                    }else if(getDateDif(tmpDate,sunday)>0&&getDateDif(tmpDate,satday)<0){
-                        addNew(weekday,title,"",new Time(startHour,startMinute),new Time(endHour,endMinute));
-                        getData(title, date,time);
-                    }else{
-                        getData(title, date,time);
+            LocalDate nowDate = LocalDate.now();
+            LocalDate sunday = nowDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
+            LocalDate satday = nowDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+
+            Log.d("hello", FirstAuthActivity.getMyID()+"아이디");
+
+            planRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onComplete(Task<DataSnapshot> task) {
+                    for (DataSnapshot plan : task.getResult().getChildren()) {
+
+                        Log.d("hello", "플랜");
+
+                        title = plan.child("title").getValue().toString();
+                        date = plan.child("date").getValue().toString();
+                        time = plan.child("time").getValue().toString();
+                        String[] timeSplit = time.split("~");
+                        startHour = Integer.parseInt(timeSplit[0].substring(0, 2));
+                        startMinute = Integer.parseInt(timeSplit[0].substring(3, 5));
+                        endHour = Integer.parseInt(timeSplit[1].substring(0, 2));
+                        endMinute = Integer.parseInt(timeSplit[1].substring(3, 5));
+
+                        String[] dateSplit = date.split("/");
+                        LocalDate tmpDate = LocalDate.of(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
+                        weekday = getWeekdayIndex(tmpDate.getDayOfWeek().toString());
+
+                        if (getDateDif(tmpDate, sunday) < 0) {
+                            deletePlan(title, dateSplit[0] + dateSplit[1] + dateSplit[2], time);
+                        } else if (getDateDif(tmpDate, sunday) > 0 && getDateDif(tmpDate, satday) < 0) {
+                            addNew(weekday, title, "", new Time(startHour, startMinute), new Time(endHour, endMinute));
+                            getData(title, date, time);
+                        } else {
+                            getData(title, date, time);
+                        }
                     }
                 }
-            }
 
-        });
+            });
 
-        scheduleRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onComplete(Task<DataSnapshot> task) {
-                for (DataSnapshot schedule : task.getResult().getChildren()) {
+            scheduleRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onComplete(Task<DataSnapshot> task) {
+                    for (DataSnapshot schedule : task.getResult().getChildren()) {
 
-                    title = schedule.child("title").getValue().toString();
-                    startDate = schedule.child("startDate").getValue().toString();
-                    endDate = schedule.child("endDate").getValue().toString();
-                    time = schedule.child("time").getValue().toString();
-                    weekday = Integer.parseInt(schedule.child("weekday").getValue().toString());
-                    String[] timeSplit = time.split("~");
-                    startHour = Integer.parseInt(timeSplit[0].substring(0,2));
-                    startMinute = Integer.parseInt(timeSplit[0].substring(3,5));
-                    endHour = Integer.parseInt(timeSplit[1].substring(0,2));
-                    endMinute = Integer.parseInt(timeSplit[1].substring(3,5));
+                        Log.d("hello", "스케쥴");
 
-                    String[] startDateSplit = startDate.split("/");
-                    String[] endDateSplit = endDate.split("/");
-                    LocalDate startLocalDate = LocalDate.of(Integer.parseInt(startDateSplit[0]),Integer.parseInt(startDateSplit[1]),Integer.parseInt(startDateSplit[2]));
-                    LocalDate endLocalDate = LocalDate.of(Integer.parseInt(endDateSplit[0]),Integer.parseInt(endDateSplit[1]),Integer.parseInt(endDateSplit[2]));
+                        title = schedule.child("title").getValue().toString();
+                        startDate = schedule.child("startDate").getValue().toString();
+                        endDate = schedule.child("endDate").getValue().toString();
+                        time = schedule.child("time").getValue().toString();
+                        weekday = Integer.parseInt(schedule.child("weekday").getValue().toString());
+                        String[] timeSplit = time.split("~");
+                        startHour = Integer.parseInt(timeSplit[0].substring(0, 2));
+                        startMinute = Integer.parseInt(timeSplit[0].substring(3, 5));
+                        endHour = Integer.parseInt(timeSplit[1].substring(0, 2));
+                        endMinute = Integer.parseInt(timeSplit[1].substring(3, 5));
 
-                    if(getDateDif(nowDate,startLocalDate)>=0&&getDateDif(nowDate,endLocalDate)<=0){
-                        addNew(weekday,title,"",new Time(startHour,startMinute),new Time(endHour,endMinute));
-                    }else if(getDateDif(nowDate,endLocalDate)>0){
-                        deleteSchedule(title,startDateSplit[0]+startDateSplit[1]+startDateSplit[2],endDateSplit[0]+endDateSplit[1]+endDateSplit[2],time,Integer.toString(weekday));
+                        String[] startDateSplit = startDate.split("/");
+                        String[] endDateSplit = endDate.split("/");
+                        LocalDate startLocalDate = LocalDate.of(Integer.parseInt(startDateSplit[0]), Integer.parseInt(startDateSplit[1]), Integer.parseInt(startDateSplit[2]));
+                        LocalDate endLocalDate = LocalDate.of(Integer.parseInt(endDateSplit[0]), Integer.parseInt(endDateSplit[1]), Integer.parseInt(endDateSplit[2]));
+
+                        if (getDateDif(nowDate, startLocalDate) >= 0 && getDateDif(nowDate, endLocalDate) <= 0) {
+                            addNew(weekday, title, "", new Time(startHour, startMinute), new Time(endHour, endMinute));
+                        } else if (getDateDif(nowDate, endLocalDate) > 0) {
+                            deleteSchedule(title, startDateSplit[0] + startDateSplit[1] + startDateSplit[2], endDateSplit[0] + endDateSplit[1] + endDateSplit[2], time, Integer.toString(weekday));
+                        }
                     }
                 }
-            }
 
-        });
+
+            });
+            Log.d("hello", "리줌 끝");
+        }
+        /*
+        LTE와 WIFI 둘 중 하나라도 연결되어있지않다면
+         */
+        else{
+            database.goOffline();
+            Toast.makeText(getContext(),"인터넷이 연결되지 않았습니다",Toast.LENGTH_SHORT).show();
+        }
 
     }
 

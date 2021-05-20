@@ -63,7 +63,6 @@ public class groupTable extends AppCompatActivity {
 
         timetable = (TimetableView)findViewById(R.id.timetable_group);
 
-
         timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
             @Override
             public void OnStickerSelected(int idx, ArrayList<Schedule> schedules) {
@@ -138,9 +137,7 @@ public class groupTable extends AppCompatActivity {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("fragment","1");
-                startActivity(intent);
+                finish();
             }
         });
 
