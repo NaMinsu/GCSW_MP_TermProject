@@ -200,7 +200,7 @@ public class addPlan extends Activity {
                 String endTimeTxtV = endTimeTxt.getText().toString();
                 String startDateTxtV = startDateTxt.getText().toString();
 
-                if (planNameV.length() != 0 && !startTimeTxtV.equals("시작시간") && !endTimeTxtV.equals("종료시간") && !startDateTxtV.equals("계획일")) {
+                if (planNameV.length() != 0 && !startTimeTxtV.equals("시작시간") && !endTimeTxtV.equals("종료시간") && !startDateTxtV.equals("계획일")&&!startDateTxtV.equals("일정 일")) {
                     int startHour, startMinute, endHour, endMinute;
 
                     String[] startTimeSplit = startTimeTxtV.split(":");
