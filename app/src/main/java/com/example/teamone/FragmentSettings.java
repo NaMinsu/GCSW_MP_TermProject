@@ -80,6 +80,10 @@ public class FragmentSettings extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), changeInfo.class);
+                String nick = nickname.getText().toString();
+                String school = schoolname.getText().toString();
+                intent.putExtra("nickname",nick);
+                intent.putExtra("school",school);
                 startActivity(intent);
 
             }

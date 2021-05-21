@@ -39,7 +39,7 @@ public class changeInfo extends AppCompatActivity {
     Button btnNickname,btnSchool,btnBack;  // 이미지 변경용 임시 버튼을 만들었습니다
     ImageView ChangeImage;
     String Nickname,School;
-    EditText nickname,school;
+    EditText etNickname,etSchool;
     ProgressView Progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +48,19 @@ public class changeInfo extends AppCompatActivity {
         View selfLayout = (View) findViewById(R.id.ciLayout);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
-        nickname = (EditText)selfLayout.findViewById(R.id.nickValue);
-        school = (EditText)selfLayout.findViewById(R.id.schoolValue);
+        etNickname = (EditText)selfLayout.findViewById(R.id.nickValue);
+        etSchool = (EditText)selfLayout.findViewById(R.id.schoolValue);
         Progress = (ProgressView) selfLayout.findViewById(R.id.progress_circular);
         SharedPreferences sf = getSharedPreferences("Users", MODE_PRIVATE);
         String MY_EMAIL=sf.getString("Email","");
         String[] emailID = MY_EMAIL.split("\\.");
         String DBEmail = emailID[0]+"_"+emailID[1];
         DatabaseReference myRef = database.getReference("users").child(DBEmail);
+        Intent Info_intent = getIntent();
+        String before_nick = Info_intent.getStringExtra("nickname");
+        String before_school = Info_intent.getStringExtra("school");
+        etNickname.setText(before_nick);
+        etSchool.setText(before_school);
 
         ChangeImage = (ImageView) selfLayout.findViewById(R.id.btn_Change_Image);
         String MYProfile=sf.getString ("profile_image","");
@@ -88,22 +93,22 @@ public class changeInfo extends AppCompatActivity {
         btnNickname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Nickname = String.valueOf (nickname.getText());
+                Nickname = String.valueOf (etNickname.getText());
                 myRef.child("nickname").setValue(Nickname);
-                nickname.setText("");
+                etNickname.setText("");
                 Toast.makeText(getApplicationContext(),"닉네임이 변경되었습니다!",Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        School = String.valueOf(school.getText());
+        School = String.valueOf(etSchool.getText());
         btnSchool = (Button)selfLayout.findViewById(R.id.btnSchoolChange);
         btnSchool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                School = String.valueOf (school.getText());
+                School = String.valueOf (etSchool.getText());
                 myRef.child("school").setValue(School);
-                school.setText("");
+                etSchool.setText("");
                 Toast.makeText(getApplicationContext(),"학교가 변경되었습니다!",Toast.LENGTH_SHORT).show();
             }
         });
