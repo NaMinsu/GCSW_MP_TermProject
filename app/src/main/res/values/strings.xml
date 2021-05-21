@@ -5,6 +5,7 @@
     <string name="left">&lt;</string>
     <string name="right">&gt;</string>
     <string name="EditProfileTitle">프로필 편집</string>
+    <string name="ChangeText">변경하기</string>
 
 
     <string-array name="my_header_title">
