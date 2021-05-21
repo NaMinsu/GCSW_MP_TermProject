@@ -11,6 +11,12 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textAlignment="center"
+        android:textSize="28dp"
+        android:background="@drawable/textview_solid"
+        android:textColor="@color/white"
+        android:padding="3dp"
+        android:layout_marginBottom="5dp"
+        android:textStyle="bold"
         android:text="친구 목록" />
 
     <LinearLayout
@@ -24,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:background="@drawable/button1"
             android:text="+" />
 
         <ScrollView

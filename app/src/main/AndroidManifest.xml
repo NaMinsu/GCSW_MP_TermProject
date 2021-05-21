@@ -40,11 +40,11 @@
         <activity android:name=".changeInfo" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".groupTable" />
-        <activity android:name=".groupAdder" android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".friendAdder" android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".friendInfo" android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".groupAdder" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".friendAdder" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".friendInfo" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity android:name=".groupMemberAdder" />
-        <activity android:name=".groupDeleter" android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".groupDeleter" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".addSchedule"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
