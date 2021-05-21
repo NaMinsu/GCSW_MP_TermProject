@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class groupAdder extends Activity {
+    String MyToken;
     View selfLayout;
     Button okB, cancelB;
     ArrayList<String> Friend_DBEmails = new ArrayList<>();
@@ -58,9 +59,8 @@ public class groupAdder extends Activity {
         mFunctions = FirebaseFunctions.getInstance();
         selfLayout = findViewById(R.id.gAdder);
         EditText gnameTxt = (EditText) selfLayout.findViewById(R.id.txtGname);
+        MyToken  = "no Token";
         String MyID=FirstAuthActivity.getMyID();
-
-
 
         friendshipRef.child(MyID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -127,21 +127,20 @@ public class groupAdder extends Activity {
                                                 String token = task.getResult().child(getEmail).child("token").getValue().toString();
                                                 On_MakeNotification(token, gName, "새로운 그룹에 초대되었습니다.", "TeamOne");
                                             }
-
                                         }
                                     }
                                 }
-                                if (task.getResult().child(MyID).hasChild("token")) {
-                                    String MyToken = task.getResult().child(MyID).child("token").getValue().toString();
-                                    On_MakeNotification(MyToken, gName, "새로운 그룹이 만들어졌습니다.", "TeamOne");
+                                if (task.getResult().child(MyID).hasChild("token")&&MyToken.equals("no Token")){
+                                    MyToken = task.getResult().child(MyID).child("token").getValue().toString();
+                                    groupRef.child(datetime).child("members").child(MyID).child("WantPush").setValue("1");
+                                    On_MakeNotification(MyToken, gName, "새로운 그룹이 생성되었습니다.", "TeamOne");
                                 }
                             }
                         });
                     }
-
-
                     groupRef.child(datetime).child("members").child(MyID).child("email").setValue(MyID); /*그룹을 만든 사람 맴버에 추가*/
                     groupRef.child(datetime).child("GroupName").child("name").setValue(gName);
+                    MyToken = "no Token";
                     Intent intent = new Intent(getApplicationContext(), FragmentGroupList.class);
                     intent.putExtra("groupName", gName);
                     intent.putExtra("groupCode", datetime);

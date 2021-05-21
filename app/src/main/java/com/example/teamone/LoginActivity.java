@@ -106,23 +106,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                                 }
                                             });
-                                            FirebaseMessaging.getInstance().getToken()
-                                                    .addOnCompleteListener(new OnCompleteListener<String>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<String> task) {
-                                                            if (!task.isSuccessful()) {
-                                                                Log.w("LoginActivity", "Fetching FCM registration token failed", task.getException());
-                                                                return;
-                                                            }
-                                                            // Get new FCM registration token
-                                                            String token = task.getResult();
-                                                            DatabaseReference usersToken_ref =
-                                                                    FirebaseDatabase.getInstance().getReference("users").child(DBEmail).child("token");
-                                                            usersToken_ref.setValue(token);
-                                                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
-
-                                                        }
-                                                    });
+                                            Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
                                             Intent in = new Intent(LoginActivity.this, FirstAuthActivity.class); // 첫 로그인시에 데이터 꼬이는 현상제거
                                             startActivity(in);
                                         } else {

@@ -24,6 +24,7 @@ exports.sendFCM = functions.https.onCall((data, context) => {
     notification: {
       title: title,
       body: body,
+      tag:"notification-1",
       "android_channel_id":android_channel_id
     },
     data :{
