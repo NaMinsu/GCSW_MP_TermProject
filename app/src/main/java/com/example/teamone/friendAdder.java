@@ -28,7 +28,7 @@ public class friendAdder extends Activity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference friendshipRef = database.getReference("friendship");
     DatabaseReference userRef = database.getReference("users");
-    protected boolean isInDB;
+    boolean isInDB = false;
     String fName;
 
     @Override
@@ -67,26 +67,31 @@ public class friendAdder extends Activity {
                                 Toast.makeText(friendAdder.this, "존재하지 않는 계정입니다", Toast.LENGTH_SHORT).show();
                                 setResult(RESULT_CANCELED);
                             } else {
-                                fName = snapshot.child("nickname").getValue().toString();
-                                friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DataSnapshot ds = task.getResult();
-                                            if (ds.hasChild(fmail))
-                                                isInDB = true;
-                                        }
-                                    }
-                                });
-                                if (!isInDB) {
-                                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("email").setValue(fmail.replace("_", "."));
-                                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("name").setValue(fName);
-                                    Intent intent = new Intent(getApplicationContext(), FragmentFriendList.class);
-                                    intent.putExtra("friendName", fName);
-                                    setResult(RESULT_OK, intent);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "이미 등록된 친구입니다.", Toast.LENGTH_SHORT).show();
+                                if (snapshot.getKey().equals(FirstAuthActivity.getMyID())) {
+                                    Toast.makeText(friendAdder.this, "본인 계정은 친구로 등록할 수 없습니다.", Toast.LENGTH_SHORT).show();
                                     setResult(RESULT_CANCELED);
+                                } else {
+                                    fName = snapshot.child("nickname").getValue().toString();
+                                    friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DataSnapshot ds = task.getResult();
+                                                if (ds.hasChild(fmail))
+                                                    isInDB = !isInDB;
+                                                if (!isInDB) {
+                                                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("email").setValue(fmail.replace("_", "."));
+                                                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("name").setValue(fName);
+                                                    Intent intent = new Intent(getApplicationContext(), FragmentFriendList.class);
+                                                    intent.putExtra("friendName", fName);
+                                                    setResult(RESULT_OK, intent);
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "이미 등록된 친구입니다.", Toast.LENGTH_SHORT).show();
+                                                    setResult(RESULT_CANCELED);
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
                                 finish();
                             }
