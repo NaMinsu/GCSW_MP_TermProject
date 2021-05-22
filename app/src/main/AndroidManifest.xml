@@ -37,7 +37,7 @@
         <activity android:name=".groupAdder" android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".friendAdder" android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".friendInfo" android:theme="@android:style/Theme.Dialog"></activity>
-        <activity android:name = ".groupMemberAdder" ></activity>
+        <activity android:name = ".groupMemberAdder" android:theme="@android:style/Theme.Dialog"></activity>
         <activity android:name=".groupDeleter" android:theme="@android:style/Theme.Dialog"></activity>
         <activity
             android:name=".addSchedule"

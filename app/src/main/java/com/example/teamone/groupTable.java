@@ -71,9 +71,6 @@ public class groupTable extends AppCompatActivity {
             }
         });
 
-
-
-
         Button loading = (Button)findViewById(R.id.loadTable);
         loading.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +95,7 @@ public class groupTable extends AppCompatActivity {
                                 });//한사람의 스케쥴 한개 읽기
                             }
                         }
-                    });//한 사람씩 스케쥴읽기 전체 반복
+                    }   );//한 사람씩 스케쥴읽기 전체 반복
                 }
             }
         });
