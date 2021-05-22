@@ -3,6 +3,7 @@ package com.example.teamone;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -14,14 +15,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class groupMemberAdder extends AppCompatActivity {
 
@@ -35,18 +43,18 @@ public class groupMemberAdder extends AppCompatActivity {
     DatabaseReference groupRef = database.getReference("grouplist");
     DatabaseReference friendshipRef = database.getReference("friendship");
     DatabaseReference UsersGroupRef = database.getReference("UsersGroupInfo");
+    private FirebaseFunctions mFunctions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        mFunctions = FirebaseFunctions.getInstance();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_groupmemberadder);
         View selfLayout = findViewById(R.id.gmAdder);
 
         Intent intent = getIntent();
-        String RoomName = intent.getStringExtra("name"); //방이름
+        String GroupName = intent.getStringExtra("name"); //방이름
         String timeCode = intent.getStringExtra("code");
 
         friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -100,8 +108,12 @@ public class groupMemberAdder extends AppCompatActivity {
                                 for (String getEmail : Friend_DBEmails) {
                                     if (task.getResult().hasChild(getEmail)) { //<-혹시나 모르는 중간에 탈퇴하는 회원을 위해 한번 더 검사
                                         if (box.isChecked() && task.getResult().child(getEmail).child("nickname").getValue().toString().equals(fname)) {
-                                            UsersGroupRef.child(getEmail).child(timeCode).child("name").setValue(RoomName); /*친구의 그룹리스트에 해당그룹 추가 (친구화면에서 보이게)*/
+                                            UsersGroupRef.child(getEmail).child(timeCode).child("name").setValue(GroupName); /*친구의 그룹리스트에 해당그룹 추가 (친구화면에서 보이게)*/
                                             groupRef.child(timeCode).child("members").child(getEmail).child("email").setValue(getEmail); /*맴버 리스트에 추가 (맴버들의 데이터 접근이 쉽게 DBEmail 로 */
+                                            if (task.getResult().child(getEmail).hasChild("token")) {
+                                                String token = task.getResult().child(getEmail).child("token").getValue().toString();
+                                                On_MakeNotification(token, GroupName, "새로운 그룹에 초대되었습니다.", "TeamOne");
+                                            }
                                         }
                                     }
                                 }
@@ -122,5 +134,50 @@ public class groupMemberAdder extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    public Task<String> sendFCM(String regToken, String title, String message, String SubTitle) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", regToken);
+        data.put("text", message);
+        data.put("title", title); // 그룹명
+        data.put("subtext", SubTitle);
+        data.put("android_channel_id", "Group");
+
+        return mFunctions
+                .getHttpsCallable("sendFCM")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        String result = (String) Objects.requireNonNull(task.getResult()).getData().toString();
+                        Log.d("SendPush", "then: " + result);
+                        return result;
+                    }
+                });
+    }
+
+    private void On_MakeNotification(String token, String Title, String text, String SubTitle) {
+        sendFCM(token, Title, text, SubTitle)
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Exception e = task.getException();
+
+                            if (e instanceof FirebaseFunctionsException) {
+                                FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                FirebaseFunctionsException.Code code = ffe.getCode();
+                                Object details = ffe.getDetails();
+                            }
+
+                            Log.w("SendPush", "makeNotification:onFailure", e);
+                            return;
+                        }
+
+                        String result = task.getResult();
+
+                    }
+                });
+
     }
 }

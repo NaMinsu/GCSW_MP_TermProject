@@ -16,6 +16,7 @@ import android.view.Window;
 import android.app.Activity;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -96,8 +97,15 @@ public class deletePlan extends Activity {
     }
 
 
+    /*
+    Resume할 때 plan을 읽어와서 올리기
+    (인터넷 연결되어있다면)
+     */
     public void onResume() {
         super.onResume();
+        if(connectStatus.getConnectivityStatus(getApplicationContext())!=3) {
+
+            database.goOnline();
 
         adapter.remove();
         adapter.notifyDataSetChanged();
@@ -115,6 +123,10 @@ public class deletePlan extends Activity {
                 findNoPlan();
             }
         });
+        }else{
+            database.goOffline();
+            Toast.makeText(getApplicationContext(),"인터넷이 연결되지 않았습니다",Toast.LENGTH_SHORT).show();
+        }
     }
 
 

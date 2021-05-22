@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.app.Activity;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -99,28 +101,35 @@ public class deleteSchedule extends Activity {
 
     public void onResume() {
         super.onResume();
+        if(connectStatus.getConnectivityStatus(getApplicationContext())!=3) {
 
-        adapter.remove();
-        adapter.notifyDataSetChanged();
+            database.goOnline();
 
-        scheduleRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onComplete(Task<DataSnapshot> task) {
+            adapter.remove();
+            adapter.notifyDataSetChanged();
 
-                for (DataSnapshot schedule : task.getResult().getChildren()) {
-                    title = schedule.child("title").getValue().toString();
-                    startDate = schedule.child("startDate").getValue().toString();
-                    endDate = schedule.child("endDate").getValue().toString();
-                    date = startDate + " ~ " + endDate;
-                    time = schedule.child("time").getValue().toString();
-                    weekday = getWeekday(Integer.parseInt(schedule.child("weekday").getValue().toString()));
-                    getData(title, date, time, weekday);
+            scheduleRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onComplete(Task<DataSnapshot> task) {
+
+                    for (DataSnapshot schedule : task.getResult().getChildren()) {
+                        title = schedule.child("title").getValue().toString();
+                        startDate = schedule.child("startDate").getValue().toString();
+                        endDate = schedule.child("endDate").getValue().toString();
+                        date = startDate + " ~ " + endDate;
+                        time = schedule.child("time").getValue().toString();
+                        weekday = getWeekday(Integer.parseInt(schedule.child("weekday").getValue().toString()));
+                        getData(title, date, time, weekday);
+                    }
+                    findNoSchedule();
                 }
-                findNoSchedule();
-            }
 
-        });
+            });
+        }else{
+            database.goOffline();
+            Toast.makeText(getApplicationContext(),"인터넷이 연결되지 않았습니다",Toast.LENGTH_SHORT).show();
+        }
 
     }
 

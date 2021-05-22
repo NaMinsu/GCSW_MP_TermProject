@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -44,57 +45,61 @@ public class friendAdder extends Activity {
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String fmail = fmailTxt.getText().toString().replace(".", "_");
-
-                if (fmail.equals(MY_EMAIL)) {
-                    Toast.makeText(friendAdder.this, "당신의 계정입니다", Toast.LENGTH_SHORT).show();
+                /*
+                메일이 그냥 띄어쓰기만 있다거나 비어있으면 null point 에러가 발생해서 해당 코드를 삽입했습니다.
+                문제가 발생하면 if~else{삭제하시고 98줄에 있는 } 삭제해주시면 됩니다
+                 */
+                if (fmail.trim().equals("")) {
+                    Toast.makeText(friendAdder.this, "계정을 입력해주세요", Toast.LENGTH_SHORT).show();
                     setResult(RESULT_CANCELED);
-                }
+                } else {
+                    if (fmail.equals(MY_EMAIL)) {
+                        Toast.makeText(friendAdder.this, "당신의 계정입니다", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_CANCELED);
+                    }
 
-                userRef.child(fmail).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (null == snapshot.getValue()) {
-                            Toast.makeText(friendAdder.this, "존재하지 않는 계정입니다", Toast.LENGTH_SHORT).show();
-                            setResult(RESULT_CANCELED);
-                        }
-                        else {
-                            fName = snapshot.child("nickname").getValue().toString();
-                            friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DataSnapshot ds = task.getResult();
-                                        if (ds.hasChild(fmail))
-                                            isInDB = true;
-                                    }
-                                }
-                            });
-
-                            if (!isInDB) {
-                                friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("email").setValue(fmail.replace("_", "."));
-                                friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("name").setValue(fName);
-                                Intent intent = new Intent(getApplicationContext(), FragmentFriendList.class);
-                                intent.putExtra("friendName", fName);
-                                setResult(RESULT_OK, intent);
-                            } else {
-                                Toast.makeText(getApplicationContext(), "이미 등록된 친구입니다.", Toast.LENGTH_SHORT).show();
+                    userRef.child(fmail).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (null == snapshot.getValue()) {
+                                Toast.makeText(friendAdder.this, "존재하지 않는 계정입니다", Toast.LENGTH_SHORT).show();
                                 setResult(RESULT_CANCELED);
+                            } else {
+                                fName = snapshot.child("nickname").getValue().toString();
+                                friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DataSnapshot ds = task.getResult();
+                                            if (ds.hasChild(fmail))
+                                                isInDB = true;
+                                        }
+                                    }
+                                });
+                                if (!isInDB) {
+                                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("email").setValue(fmail.replace("_", "."));
+                                    friendshipRef.child(FirstAuthActivity.getMyID()).child(fmail).child("name").setValue(fName);
+                                    Intent intent = new Intent(getApplicationContext(), FragmentFriendList.class);
+                                    intent.putExtra("friendName", fName);
+                                    setResult(RESULT_OK, intent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "이미 등록된 친구입니다.", Toast.LENGTH_SHORT).show();
+                                    setResult(RESULT_CANCELED);
+                                }
+                                finish();
                             }
-
-                            finish();
                         }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+                }
             }
         });
 
-        cancelB = (Button)selfLayout.findViewById(R.id.btnCancel);
+        cancelB = (Button) selfLayout.findViewById(R.id.btnCancel);
         cancelB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

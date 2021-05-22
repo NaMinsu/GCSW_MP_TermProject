@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.rey.material.widget.ProgressView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,11 +36,11 @@ public class changeInfo extends AppCompatActivity {
     private StorageReference mStorageRef; // 프로필 사진 등록을 위한 mStorageRef
     FirebaseDatabase database;
     int REQUEST_IMAGE_CODE=1001; //이미지 변경용 코드입니다
-    Button btnNickname,btnSchool,btnChangeImage,btnBack;  // 이미지 변경용 임시 버튼을 만들었습니다
+    Button btnNickname,btnSchool,btnBack;  // 이미지 변경용 임시 버튼을 만들었습니다
+    ImageView ChangeImage;
     String Nickname,School;
-    EditText nickname,school;
-    TextView Image_info; //우선 업로드 정보를 임시로 text 로 남겨놓았습니다
-
+    EditText etNickname,etSchool;
+    ProgressView Progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +48,35 @@ public class changeInfo extends AppCompatActivity {
         View selfLayout = (View) findViewById(R.id.ciLayout);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
-        Image_info = (TextView)selfLayout.findViewById(R.id.Image_info);
-        nickname = (EditText)selfLayout.findViewById(R.id.nickValue);
-        school = (EditText)selfLayout.findViewById(R.id.schoolValue);
-
+        etNickname = (EditText)selfLayout.findViewById(R.id.nickValue);
+        etSchool = (EditText)selfLayout.findViewById(R.id.schoolValue);
+        Progress = (ProgressView) selfLayout.findViewById(R.id.progress_circular);
         SharedPreferences sf = getSharedPreferences("Users", MODE_PRIVATE);
         String MY_EMAIL=sf.getString("Email","");
         String[] emailID = MY_EMAIL.split("\\.");
         String DBEmail = emailID[0]+"_"+emailID[1];
         DatabaseReference myRef = database.getReference("users").child(DBEmail);
+        Intent Info_intent = getIntent();
+        String before_nick = Info_intent.getStringExtra("nickname");
+        String before_school = Info_intent.getStringExtra("school");
+        etNickname.setText(before_nick);
+        etSchool.setText(before_school);
+
+        ChangeImage = (ImageView) selfLayout.findViewById(R.id.btn_Change_Image);
+        String MYProfile=sf.getString ("profile_image","");
+        Glide.with(this)
+                .load(MYProfile)
+                .override(200,200)
+                .circleCrop()
+                .into(ChangeImage);
+
+        ChangeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(in, REQUEST_IMAGE_CODE);
+            }
+        });
 
         btnBack = (Button)selfLayout.findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -70,34 +93,27 @@ public class changeInfo extends AppCompatActivity {
         btnNickname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Nickname = String.valueOf (nickname.getText());
+                Nickname = String.valueOf (etNickname.getText());
                 myRef.child("nickname").setValue(Nickname);
-                nickname.setText("");
+                etNickname.setText("");
                 Toast.makeText(getApplicationContext(),"닉네임이 변경되었습니다!",Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        School = String.valueOf(school.getText());
+        School = String.valueOf(etSchool.getText());
         btnSchool = (Button)selfLayout.findViewById(R.id.btnSchoolChange);
         btnSchool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                School = String.valueOf (school.getText());
+                School = String.valueOf (etSchool.getText());
                 myRef.child("school").setValue(School);
-                school.setText("");
+                etSchool.setText("");
                 Toast.makeText(getApplicationContext(),"학교가 변경되었습니다!",Toast.LENGTH_SHORT).show();
             }
         });
-        btnChangeImage = (Button)selfLayout.findViewById(R.id.btn_Change_Image);
-        btnChangeImage.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(in, REQUEST_IMAGE_CODE);
-            }
-        });
+
 
     }
 
@@ -109,6 +125,7 @@ public class changeInfo extends AppCompatActivity {
         String MY_EMAIL=sf.getString("Email",""); //SharedPreferences 에서 이메일을 가져오는것
         StorageReference profile_Ref = mStorageRef.child("users");
         if(requestCode==REQUEST_IMAGE_CODE && null != data){
+            Progress.start();
             Uri image =data.getData();
             String[] emailID = MY_EMAIL.split("\\.");
             String DBEmail = emailID[0]+"_"+emailID[1];
@@ -132,14 +149,19 @@ public class changeInfo extends AppCompatActivity {
                                             myRef.child("profile_image").setValue(stUri_Image); //업로드에성공하면 이미지 주소를 받아 DB에 찍어준다
                                             editor.putString("profile_image",stUri_Image);
                                             editor.commit(); //유저의 기기 sf 에도 저장시켜준다
+                                            Progress.stop();
 
-                                            Image_info.setText("업로드 완료");
-
+                                            Glide.with(getApplicationContext())
+                                                    .load(stUri_Image)
+                                                    .override(170,170)
+                                                    .circleCrop()
+                                                    .into(ChangeImage);
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
                                       Log.d(TAG, "다운받기는 실패".toString());
+                                       Progress.stop();
                                 }
                             });
                         }
@@ -147,8 +169,10 @@ public class changeInfo extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
                      Log.d(TAG, "올리기 실패".toString());
+                    Progress.stop();
                 }
             });
+
         }
     }
 }

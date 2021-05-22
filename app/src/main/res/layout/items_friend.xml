@@ -8,6 +8,12 @@
         android:id="@+id/friendName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24dp" />
+        android:textSize="24dp"
+        android:background="@drawable/textview_stroke"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:padding="3dp" />
+
 
 </LinearLayout>
