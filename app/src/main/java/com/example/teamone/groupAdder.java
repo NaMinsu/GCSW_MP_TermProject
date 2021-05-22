@@ -140,6 +140,7 @@ public class groupAdder extends Activity {
                     }
                     groupRef.child(datetime).child("members").child(MyID).child("email").setValue(MyID); /*그룹을 만든 사람 맴버에 추가*/
                     groupRef.child(datetime).child("GroupName").child("name").setValue(gName);
+                    groupRef.child(datetime).child("GroupSchedule").child("schedule").setValue("0");
                     MyToken = "no Token";
                     Intent intent = new Intent(getApplicationContext(), FragmentGroupList.class);
                     intent.putExtra("groupName", gName);

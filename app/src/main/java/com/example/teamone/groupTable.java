@@ -57,6 +57,20 @@ public class groupTable extends AppCompatActivity {
         name = intent.getStringExtra("name");
         groupCode = intent.getStringExtra("code");
 
+        groupRef.child(groupCode).child("GroupSchedule").child("schedule").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+                if(!task.getResult().getValue().toString().equals("0")){
+                    String s = task.getResult().getValue().toString();
+                    String[] fortable = s.split("!/");
+                    String[] starttime = fortable[2].split(":");
+                    String[] Endtime = fortable[3].split(":");
+                    addNew(Integer.parseInt(fortable[0]),fortable[1],"",new Time(Integer.parseInt(starttime[0]),Integer.parseInt(starttime[1])),new Time(Integer.parseInt(Endtime[0]),Integer.parseInt(Endtime[1])));
+                }
+
+            }
+        });
+
         groupRef.child(groupCode).child("members").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
@@ -107,17 +121,27 @@ public class groupTable extends AppCompatActivity {
         calculating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(timetable.getAllSchedulesInStickers() != null) {
-                    ArrayList<Schedule> forCalculating = new ArrayList<>();
-                    forCalculating = timetable.getAllSchedulesInStickers();
-                    Schedule[] baseSchedule = new Schedule[forCalculating.size()];
-                    int i =0;
-                    for(Schedule s:forCalculating)
-                        baseSchedule[i++]=s;
-                    Schedule createTime = new Schedule();
-                    if(calculate(baseSchedule,createTime,300))
-                        addNew(createTime.getDay(),"",name+"'s meeting",createTime.getStartTime(),createTime.getEndTime());
-                }
+                groupRef.child(groupCode).child("GroupSchedule").child("schedule").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+                        if(!task.getResult().getValue().toString().equals("0")){
+                            Toast.makeText(getApplicationContext(),"이미 그룹 미팅시간이 잡혀있습니다.",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            ArrayList<Schedule> forCalculating = new ArrayList<>();
+                            forCalculating = timetable.getAllSchedulesInStickers();
+                            Schedule[] baseSchedule = new Schedule[forCalculating.size()];
+                            int i =0;
+                            for(Schedule s:forCalculating)
+                                baseSchedule[i++]=s;
+                            Schedule createTime = new Schedule();
+                            if(calculate(baseSchedule,createTime,300)) {
+                                addNew(createTime.getDay(), name + "'s meeting", "", createTime.getStartTime(), createTime.getEndTime());
+                                groupRef.child(groupCode).child("GroupSchedule").child("schedule").setValue(createTime.getDay()+"!/"+name + "'s meeting"+"!/"+createTime.getStartTime().getHour()+":"+createTime.getStartTime().getMinute()+"!/"+createTime.getEndTime().getHour()+":"+createTime.getEndTime().getMinute());
+                            }
+                        }
+                    }
+                });
 
             }
         });
@@ -147,6 +171,20 @@ public class groupTable extends AppCompatActivity {
     public void reset(){
         members = new ArrayList<>();
         timetable.removeAll();
+
+        groupRef.child(groupCode).child("GroupSchedule").child("schedule").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+                if(!task.getResult().getValue().toString().equals("0")){
+                    String s = task.getResult().getValue().toString();
+                    String[] fortable = s.split("!/");
+                    String[] starttime = fortable[2].split(":");
+                    String[] Endtime = fortable[3].split(":");
+                    addNew(Integer.parseInt(fortable[0]),fortable[1],"",new Time(Integer.parseInt(starttime[0]),Integer.parseInt(starttime[1])),new Time(Integer.parseInt(Endtime[0]),Integer.parseInt(Endtime[1])));
+                }
+
+            }
+        });
 
         groupRef.child(groupCode).child("members").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
