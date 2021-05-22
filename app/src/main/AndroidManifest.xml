@@ -55,7 +55,7 @@
         <activity android:name=".groupAdder" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity android:name=".friendAdder" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity android:name=".friendInfo" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".groupMemberAdder" />
+        <activity android:name=".groupMemberAdder"/>
         <activity android:name=".groupDeleter" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".addSchedule"

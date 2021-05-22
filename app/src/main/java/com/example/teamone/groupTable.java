@@ -62,6 +62,25 @@ public class groupTable extends AppCompatActivity {
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for(DataSnapshot member : task.getResult().getChildren()){
                     members.add(member.getKey());
+                    scheduleRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                            for(DataSnapshot schedules : task.getResult().getChildren()){
+                                String a = schedules.getKey();
+                                scheduleRef.child(member.getKey()).child(a).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+                                        String weekday = task.getResult().child("weekday").getValue().toString();
+                                        String Time = task.getResult().child("time").getValue().toString();
+                                        String[] times = Time.split("~");
+                                        String[] startTime=times[0].split(":");
+                                        String[] endTime = times[1].split(":");
+                                        addNew(Integer.parseInt(weekday),"","",new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])),new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
+                                    }
+                                });//한사람의 스케쥴 한개 읽기
+                            }
+                        }
+                    }   );
                 }
             }
         });
@@ -75,41 +94,30 @@ public class groupTable extends AppCompatActivity {
             }
         });
 
-        Button loading = (Button)findViewById(R.id.loadTable);
-        loading.setOnClickListener(new View.OnClickListener() {
+
+        Button resetB = (Button)findViewById(R.id.reset);
+        resetB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //이 버튼 클릭시 전체 데이터 지우고, 새로 만든다는 경고문구 띄우고 전체 삭제하고 그룹원들 데이터 읽어오기
-                for(String s:members) {
-                    scheduleRef.child(s).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                            for(DataSnapshot schedules : task.getResult().getChildren()){
-                                String a = schedules.getKey();
-                                scheduleRef.child(s).child(a).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
-                                        String weekday = task.getResult().child("weekday").getValue().toString();
-                                        String Time = task.getResult().child("time").getValue().toString();
-                                        String[] times = Time.split("~");
-                                        String[] startTime=times[0].split(":");
-                                        String[] endTime = times[1].split(":");
-                                        addNew(Integer.parseInt(weekday),"","",new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])),new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
-                                        }
-                                });//한사람의 스케쥴 한개 읽기
-                            }
-                        }
-                    }   );//한 사람씩 스케쥴읽기 전체 반복
-                }
+                reset();
             }
         });
-
 
         Button calculating = (Button)findViewById(R.id.calculate);
         calculating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(timetable.getAllSchedulesInStickers() != null) {
+                    ArrayList<Schedule> forCalculating = new ArrayList<>();
+                    forCalculating = timetable.getAllSchedulesInStickers();
+                    Schedule[] baseSchedule = new Schedule[forCalculating.size()];
+                    int i =0;
+                    for(Schedule s:forCalculating)
+                        baseSchedule[i++]=s;
+                    Schedule createTime = new Schedule();
+                    if(calculate(baseSchedule,createTime,300))
+                        addNew(createTime.getDay(),"",name+"'s meeting",createTime.getStartTime(),createTime.getEndTime());
+                }
 
             }
         });
@@ -136,6 +144,40 @@ public class groupTable extends AppCompatActivity {
 
     }
 
+    public void reset(){
+        members = new ArrayList<>();
+        timetable.removeAll();
+
+        groupRef.child(groupCode).child("members").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                for(DataSnapshot member : task.getResult().getChildren()){
+                    members.add(member.getKey());
+                    scheduleRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                            for(DataSnapshot schedules : task.getResult().getChildren()){
+                                String a = schedules.getKey();
+                                scheduleRef.child(member.getKey()).child(a).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+                                        String weekday = task.getResult().child("weekday").getValue().toString();
+                                        String Time = task.getResult().child("time").getValue().toString();
+                                        String[] times = Time.split("~");
+                                        String[] startTime=times[0].split(":");
+                                        String[] endTime = times[1].split(":");
+                                        addNew(Integer.parseInt(weekday),"","",new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])),new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
+                                    }
+                                });//한사람의 스케쥴 한개 읽기
+                            }
+                        }
+                    }   );
+                }
+            }
+        });
+    }
+
+
     protected void addNew(int day, String title, String place, Time startTime, Time endTime){
         ArrayList<Schedule> schedules = new ArrayList<Schedule>();
         Schedule schedule = new Schedule();
@@ -149,7 +191,7 @@ public class groupTable extends AppCompatActivity {
         timetable.add(schedules);
     }
 
-    public void calculate(Schedule[] groupSchedule,String code) {
+    public boolean calculate(Schedule[] groupSchedule, Schedule newSchedule, int length) {
 
         int index = groupSchedule.length;
 
@@ -199,14 +241,18 @@ public class groupTable extends AppCompatActivity {
                 merged[i][j] = new Schedule();
             }
             if (indicies[i] != 0) {
-                Merging(day[i], merged[i],indicies[i],code);
-                //
+                System.out.println(i);
+                //요일별로 함수 실행, 그리고 여기서 available이 true가 나오면 true return하기
+                if (Merging(day[i], merged[i], newSchedule, indicies[i], length,i)) {
+                    return true;
+                }
             }
         }
+        return false; //모든요일에서 false가 return되면 return false
     }
 
 
-    public void Merging(Schedule[] days,Schedule[] merging, int index,String code) {
+    public boolean Merging(Schedule[] days,Schedule[] merging,Schedule newschedule, int index,int length,int day) {
 
         Schedule temp = new Schedule();
         int done=0;
@@ -269,12 +315,86 @@ public class groupTable extends AppCompatActivity {
             count++; //한바퀴 다 돌고 아직 모든 array의 value들이 안합쳐졌다면 나머지도 합쳐야함.
         }
 
-        int size = merging.length;
-        for(int i =0;i<size;i++){
-            //이부분에서 grouplist - groupcode 안의 시간표에 양식에 맞게 값 채우기
-        }
+        return available(merging,newschedule,count,length,day);
 
     }//merging function end
 
 
+
+
+
+    //합친 것을 바탕으로 boolean함수로 가능한지 확인하기
+    //length 받은 것을 바탕으로 merge완료 된 각 날짜의 스케줄의 끝나는 시간과 시작시간을 빼면서 length보다 작은 값 나오는 것들 다 찾기.
+    //만약 여기서 true가 나온다면 전체 함수 끝
+    public boolean available(Schedule[] days, Schedule sample, int index,int length,int day) {
+
+        sample.setDay(day);
+
+        if (index == 1) { // 한개로 전체가 merging된 경우 시작시간 - 9시 or 10시 - 끝난시간 해서 이게 length 안이면 return true
+
+            if (days[0].getStartTime().getHour() * 100 + days[0].getStartTime().getMinute() - 900 >= length) {
+                sample.setStartTime(new Time(9, 0));
+                int hour = length / 100;
+                int minute = length % 100;
+                sample.setEndTime(new Time(sample.getStartTime().getHour() + hour, sample.getStartTime().getMinute() + minute));
+                return true;
+            } else if (2200 - days[0].getEndTime().getHour() * 100 + days[0].getEndTime().getMinute() >= length) {
+                sample.setStartTime(days[0].getEndTime());
+                int hour = length / 100;
+                int minute = length % 100;
+                sample.setEndTime(new Time(sample.getStartTime().getHour() + hour, sample.getStartTime().getMinute() + minute));
+                return true;
+            } else return false;
+        } else if (index > 1) {   // index가 2개 이상이면 index 0 의 시작시간 - 9시 해서 length 안쪽이면 return true 아닐 경우  (index i+1 시작 시간) - (index i 끝시간) 일 경우 return true, 아니면 10시(default 마지막 시간) - (index i 끝시간) 이면 return true
+
+
+            if (days[0].getStartTime().getHour() * 100 + days[0].getStartTime().getMinute() - 900 >= length) {
+                sample.setStartTime(new Time(9, 0));
+                int hour = length / 100;
+                int minute = length % 100;
+                sample.setEndTime(new Time(sample.getStartTime().getHour() + hour, sample.getStartTime().getMinute() + minute));
+                return true;
+            }
+
+            for (int i = 0; i < index - 1; i++) {
+
+
+                int hour = days[i + 1].getStartTime().getHour() - days[i].getEndTime().getHour();
+                int minute = days[i + 1].getStartTime().getMinute() - days[i].getEndTime().getMinute();
+
+                if (minute < 0) {
+                    hour--;
+                    minute = 60 + minute;
+                }//60분이기 때문에 그에 맞춰서 다시 계산해주기
+
+
+                if (hour * 100 + minute >= length) {
+
+                    sample.setStartTime(new Time(days[i].getEndTime().getHour(), days[i].getEndTime().getMinute()));
+
+                    int endMinute = days[i].getEndTime().getMinute() + length % 100;
+                    int endHour = days[i].getEndTime().getHour() + length / 100;
+                    if (endMinute >= 60) {
+                        endHour++;
+                        endMinute = endMinute - 60;
+                    }
+
+                    sample.setEndTime(new Time(endHour, endMinute));
+
+                    return true;
+
+                }
+            }
+
+            if (2200 - days[index - 1].getEndTime().getHour() * 100 + days[index - 1].getEndTime().getMinute() >= length) {
+                sample.setStartTime(days[index - 1].getEndTime());
+                int hour = length / 100;
+                int minute = length % 100;
+                sample.setEndTime(new Time(sample.getStartTime().getHour() + hour, sample.getStartTime().getMinute() + minute));
+                return true;
+            }
+
+        }
+        return false;
+    }
 }

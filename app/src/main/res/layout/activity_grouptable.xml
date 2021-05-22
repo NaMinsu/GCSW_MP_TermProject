@@ -32,8 +32,8 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text = "시간표 불러오기"
-                android:id="@+id/loadTable"
+                android:text = "새로고침"
+                android:id="@+id/reset"
                 />
 
             <Button
