@@ -29,4 +29,5 @@ public class Sticker implements Serializable {
     public ArrayList<Schedule> getSchedules() {
         return schedules;
     }
+
 }

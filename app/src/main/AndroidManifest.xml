@@ -12,18 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamOne">
+        <activity android:name=".calculateTime"></activity>
+
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="Group"/>
+            android:value="Group" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_baseline_circle_notifications_24" />
@@ -34,8 +39,8 @@
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
 
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".FirstAuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,11 +57,19 @@
         <activity android:name=".changeInfo" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".groupTable" />
-        <activity android:name=".groupAdder" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".friendAdder" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".friendInfo" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".groupMemberAdder"/>
-        <activity android:name=".groupDeleter" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name=".groupAdder"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name=".friendAdder"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name=".friendInfo"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".groupMemberAdder" />
+        <activity
+            android:name=".groupDeleter"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".addSchedule"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />

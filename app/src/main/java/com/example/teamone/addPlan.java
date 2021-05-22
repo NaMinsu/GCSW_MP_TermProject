@@ -231,7 +231,6 @@ public class addPlan extends Activity {
                         LocalTime start = LocalTime.of(startHour,startMinute);
                         LocalTime end = LocalTime.of(endHour,endMinute);
 
-
                         /*
                         겹치는 일정이 있는지 파악하기 위해 데이터베이스에서 일정을 모두 읽어옵니다.
                         하나라도 겹치는게 있다면 해당 일정은 데이터베이스로 들어가지 못하게 합니다.

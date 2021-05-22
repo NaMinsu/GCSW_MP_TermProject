@@ -75,6 +75,8 @@ public class FragmentSchedule extends Fragment {
             }
         });
 
+
+
         /*
         버튼 설정
          */
@@ -142,9 +144,11 @@ public class FragmentSchedule extends Fragment {
         schedule.setStartTime(startTime); // sets the beginning of class time (hour,minute)
         schedule.setEndTime(endTime); // sets the end of class time (hour,minute)
         schedule.setDay(day);
+
         schedules.add(schedule);
 
         timetable.add(schedules);
+
     }
 
     private void init(View v){
@@ -193,6 +197,8 @@ public class FragmentSchedule extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onResume(){
         super.onResume();
+        timetable.setHeaderHighlightDefault();
+        timetable.setHeaderHighlight(getHeaderIndex(LocalDate.now().getDayOfWeek().toString()));
         /*
         LTE와 WIFI 둘 중 하나라도 연결되어있다면
          */
@@ -201,22 +207,19 @@ public class FragmentSchedule extends Fragment {
             adapter.remove();
             adapter.notifyDataSetChanged();
             timetable.removeAll();
-
             database.goOnline();
 
             LocalDate nowDate = LocalDate.now();
+            LocalDate nextDate = LocalDate.now().plusDays(6);
             LocalDate sunday = nowDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
             LocalDate satday = nowDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
-
-            Log.d("hello", FirstAuthActivity.getMyID()+"아이디");
 
             planRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onComplete(Task<DataSnapshot> task) {
                     for (DataSnapshot plan : task.getResult().getChildren()) {
-
-                        Log.d("hello", "플랜");
+                        Log.d("hello","플랜");
 
                         title = plan.child("title").getValue().toString();
                         date = plan.child("date").getValue().toString();
@@ -231,9 +234,9 @@ public class FragmentSchedule extends Fragment {
                         LocalDate tmpDate = LocalDate.of(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
                         weekday = getWeekdayIndex(tmpDate.getDayOfWeek().toString());
 
-                        if (getDateDif(tmpDate, sunday) < 0) {
+                        if (getDateDif(tmpDate, nowDate) < 0) {
                             deletePlan(title, dateSplit[0] + dateSplit[1] + dateSplit[2], time);
-                        } else if (getDateDif(tmpDate, sunday) > 0 && getDateDif(tmpDate, satday) < 0) {
+                        } else if (getDateDif(tmpDate, nowDate) > 0 && getDateDif(tmpDate, nextDate) < 0) {
                             addNew(weekday, title, "", new Time(startHour, startMinute), new Time(endHour, endMinute));
                             getData(title, date, time);
                         } else {
@@ -249,8 +252,7 @@ public class FragmentSchedule extends Fragment {
                 @Override
                 public void onComplete(Task<DataSnapshot> task) {
                     for (DataSnapshot schedule : task.getResult().getChildren()) {
-
-                        Log.d("hello", "스케쥴");
+                        Log.d("hello","스케쥴");
 
                         title = schedule.child("title").getValue().toString();
                         startDate = schedule.child("startDate").getValue().toString();
@@ -267,18 +269,16 @@ public class FragmentSchedule extends Fragment {
                         String[] endDateSplit = endDate.split("/");
                         LocalDate startLocalDate = LocalDate.of(Integer.parseInt(startDateSplit[0]), Integer.parseInt(startDateSplit[1]), Integer.parseInt(startDateSplit[2]));
                         LocalDate endLocalDate = LocalDate.of(Integer.parseInt(endDateSplit[0]), Integer.parseInt(endDateSplit[1]), Integer.parseInt(endDateSplit[2]));
+                        LocalDate tmpDate = nowDate.with(TemporalAdjusters.nextOrSame(getDate(weekday)));
 
-                        if (getDateDif(nowDate, startLocalDate) >= 0 && getDateDif(nowDate, endLocalDate) <= 0) {
+                        if (getDateDif(tmpDate, startLocalDate) >= 0 && getDateDif(tmpDate, endLocalDate) <= 0) {
                             addNew(weekday, title, "", new Time(startHour, startMinute), new Time(endHour, endMinute));
-                        } else if (getDateDif(nowDate, endLocalDate) > 0) {
+                        } else if (getDateDif(tmpDate, endLocalDate) > 0) {
                             deleteSchedule(title, startDateSplit[0] + startDateSplit[1] + startDateSplit[2], endDateSplit[0] + endDateSplit[1] + endDateSplit[2], time, Integer.toString(weekday));
                         }
                     }
                 }
-
-
             });
-            Log.d("hello", "리줌 끝");
         }
         /*
         LTE와 WIFI 둘 중 하나라도 연결되어있지않다면
@@ -308,6 +308,44 @@ public class FragmentSchedule extends Fragment {
         }else{
             return 0;
         }
+    }
+    public int getHeaderIndex(String weekday){
+        if(weekday.equals("SUNDAY")){
+            return 1;
+        }else if(weekday.equals("MONDAY")){
+            return 2;
+        }else if(weekday.equals("TUESDAY")){
+            return 3;
+        }else if(weekday.equals("WEDNESDAY")){
+            return 4;
+        }else if(weekday.equals("THURSDAY")){
+            return 5;
+        }else if(weekday.equals("FRIDAY")){
+            return 6;
+        }else if(weekday.equals("SATURDAY")){
+            return 7;
+        }else{
+            return 0;
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public DayOfWeek getDate(int weekday){
+        if(weekday == 0){
+            return DayOfWeek.SUNDAY;
+        }else if(weekday == 1){
+            return DayOfWeek.MONDAY;
+        }else if(weekday == 2){
+            return DayOfWeek.TUESDAY;
+        }else if(weekday == 3){
+            return DayOfWeek.WEDNESDAY;
+        }else if(weekday == 4){
+            return DayOfWeek.THURSDAY;
+        }else if(weekday == 5){
+            return DayOfWeek.FRIDAY;
+        }else if(weekday == 6){
+            return DayOfWeek.SATURDAY;
+        }
+        return DayOfWeek.SUNDAY;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

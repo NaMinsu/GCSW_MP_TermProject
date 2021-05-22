@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -90,9 +91,9 @@ public class TimetableView extends LinearLayout {
         stickerColors = a.getResources().getStringArray(colorsId);
         startTime = a.getInt(R.styleable.TimetableView_start_time, DEFAULT_START_TIME);
         headerHighlightColor = a.getColor(R.styleable.TimetableView_header_highlight_color, getResources().getColor(R.color.default_header_highlight_color));
-        int highlightTypeValue = a.getInteger(R.styleable.TimetableView_header_highlight_type,0);
-        if(highlightTypeValue == 0) highlightMode = HighlightMode.COLOR;
-        else if(highlightTypeValue == 1) highlightMode = HighlightMode.IMAGE;
+        int highlightTypeValue = a.getInteger(R.styleable.TimetableView_header_highlight_type, 0);
+        if (highlightTypeValue == 0) highlightMode = HighlightMode.COLOR;
+        else if (highlightTypeValue == 1) highlightMode = HighlightMode.IMAGE;
         headerHighlightImageSize = a.getDimensionPixelSize(R.styleable.TimetableView_header_highlight_image_size, dp2Px(24));
         headerHighlightImage = a.getDrawable(R.styleable.TimetableView_header_highlight_image);
         a.recycle();
@@ -164,7 +165,7 @@ public class TimetableView extends LinearLayout {
             tv.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(stickerSelectedListener != null)
+                    if (stickerSelectedListener != null)
                         stickerSelectedListener.OnStickerSelected(count, schedules);
                 }
             });
@@ -228,34 +229,123 @@ public class TimetableView extends LinearLayout {
     }
 
     public void setHeaderHighlight(int idx) {
-        if(idx < 0)return;
+        if (idx < 0) return;
         TableRow row = (TableRow) tableHeader.getChildAt(0);
         View element = row.getChildAt(idx);
-        if(highlightMode == HighlightMode.COLOR) {
-            TextView tx = (TextView)element;
+        if (highlightMode == HighlightMode.COLOR) {
+            TextView tx = (TextView) element;
             tx.setTextColor(Color.parseColor("#FFFFFF"));
             tx.setBackgroundColor(headerHighlightColor);
             tx.setTypeface(null, Typeface.BOLD);
             tx.setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_HEADER_HIGHLIGHT_FONT_SIZE_DP);
-        }
-        else if(highlightMode == HighlightMode.IMAGE){
+        } else if (highlightMode == HighlightMode.IMAGE) {
             RelativeLayout outer = new RelativeLayout(context);
             outer.setLayoutParams(createTableRowParam(cellHeight));
             ImageView iv = new ImageView(context);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(headerHighlightImageSize,headerHighlightImageSize);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(headerHighlightImageSize, headerHighlightImageSize);
             params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
             iv.setLayoutParams(params);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             row.removeViewAt(idx);
             outer.addView(iv);
-            row.addView(outer,idx);
+            row.addView(outer, idx);
 
-            if(headerHighlightImage != null) {
+            if (headerHighlightImage != null) {
                 iv.setImageDrawable(headerHighlightImage);
             }
 
         }
+    }
+
+    public void setHeaderHighlightDefault() {
+        for (int idx = 0; idx <= 7; idx++) {
+            TableRow row = (TableRow) tableHeader.getChildAt(0);
+            View element = row.getChildAt(idx);
+            TextView tx = (TextView) element;
+            tx.setTextColor(getResources().getColor(R.color.colorHeaderText));
+            tx.setBackgroundColor(getResources().getColor(R.color.colorHeader));
+            tx.setTypeface(null, Typeface.NORMAL);
+            tx.setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_HEADER_FONT_SIZE_DP);
+        }
+    }
+
+    public void setTableColor() {
+        int size = stickers.size();
+        int[] orders = new int[size];
+        int i = 0;
+        for (int key : stickers.keySet()) {
+            orders[i++] = key;
+        }
+        Arrays.sort(orders);
+
+        for (i = 0; i < size; i++) {
+            for (TextView v : stickers.get(orders[i]).getView()) {
+                v.setBackgroundColor(Color.parseColor("#AAAAAA"));
+            }
+        }
+    }
+
+    public void setGroupPlanColorS(String name) {
+
+        int size = stickers.size();
+        int[] others = new int[size - 1];
+        int target;
+        int i = 0;
+        for (int key : stickers.keySet()) {
+            for (Schedule schedule : stickers.get(key).getSchedules()) {
+                others[i++] = key;
+            }
+        }
+        Arrays.sort(others);
+
+        int colorSize = stickerColors.length;
+
+        for (i = 0; i < size; i++) {
+            for (TextView v : stickers.get(others[i]).getView()) {
+                v.setBackgroundColor(Color.parseColor(stickerColors[i % (colorSize)]));
+            }
+        }
+
+    }
+
+    public void setGroupPlanColor(ArrayList<String> groupPlanName) {
+        int targetSize = groupPlanName.size();
+        int otherSize = stickers.size() - groupPlanName.size();
+        int[] target = new int[targetSize + 1];
+        int[] other = new int[otherSize + 1];
+        int i = 0, j = 0;
+        boolean correct;
+        ArrayList<Schedule> allSchedules = new ArrayList<Schedule>();
+        for (int key : stickers.keySet()) {
+            for (Schedule schedule : stickers.get(key).getSchedules()) {
+                correct = false;
+                for (String name : groupPlanName) {
+                    if (schedule.getClassTitle().equals(name)) {
+                        correct = true;
+                        break;
+                    }
+                }
+                if (correct) {
+                    target[i++] = key;
+                } else {
+                    other[j++] = key;
+                }
+            }
+        }
+        if(i!=0) {
+            for (i = 0; i < targetSize; i++) {
+                for (TextView v : stickers.get(target[i]).getView()) {
+                    v.setBackgroundColor(Color.parseColor("#FFFFaa66"));
+                }
+            }
+        }
+        for (i = 0; i < otherSize; i++) {
+            for (TextView v : stickers.get(other[i]).getView()) {
+                v.setBackgroundColor(Color.parseColor("#AAAAAA"));
+            }
+        }
+
     }
 
     private void setStickerColor() {
@@ -336,11 +426,11 @@ public class TimetableView extends LinearLayout {
         return param;
     }
 
-    private int calCellWidth(){
+    private int calCellWidth() {
         Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int cell_w = (size.x-getPaddingLeft() - getPaddingRight()- sideCellWidth) / (columnCount - 1);
+        int cell_w = (size.x - getPaddingLeft() - getPaddingRight() - sideCellWidth) / (columnCount - 1);
         return cell_w;
     }
 
