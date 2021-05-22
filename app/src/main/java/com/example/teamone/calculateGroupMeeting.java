@@ -109,27 +109,33 @@ public class calculateGroupMeeting extends Activity {
                                     finish();
                                 }
 
+                                else{
+                                    Schedule[] baseSchedule = new Schedule[total.size()];
+                                    int i =0;
+                                    for(Schedule s:total) {
+                                        baseSchedule[i++] = s;
+                                    }
+                                    Schedule createTime = new Schedule();
+                                    int length = Integer.parseInt(timesets[0])*100 + Integer.parseInt(timesets[1]);
+
+
+                                    if (calculate(baseSchedule, createTime, length)) {
+                                        groupRef.child(groupCode).child("GroupSchedule").child("schedule").setValue(createTime.getDay() + "!/" + name + "'s meeting" + "!/" + createTime.getStartTime().getHour() + ":" + createTime.getStartTime().getMinute() + "!/" + createTime.getEndTime().getHour() + ":" + createTime.getEndTime().getMinute());
+                                        Toast.makeText(getApplicationContext(), "미팅이 추가되었습니다. 새로고침 버튼을 눌러 확인해주세요.", Toast.LENGTH_SHORT).show();
+
+                                        finish();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),"미팅 가능한 시간이 없습니다. 시간을 다시 설정해주세요",Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    finish();
+                                }
                             }
 
                         });
 
-                        Schedule[] baseSchedule = new Schedule[total.size()];
-                        int i =0;
-                        for(Schedule s:total) {
-                            baseSchedule[i++] = s;
-                        }
-                        Schedule createTime = new Schedule();
-                        int length = Integer.parseInt(timesets[0])*100 + Integer.parseInt(timesets[1]);
 
-
-                        if (calculate(baseSchedule, createTime, length)) {
-                            groupRef.child(groupCode).child("GroupSchedule").child("schedule").setValue(createTime.getDay() + "!/" + name + "'s meeting" + "!/" + createTime.getStartTime().getHour() + ":" + createTime.getStartTime().getMinute() + "!/" + createTime.getEndTime().getHour() + ":" + createTime.getEndTime().getMinute());
-                            Toast.makeText(getApplicationContext(), "미팅이 추가되었습니다. 새로고침 버튼을 눌러 확인해주세요.", Toast.LENGTH_SHORT).show();
-
-                            finish();
-                        }
-
-                    finish();
                 }
                 else
                     Toast.makeText(calculateGroupMeeting.this,"시간을 설정해주세요",Toast.LENGTH_SHORT).show();
