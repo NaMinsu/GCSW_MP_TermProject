@@ -1,185 +1,185 @@
 package com.example.teamone;
 
+import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
 
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.annotations.NotNull;
-import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.FirebaseFunctionsException;
-import com.google.firebase.functions.HttpsCallableResult;
 
-import java.io.Serializable;
+import org.jetbrains.annotations.NotNull;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
 
-public class groupTable extends AppCompatActivity {
-
-    TimetableView timetable;
-    private todaySchedule adapter;
+public class calculateGroupMeeting extends Activity {
+    Button setting,calculating,cancel;
+    TextView timeset;
     FirebaseDatabase Database  =FirebaseDatabase.getInstance();
     DatabaseReference scheduleRef = Database.getReference("schedule");
     DatabaseReference groupRef = Database.getReference("grouplist");
-    ArrayList<String> members; /*이 리스트는 나중에 푸시 알림을 보낼때*/
-    String name;               /*선택한 맴버들의 토큰 정보를 저장하는곳으로 ?*/
-    String groupCode;
+    DatabaseReference planRef = Database.getReference("plan");
+    DatabaseReference personalRef = Database.getReference("users");
+    ArrayList<String> members;
     ArrayList<Schedule> total;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grouptable);
-        View selfLayout = (View) findViewById(R.id.gtLayout);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_caculategroupmeeting);
+
+        Intent intent = getIntent();
+        String groupCode = intent.getStringExtra("code");
+        String name = intent.getStringExtra("name");
+        setting = findViewById(R.id.BtnTimesetting);
+        timeset = findViewById(R.id.timeSetting);
+        cancel = findViewById(R.id.calculateScheduleCancel);
+        calculating = findViewById(R.id.calculateSchedule);
         members = new ArrayList<>();
         total = new ArrayList<>();
 
-        Intent intent = getIntent();
-        name = intent.getStringExtra("name");
-        groupCode = intent.getStringExtra("code");
 
-        groupRef.child(groupCode).child("GroupSchedule").child("schedule").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        setting.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
-                if(!task.getResult().getValue().toString().equals("0")){
-                    String s = task.getResult().getValue().toString();
-                    String[] fortable = s.split("!/");
-                    String[] starttime = fortable[2].split(":");
-                    String[] Endtime = fortable[3].split(":");
-                    addNew(Integer.parseInt(fortable[0]),fortable[1],"",new Time(Integer.parseInt(starttime[0]),Integer.parseInt(starttime[1])),new Time(Integer.parseInt(Endtime[0]),Integer.parseInt(Endtime[1])));
-                }
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(calculateGroupMeeting.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            String hour, minute;
 
-            }
-        });
-
-        groupRef.child(groupCode).child("members").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                for(DataSnapshot member : task.getResult().getChildren()){
-                    members.add(member.getKey());
-                    scheduleRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                            for(DataSnapshot schedules : task.getResult().getChildren()){
-                                String a = schedules.getKey();
-                                scheduleRef.child(member.getKey()).child(a).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
-                                        String weekday = task.getResult().child("weekday").getValue().toString();
-                                        String Time = task.getResult().child("time").getValue().toString();
-                                        String[] times = Time.split("~");
-                                        String[] startTime=times[0].split(":");
-                                        String[] endTime = times[1].split(":");
-                                        addNew(Integer.parseInt(weekday),"","",new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])),new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
-                                    }
-                                });//한사람의 스케쥴 한개 읽기
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                                if (i < 10) {
+                                    hour = "0" + Integer.toString(i);
+                                } else {
+                                    hour = Integer.toString(i);
+                                }
+                                if (i1 < 10) {
+                                    minute = "0" + Integer.toString(i1);
+                                } else {
+                                    minute = Integer.toString(i1);
+                                }
+                                timeset.setText(hour + ":" + minute);
                             }
-                        }
-                    }   );
-                }
+
+                        }, 0, 0, true);
+                timePickerDialog.show();
             }
         });
 
-        timetable = (TimetableView)findViewById(R.id.timetable_group);
-
-        timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void OnStickerSelected(int idx, ArrayList<Schedule> schedules) {
-                // ...
-            }
-        });
-
-
-        Button resetB = (Button)findViewById(R.id.reset);
-        resetB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reset();
-            }
-        });
-
-        Button calculating = (Button)findViewById(R.id.calculate);
-        calculating.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(),calculateGroupMeeting.class);
-                intent.putExtra("name",name);
-                intent.putExtra("code",groupCode);
-                startActivity(intent);
-            }
-        });
-
-        Button AddMember = (Button)selfLayout.findViewById(R.id.btnAddMember);
-        AddMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), groupMemberAdder.class);
-                intent.putExtra("name",name);
-                intent.putExtra("code",groupCode);
-                startActivity(intent);
-            }
-        });
-
-
-        Button goBack = (Button)selfLayout.findViewById(R.id.btnToGList);
-        goBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 finish();
             }
         });
 
-    }
-
-    public void reset(){
-        members = new ArrayList<>();
-        timetable.removeAll();
-
-        groupRef.child(groupCode).child("GroupSchedule").child("schedule").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        calculating.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
-                if(!task.getResult().getValue().toString().equals("0")){
-                    String s = task.getResult().getValue().toString();
-                    String[] fortable = s.split("!/");
-                    String[] starttime = fortable[2].split(":");
-                    String[] Endtime = fortable[3].split(":");
-                    addNew(Integer.parseInt(fortable[0]),fortable[1],"",new Time(Integer.parseInt(starttime[0]),Integer.parseInt(starttime[1])),new Time(Integer.parseInt(Endtime[0]),Integer.parseInt(Endtime[1])));
+            public void onClick(View v) {
+                String getTime = timeset.getText().toString();
+                boolean correct = true;
+
+                if(!getTime.equals("시간 설정")){
+                    String[] timesets = getTime.split(":");
+
+                        groupRef.child(groupCode).child("GroupSchedule").child("schedule").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+
+
+                                if(!task.getResult().getValue().toString().equals("0")){
+                                    Toast.makeText(getApplicationContext(),"이미 그룹 미팅시간이 잡혀있습니다.",Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+
+                            }
+
+                        });
+
+                        Schedule[] baseSchedule = new Schedule[total.size()];
+                        int i =0;
+                        for(Schedule s:total) {
+                            baseSchedule[i++] = s;
+                        }
+                        Schedule createTime = new Schedule();
+                        int length = Integer.parseInt(timesets[0])*100 + Integer.parseInt(timesets[1]);
+
+
+                        if (calculate(baseSchedule, createTime, length)) {
+                            groupRef.child(groupCode).child("GroupSchedule").child("schedule").setValue(createTime.getDay() + "!/" + name + "'s meeting" + "!/" + createTime.getStartTime().getHour() + ":" + createTime.getStartTime().getMinute() + "!/" + createTime.getEndTime().getHour() + ":" + createTime.getEndTime().getMinute());
+                            Toast.makeText(getApplicationContext(), "미팅이 추가되었습니다. 새로고침 버튼을 눌러 확인해주세요.", Toast.LENGTH_SHORT).show();
+
+                            finish();
+                        }
+
+                    finish();
                 }
+                else
+                    Toast.makeText(calculateGroupMeeting.this,"시간을 설정해주세요",Toast.LENGTH_SHORT).show();
 
             }
         });
+
 
         groupRef.child(groupCode).child("members").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for(DataSnapshot member : task.getResult().getChildren()){
                     members.add(member.getKey());
+                    Toast.makeText(getApplicationContext(),member.getKey(),Toast.LENGTH_SHORT).show();
+
+                    planRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                            for(DataSnapshot schedules : task.getResult().getChildren()){
+                                String a = schedules.getKey();
+                                planRef.child(member.getKey()).child(a).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                    @Override
+                                    public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                                        String Time = task.getResult().child("time").getValue().toString();
+                                        String date = task.getResult().child("date").getValue().toString();
+
+                                        String[] dateSplit = date.split("/");
+                                        LocalDate tmpDate = LocalDate.of(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
+                                        int weekday = getWeekdayIndex(tmpDate.getDayOfWeek().toString());
+                                        String[] times = Time.split("~");
+                                        String[] startTime=times[0].split(":");
+                                        String[] endTime = times[1].split(":");
+                                        Schedule temp = new Schedule();
+                                        temp.setDay(weekday);
+                                        temp.setEndTime(new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
+                                        temp.setStartTime(new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])));
+                                        total.add(temp);
+                                    }
+                                });
+                            }
+                        }
+                    });
 
                     scheduleRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                             for(DataSnapshot schedules : task.getResult().getChildren()){
                                 String a = schedules.getKey();
+
                                 scheduleRef.child(member.getKey()).child(a).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
@@ -188,30 +188,23 @@ public class groupTable extends AppCompatActivity {
                                         String[] times = Time.split("~");
                                         String[] startTime=times[0].split(":");
                                         String[] endTime = times[1].split(":");
-                                        addNew(Integer.parseInt(weekday),"","",new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])),new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
+                                        Schedule temp = new Schedule();
+                                        temp.setDay(Integer.parseInt(weekday));
+                                        temp.setEndTime(new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
+                                        temp.setStartTime(new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])));
+                                        total.add(temp);
                                     }
                                 });//한사람의 스케쥴 한개 읽기
                             }
                         }
-                    }   );
+                    });//scheduleRef listener end
+
                 }
             }
-        });
+        });//groupRef listener end
+
     }
 
-
-    protected void addNew(int day, String title, String place, Time startTime, Time endTime){
-        ArrayList<Schedule> schedules = new ArrayList<Schedule>();
-        Schedule schedule = new Schedule();
-        schedule.setClassTitle(title); // sets subject
-        schedule.setClassPlace(place); // sets place
-        schedule.setStartTime(startTime); // sets the beginning of class time (hour,minute)
-        schedule.setEndTime(endTime); // sets the end of class time (hour,minute)
-        schedule.setDay(day);
-        schedules.add(schedule);
-
-        timetable.add(schedules);
-    }
 
     public boolean calculate(Schedule[] groupSchedule, Schedule newSchedule, int length) {
 
@@ -262,12 +255,11 @@ public class groupTable extends AppCompatActivity {
             for(int j=0;j<index;j++){//요일 전체 초기화
                 merged[i][j] = new Schedule();
             }
-            if (indicies[i] != 0) {
-                System.out.println(i);
+
                 //요일별로 함수 실행, 그리고 여기서 available이 true가 나오면 true return하기
-                if (Merging(day[i], merged[i], newSchedule, indicies[i], length,i)) {
-                    return true;
-                }
+             if (Merging(day[i], merged[i], newSchedule, indicies[i], length,i)) {
+                 return true;
+
             }
         }
         return false; //모든요일에서 false가 return되면 return false
@@ -419,4 +411,26 @@ public class groupTable extends AppCompatActivity {
         }
         return false;
     }
+
+    public int getWeekdayIndex(String weekday){
+        if(weekday.equals("SUNDAY")){
+            return 0;
+        }else if(weekday.equals("MONDAY")){
+            return 1;
+        }else if(weekday.equals("TUESDAY")){
+            return 2;
+        }else if(weekday.equals("WEDNESDAY")){
+            return 3;
+        }else if(weekday.equals("THURSDAY")){
+            return 4;
+        }else if(weekday.equals("FRIDAY")){
+            return 5;
+        }else if(weekday.equals("SATURDAY")){
+            return 6;
+        }else{
+            return 0;
+        }
+    }
 }
+
+
