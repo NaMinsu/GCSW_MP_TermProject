@@ -139,7 +139,7 @@ public class groupTable extends AppCompatActivity {
                                             addNew(Integer.parseInt(weekday), "", "", new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])), new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
                                             setColor(planName);
                                         } else if (getDateDif(tmpDate, endLocalDate) > 0) {
-                                            deleteSchedule(title, startDateSplit[0] + startDateSplit[1] + startDateSplit[2], endDateSplit[0] + endDateSplit[1] + endDateSplit[2], Time, weekday);
+                                            deleteSchedule(title, startDateSplit[0] + startDateSplit[1] + startDateSplit[2], endDateSplit[0] + endDateSplit[1] + endDateSplit[2], Time, weekday,member.getKey());
                                         }
 
                                     }
@@ -154,7 +154,6 @@ public class groupTable extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for (DataSnapshot member : task.getResult().getChildren()) {
-                    Log.d("hello","1"+member.getKey());
                     members.add(member.getKey());
                     planRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
@@ -179,7 +178,7 @@ public class groupTable extends AppCompatActivity {
                                             int weekday = getWeekdayIndex(tmpDatePlan.getDayOfWeek().toString());
 
                                             if (getDateDif(tmpDatePlan, nowDate) < 0) {
-                                                deletePlan(title, dateSplitPlan[0] + dateSplitPlan[1] + dateSplitPlan[2], time);
+                                                deletePlan(title, dateSplitPlan[0] + dateSplitPlan[1] + dateSplitPlan[2], time,member.getKey());
                                             } else if (getDateDif(tmpDatePlan, nowDate) > 0 && getDateDif(tmpDatePlan, nextDate) < 0) {
                                                 addNew(weekday, "", "", new Time(startHour, startMinute), new Time(endHour, endMinute));
                                                 setColor(planName);
@@ -229,6 +228,7 @@ public class groupTable extends AppCompatActivity {
                             date = fortable[4].split("/");
                             deleteGroupPlan();
                             planName = "not yet !@!@#@$";
+                            reset();
                         }
 
                     }
@@ -250,12 +250,15 @@ public class groupTable extends AppCompatActivity {
                                     String time = startTime+"~"+endTime;
                                     String[] dates = convertPlanDate(date[0]+"/"+date[1]+"/"+date[2]);
 
-                                    deletePlan(title, dates[0] + dates[1] + dates[2], time);
+                                    deletePlan(title, dates[0] + dates[1] + dates[2], time,member.getKey());
+                                    reset();
                                 }
                             });
                         }
                     }
                 });
+
+
 
             }
         });
@@ -435,7 +438,7 @@ public class groupTable extends AppCompatActivity {
                                             int weekday = getWeekdayIndex(tmpDatePlan.getDayOfWeek().toString());
 
                                             if (getDateDif(tmpDatePlan, nowDate) < 0) {
-                                                deletePlan(title, dateSplitPlan[0] + dateSplitPlan[1] + dateSplitPlan[2], time);
+                                                deletePlan(title, dateSplitPlan[0] + dateSplitPlan[1] + dateSplitPlan[2], time,member.getKey());
                                             } else if (getDateDif(tmpDatePlan, nowDate) > 0 && getDateDif(tmpDatePlan, nextDate) < 0) {
                                                 addNew(weekday, "", "", new Time(startHour, startMinute), new Time(endHour, endMinute));
                                                 setColor(planName);
@@ -509,7 +512,7 @@ public class groupTable extends AppCompatActivity {
                                                 addNew(Integer.parseInt(weekday), "", "", new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])), new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
                                                 setColor(planName);
                                             } else if (getDateDif(tmpDate, endLocalDate) > 0) {
-                                                deleteSchedule(title, startDateSplit[0] + startDateSplit[1] + startDateSplit[2], endDateSplit[0] + endDateSplit[1] + endDateSplit[2], Time, weekday);
+                                                deleteSchedule(title, startDateSplit[0] + startDateSplit[1] + startDateSplit[2], endDateSplit[0] + endDateSplit[1] + endDateSplit[2], Time, weekday,member.getKey());
                                             }
                                         }
 
@@ -768,12 +771,12 @@ public class groupTable extends AppCompatActivity {
         groupRef.child(groupCode).child("GroupSchedule").child("schedule").setValue("0");
     }
 
-    private void deletePlan(String title, String date, String time) {
-        planRef.child(FirstAuthActivity.getMyID()).child(date + "_" + time + "_" + title).setValue(null);
+    private void deletePlan(String title, String date, String time,String ID) {
+        planRef.child(ID).child(date + "_" + time + "_" + title).setValue(null);
     }
 
-    private void deleteSchedule(String title, String startDate, String endDate, String time, String weekdayIndex) {
-        scheduleRef.child(FirstAuthActivity.getMyID()).child(startDate + "~" + endDate + "_" + time + "_" + title + "_" + weekdayIndex).setValue(null);
+    private void deleteSchedule(String title, String startDate, String endDate, String time, String weekdayIndex,String ID) {
+        scheduleRef.child(ID).child(startDate + "~" + endDate + "_" + time + "_" + title + "_" + weekdayIndex).setValue(null);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -789,7 +792,6 @@ public class groupTable extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for (DataSnapshot member : task.getResult().getChildren()) {
-                    Log.d("hello","2"+member.getKey());
                     planRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {

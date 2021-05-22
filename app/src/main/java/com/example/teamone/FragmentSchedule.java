@@ -219,7 +219,6 @@ public class FragmentSchedule extends Fragment {
                 @Override
                 public void onComplete(Task<DataSnapshot> task) {
                     for (DataSnapshot plan : task.getResult().getChildren()) {
-                        Log.d("hello","플랜");
 
                         title = plan.child("title").getValue().toString();
                         date = plan.child("date").getValue().toString();
@@ -252,7 +251,6 @@ public class FragmentSchedule extends Fragment {
                 @Override
                 public void onComplete(Task<DataSnapshot> task) {
                     for (DataSnapshot schedule : task.getResult().getChildren()) {
-                        Log.d("hello","스케쥴");
 
                         title = schedule.child("title").getValue().toString();
                         startDate = schedule.child("startDate").getValue().toString();
