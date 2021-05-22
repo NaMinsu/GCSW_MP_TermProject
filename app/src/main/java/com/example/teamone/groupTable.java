@@ -154,7 +154,6 @@ public class groupTable extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for (DataSnapshot member : task.getResult().getChildren()) {
-                    members.add(member.getKey());
                     planRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
@@ -400,7 +399,7 @@ public class groupTable extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void reset() {
-        members = new ArrayList<>();
+        members.removeAll(members);
         timetable.removeAll();
 
         LocalDate nowDate = LocalDate.now();
@@ -413,7 +412,6 @@ public class groupTable extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for (DataSnapshot member : task.getResult().getChildren()) {
-                    members.add(member.getKey());
                     planRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
