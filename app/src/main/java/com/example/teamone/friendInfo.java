@@ -31,16 +31,11 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class friendInfo extends Activity {
-    HashMap<String, String> userInfo;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference friendRef = database.getReference("friendship");
     DatabaseReference userRef = database.getReference("users");
-    String friendName;
-    String link_image;
-    String friendMail;
-    TextView title;
-    TextView fName;
-    TextView fid;
+    String friendName, link_image, friendMail, friendSchool;
+    TextView title, fName, fid, fschool;
     ImageView profile;
 
     @Override
@@ -56,6 +51,7 @@ public class friendInfo extends Activity {
         profile = findViewById(R.id.profile_image);
         fName = findViewById(R.id.fpname);
         fid = findViewById(R.id.fpid);
+        fschool = findViewById(R.id.fpcollage);
 
         friendRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -85,6 +81,10 @@ public class friendInfo extends Activity {
                     title.setText(title_text);
                     String name_text = "이름: " + friendName;
                     fName.setText(name_text);
+                    friendSchool = "학교: ";
+                    if (info.child("school").exists())
+                        friendSchool = friendSchool + info.child("school").getValue().toString();
+                    fschool.setText(friendSchool);
 
                     link_image = info.child("profile_image").getValue().toString();
                     profile = findViewById(R.id.profile_image);
