@@ -25,6 +25,7 @@ public class FirstAuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences sf = getSharedPreferences("Users",MODE_PRIVATE);
 
+
         if( sf.getString("Email","").length() == 0) {
             // call Login Activity
             intent = new Intent(FirstAuthActivity.this, LoginActivity.class);

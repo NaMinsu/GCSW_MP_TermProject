@@ -8,13 +8,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.app.Activity;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ public class deletePlan extends Activity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference planRef = database.getReference("plan");
     ArrayList<todayScheduleData> plans = new ArrayList<todayScheduleData>();
+    LinearLayout LL;
 
     TextView noPlan;
     String title, date, time;
@@ -52,7 +56,10 @@ public class deletePlan extends Activity {
         setContentView(R.layout.activity_delete_plan);
         contextPlan = this;
 
+
         init();
+
+
         noPlan = findViewById(R.id.noDeletePlan);
         deletePlanCancel = findViewById(R.id.deletePlanCancel);
         deletePlanCancel.setOnClickListener(new View.OnClickListener() {

@@ -3,19 +3,21 @@ package com.example.teamone;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class calculateTime extends AppCompatActivity {
+public class calculateTime extends Activity {
 
 
     TextView minute, hour;
@@ -29,6 +31,7 @@ public class calculateTime extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_calculate_time);
 
         minute = findViewById(R.id.groupScheduleMinuteTxt);

@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/deletePlanLayout"
     android:layout_width="match_parent"
     android:layout_height="400dp"
     android:layout_gravity="center"
-    android:layout_marginHorizontal="30dp"
+    android:layout_marginHorizontal="10sp"
     android:layout_marginVertical="25dp"
     android:background="@drawable/layout_border"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/mainColor"
-        android:text=" 일정 제거     "
+        android:text=" 일정 제거                          "
         android:textSize="25sp"
         android:textStyle="bold" />
 

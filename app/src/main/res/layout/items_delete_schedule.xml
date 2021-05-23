@@ -61,7 +61,7 @@
             android:id="@+id/deleteScheduleGoBtn"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:layout_gravity="center"
             android:textSize="15sp"
             android:text="삭제">

@@ -12,7 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamOne">
-        <activity android:name=".calculateTime"></activity>
 
         <service
             android:name=".MyFirebaseMessagingService"
@@ -39,6 +38,9 @@
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
 
+        <activity
+            android:name=".calculateTime"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".FirstAuthActivity">
@@ -73,8 +75,9 @@
         <activity
             android:name=".addSchedule"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name = ".calculateGroupMeeting"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
+        <activity
+            android:name=".calculateGroupMeeting"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".addPlan"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
