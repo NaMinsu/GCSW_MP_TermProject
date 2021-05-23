@@ -3,11 +3,18 @@
     android:id="@+id/gDeleter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/layout_border_gray"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/textview_solid"
+        android:padding="3dp"
+        android:layout_margin="2dp"
+        android:textSize="28dp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
         android:text="그룹 이름" />
 
     <EditText
@@ -16,6 +23,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_margin="2dp"
         android:hint="그룹 이름을 입력하세요." />
 
     <LinearLayout
@@ -29,6 +39,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/button1"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="3dp"
+            android:textSize="18dp"
             android:text="확인" />
 
         <Button
@@ -36,6 +50,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button1"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginBottom="3dp"
+            android:textSize="18dp"
             android:layout_weight="1"
             android:text="취소" />
     </LinearLayout>
