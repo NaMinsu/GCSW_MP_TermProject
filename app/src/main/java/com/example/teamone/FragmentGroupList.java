@@ -36,13 +36,6 @@ import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
-/*
-
-그룹 list가 안읽어와져서 뒷부분 진행하기 위해서 현재 DB에 맞게 onChildAdded에서만 읽어올 수 있도록하고 진행했습니다.
-
-*/
-
-
 public class FragmentGroupList extends Fragment {
     ArrayList<String> groupItems = new ArrayList<>();
     groupAdapter adapter;
@@ -77,17 +70,19 @@ public class FragmentGroupList extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
-
+                String deleted_group = snapshot.child("name").getValue().toString();
+                groupItems.remove(deleted_group);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-
+                adapter.notifyDataSetChanged();
             }
 
             @Override

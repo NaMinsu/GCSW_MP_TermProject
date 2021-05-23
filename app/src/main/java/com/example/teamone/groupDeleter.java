@@ -52,7 +52,7 @@ public class groupDeleter extends Activity {
                 if(gName.isEmpty()){return;} // 아무것도 입력하지 않으면 중지
 
                 for(String groupData : groupItems){
-                    if(groupData.contains(gName)){ /*같은 이름의 그룹이 있다면 둘다 나가집니다(대응필요)*/
+                    if(groupData.contains(gName)){
                         String Code = groupData.replace("@Admin_split@" + gName,"");
                         UserGroupRef.child(MyID).child(Code).removeValue();
                         GroupRef.child(Code).child("members").child(MyID).removeValue();
