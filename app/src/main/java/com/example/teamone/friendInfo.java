@@ -61,7 +61,7 @@ public class friendInfo extends Activity {
                     String username = ds.child("name").getValue().toString();
                     if (username.equals(fname_temp)) {
                         friendMail = ds.child("email").getValue().toString();
-                        String id_text = "E-mail: " + friendMail;
+                        String id_text = "· E-mail: " + friendMail;
                         fid.setText(id_text);
                     }
                 }
@@ -79,9 +79,9 @@ public class friendInfo extends Activity {
                     friendName = info.child("nickname").getValue().toString();
                     String title_text = friendName + "님의 정보";
                     title.setText(title_text);
-                    String name_text = "이름: " + friendName;
+                    String name_text = "· 이름: " + friendName;
                     fName.setText(name_text);
-                    friendSchool = "학교: ";
+                    friendSchool = "· 학교: ";
                     if (info.child("school").exists())
                         friendSchool = friendSchool + info.child("school").getValue().toString();
                     fschool.setText(friendSchool);

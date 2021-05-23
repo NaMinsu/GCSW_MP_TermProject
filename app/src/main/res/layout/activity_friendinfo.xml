@@ -1,35 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fiLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layout_border"
+    android:background="@drawable/layout_border_info"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/fptitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/textview_solid"
+        android:padding="3dp"
+        android:layout_margin="2dp"
+        android:textSize="28dp"
+        android:textColor="@color/black"
+        android:textAlignment="center"/>
 
     <ImageView
         android:id="@+id/profile_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:padding="3dp"
+        android:layout_margin="2dp" />
 
     <TextView
         android:id="@+id/fpname"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_margin="2dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/fpid"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_margin="2dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/fpcollage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_margin="2dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"/>
 </LinearLayout>

@@ -13,6 +13,8 @@
         android:layout_height="47dp"
         android:hint="ID"
         android:inputType="textWebEmailAddress"
+        android:background="@drawable/layout_border"
+        android:padding="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,6 +27,8 @@
         android:layout_height="47dp"
         android:hint="Password"
         android:inputType="textPassword"
+        android:background="@drawable/layout_border"
+        android:padding="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +71,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.809"
-        android:background="@drawable/ic_launcher_background" />
+        android:background="@drawable/diary" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
