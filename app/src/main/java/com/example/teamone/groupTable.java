@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -227,7 +228,6 @@ public class groupTable extends AppCompatActivity {
                             date = fortable[4].split("/");
                             deleteGroupPlan();
                             planName = "not yet !@!@#@$";
-                            reset();
                         }
 
                     }
@@ -248,14 +248,13 @@ public class groupTable extends AppCompatActivity {
                                     endTime = convertPlanTime(endTime);
                                     String time = startTime+"~"+endTime;
                                     String[] dates = convertPlanDate(date[0]+"/"+date[1]+"/"+date[2]);
-
                                     deletePlan(title, dates[0] + dates[1] + dates[2], time,member.getKey());
-                                    reset();
                                 }
                             });
                         }
                     }
                 });
+
 
 
 
@@ -770,7 +769,13 @@ public class groupTable extends AppCompatActivity {
     }
 
     private void deletePlan(String title, String date, String time,String ID) {
-        planRef.child(ID).child(date + "_" + time + "_" + title).setValue(null);
+        planRef.child(ID).child(date + "_" + time + "_" + title).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onSuccess(Void unused) {
+                reset();
+            }
+        });
     }
 
     private void deleteSchedule(String title, String startDate, String endDate, String time, String weekdayIndex,String ID) {
