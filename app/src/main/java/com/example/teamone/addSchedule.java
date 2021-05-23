@@ -69,6 +69,11 @@ public class addSchedule extends Activity {
         startDateTxt = findViewById(R.id.startDateTxt_main);
         endDateTxt = findViewById(R.id.endDateTxt_main);
 
+        startTimeTxt.setSelected(true);
+        endTimeTxt.setSelected(true);
+        startDateTxt.setSelected(true);
+        endDateTxt.setSelected(true);
+
         String[] weekday = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
         weekdayIndex = 1;
         final Calendar c = Calendar.getInstance();

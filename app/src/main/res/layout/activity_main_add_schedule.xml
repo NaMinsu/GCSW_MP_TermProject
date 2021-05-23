@@ -58,7 +58,10 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="시작시간"
-                android:textSize="18sp"></TextView>
+                android:textSize = "18sp"
+                android:ellipsize="marquee"
+                android:focusable = "true"
+                android:singleLine = "true"></TextView>
             <Button
                 android:id="@+id/startTimeBtn_main"
                 android:layout_width="0dp"
@@ -74,7 +77,10 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="종료시간"
-                android:textSize="18sp"></TextView>
+                android:textSize = "18sp"
+                android:ellipsize="marquee"
+                android:focusable = "true"
+                android:singleLine = "true"></TextView>
             <Button
                 android:id="@+id/endTimeBtn_main"
                 android:layout_width="0dp"
@@ -126,15 +132,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp">
+            android:layout_marginVertical="8dp"
+            >
             <TextView
                 android:id="@+id/startDateTxt_main"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textSize = "18sp"
+                android:ellipsize="marquee"
+                android:focusable = "true"
+                android:singleLine = "true"
                 android:text="시작일"
-                android:textSize="18sp"></TextView>
+                ></TextView>
             <Button
                 android:id="@+id/startDateBtn_main"
                 android:layout_width="0dp"
@@ -149,7 +160,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize = "18sp"
+                android:ellipsize="marquee"
+                android:focusable = "true"
+                android:singleLine = "true"
                 android:text="종료일"></TextView>
             <Button
                 android:id="@+id/endDateBtn_main"

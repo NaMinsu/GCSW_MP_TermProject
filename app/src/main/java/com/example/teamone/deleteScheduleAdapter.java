@@ -70,6 +70,11 @@ public class deleteScheduleAdapter extends RecyclerView.Adapter<deleteScheduleAd
             textView3 = itemView.findViewById(R.id.deleteScheduleTime);
             textView4 = itemView.findViewById(R.id.deleteScheduleWeekday);
             deleteBtn = itemView.findViewById(R.id.deleteScheduleGoBtn);
+
+            textView1.setSelected(true);
+            textView2.setSelected(true);
+            textView3.setSelected(true);
+            textView4.setSelected(true);
         }
 
         void onBind(todayScheduleDataItem data) {

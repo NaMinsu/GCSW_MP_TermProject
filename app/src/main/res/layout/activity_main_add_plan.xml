@@ -55,7 +55,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="시작시간"
-                android:textSize="18sp"></TextView>
+                android:textSize="15sp"></TextView>
             <Button
                 android:id="@+id/startTimeBtn_plan"
                 android:layout_width="0dp"
@@ -71,7 +71,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="종료시간"
-                android:textSize="18sp"></TextView>
+                android:textSize="15sp"></TextView>
             <Button
                 android:id="@+id/endTimeBtn_plan"
                 android:layout_width="0dp"

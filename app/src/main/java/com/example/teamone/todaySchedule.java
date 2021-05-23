@@ -56,6 +56,8 @@ public class todaySchedule extends RecyclerView.Adapter<todaySchedule.ItemViewHo
             textView1 = itemView.findViewById(R.id.scheduleTitle);
             textView2 = itemView.findViewById(R.id.scheduleContent);
             textView3 = itemView.findViewById(R.id.scheduleTime);
+
+
         }
 
         void onBind(todayScheduleData data) {

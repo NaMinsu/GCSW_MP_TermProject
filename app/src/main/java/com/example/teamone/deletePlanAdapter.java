@@ -75,6 +75,10 @@ public class deletePlanAdapter extends RecyclerView.Adapter<deletePlanAdapter.It
             textView2 = itemView.findViewById(R.id.deletePlanDate);
             textView3 = itemView.findViewById(R.id.deletePlanTime);
             deleteBtn = itemView.findViewById(R.id.deletePlanGoBtn);
+
+            textView1.setSelected(true);
+            textView2.setSelected(true);
+            textView3.setSelected(true);
         }
 
         void onBind(todayScheduleData data) {

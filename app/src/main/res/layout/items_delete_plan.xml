@@ -27,6 +27,9 @@
             android:background="#77CCCCCC"
             android:paddingHorizontal="5dp"
             android:paddingVertical="2dp"
+            android:ellipsize="marquee"
+            android:focusable = "true"
+            android:singleLine = "true"
             ></TextView>
 
         <TextView
@@ -37,6 +40,9 @@
             android:textSize="15sp"
             android:paddingHorizontal="5dp"
             android:paddingVertical="2dp"
+            android:ellipsize="marquee"
+            android:focusable = "true"
+            android:singleLine = "true"
             ></TextView>
 
         <TextView
@@ -46,7 +52,10 @@
             android:text="time"
             android:textSize="15sp"
             android:paddingHorizontal="5dp"
-            android:paddingVertical="2dp"></TextView>
+            android:paddingVertical="2dp"
+            android:ellipsize="marquee"
+            android:focusable = "true"
+            android:singleLine = "true"></TextView>
 
     </LinearLayout>
     <Button

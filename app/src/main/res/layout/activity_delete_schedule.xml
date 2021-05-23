@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginHorizontal="10sp"
     android:layout_marginVertical="25dp"
@@ -37,25 +37,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="8">
-            <ScrollView
+            android:layout_height="300sp">
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/deleteScheduleRecyler"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
+                        android:layout_height="match_parent"
+                        >
                     </androidx.recyclerview.widget.RecyclerView>
-                </LinearLayout>
-            </ScrollView>
+
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
 
         <LinearLayout
