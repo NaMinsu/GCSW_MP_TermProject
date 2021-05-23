@@ -15,6 +15,7 @@
         android:text="내 정보"
         android:backgroundTint="#F0D9D1"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:layout_marginBottom="20sp"
         android:textSize="23sp"/>
 
@@ -37,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="40sp"
             android:gravity="center_horizontal"
+            android:textColor="@color/black"
             android:text="nickname"
             android:textAlignment="center"/>
 
@@ -45,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="40sp"
             android:gravity="center_horizontal"
+            android:textColor="@color/black"
             android:text="대학"
             android:textAlignment="center" />
 
@@ -53,21 +56,22 @@
             android:layout_width="match_parent"
             android:layout_height="40sp"
             android:gravity="center_horizontal"
+            android:textColor="@color/black"
             android:text="e-mail"
             android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/btnChangeInfo"
-            android:layout_width="200sp"
-            android:layout_height="40sp"
-            android:layout_gravity="center"
-            android:text="정보바꾸기"
-            android:textColor="@color/white"
-            android:background="@drawable/center_crop_box"
-            android:backgroundTint="#D94929"
-            />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnChangeInfo"
+        android:layout_width="200sp"
+        android:layout_height="40sp"
+        android:layout_gravity="center"
+        android:text="정보바꾸기"
+        android:textColor="@color/white"
+        android:background="@drawable/center_crop_box"
+        android:backgroundTint="#D94929"
+        android:layout_marginTop="5dp"
+        />
 
     <Button
         android:id="@+id/btnLogout"
