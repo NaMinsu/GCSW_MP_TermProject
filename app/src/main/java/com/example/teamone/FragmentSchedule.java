@@ -1,6 +1,7 @@
 package com.example.teamone;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,6 +59,8 @@ public class FragmentSchedule extends Fragment {
     int startHour,startMinute,endHour,endMinute;
     int weekday;
 
+    MediaPlayer soundReload;
+
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -66,6 +69,8 @@ public class FragmentSchedule extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my_schedules,container,false);
 
         init(v);
+
+        soundReload = MediaPlayer.create(getContext(),R.raw.graph);
 
         timetable = v.findViewById(R.id.timetable);
         timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
@@ -277,6 +282,9 @@ public class FragmentSchedule extends Fragment {
                     }
                 }
             });
+
+            soundReload.start();
+            Toast.makeText(getContext(), "시간표가 새로고침 되었습니다.", Toast.LENGTH_SHORT).show();
         }
         /*
         LTE와 WIFI 둘 중 하나라도 연결되어있지않다면

@@ -9,6 +9,7 @@
     android:background="@drawable/layout_border"
     android:layout_marginVertical="25dp"
     >
+
     <TextView
         android:background="@color/mainColor"
         android:id="@+id/textView4"

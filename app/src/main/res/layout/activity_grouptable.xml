@@ -9,6 +9,7 @@
     >
 
 
+
     <LinearLayout
         android:layout_gravity="right"
         android:layout_width="match_parent"
@@ -18,40 +19,69 @@
         >
 
         <TextView
+            android:background="@color/mainColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="그룹 시간표"
+            android:textStyle="bold"
             android:textAlignment="center"/>
 
         <LinearLayout
-            android:layout_gravity="right"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
-                android:layout_width="wrap_content"
+                android:id="@+id/btnAddMember"
+                android:background="@drawable/button1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize = "12sp"
+                android:ellipsize="marquee"
+                android:focusable = "true"
+                android:singleLine = "true"
+                android:layout_margin="5dp"
+                android:text="멤버 추가" />
+
+            <Button
+                android:layout_width="0dp"
+                android:background="@drawable/button1"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text = "새로고침"
+                android:layout_margin="5dp"
                 android:id="@+id/reset"
+                android:textSize = "12sp"
+                android:ellipsize="marquee"
+                android:focusable = "true"
+                android:singleLine = "true"
                 />
 
             <Button
+                android:background="@drawable/button1"
                 android:layout_height="wrap_content"
-                android:layout_width = "wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:text = "그룹 약속잡기"
+                android:layout_margin="5dp"
+                android:textSize = "12sp"
+                android:ellipsize="marquee"
+                android:focusable = "true"
+                android:singleLine = "true"
                 android:id="@+id/calculate"/>
 
             <Button
-                android:id="@+id/btnAddMember"
-                android:layout_width="wrap_content"
+                android:background="@drawable/button1"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="+" />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text = "회의취소"
+                android:text = "그룹 약속 취소"
+                android:layout_margin="5dp"
+                android:textSize = "12sp"
+                android:ellipsize="marquee"
+                android:focusable = "true"
+                android:singleLine = "true"
                 android:id="@+id/cancel_groupMeeting"
                 />
 
@@ -80,19 +110,7 @@
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btnToGList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="돌아가기" />
-
-    </LinearLayout>
 
     </LinearLayout>
 

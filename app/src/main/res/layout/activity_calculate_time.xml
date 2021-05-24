@@ -15,7 +15,9 @@
         android:background="@color/mainColor"
         android:text=" 그룹 스케쥴 추가"
         android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightGray"
-            android:text="회의  시간" />
+            android:text="회의  시간"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="시"
+                android:text="시간"
                 android:textStyle="bold"></TextView>
 
             <TextView
@@ -131,55 +134,51 @@
             android:layout_height="match_parent"
             >
 
-            <TableLayout
+            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableRow android:gravity="center">
+                >
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation = "horizontal"
+                    >
 
                     <CheckBox
                         android:id="@+id/groupSunday"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="8sp"
+                        android:textSize="10sp"
                         android:text="일요일"></CheckBox>
 
                     <CheckBox
                         android:id="@+id/groupMonday"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="8sp"
+                        android:textSize="10sp"
                         android:text="월요일"></CheckBox>
 
                     <CheckBox
                         android:id="@+id/groupTuesday"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="8sp"
+                        android:textSize="10sp"
                         android:text="화요일"></CheckBox>
 
                     <CheckBox
                         android:id="@+id/groupWednesday"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="8sp"
+                        android:textSize="10sp"
                         android:text="수요일"></CheckBox>
-                </TableRow>
-
-                <TableRow android:gravity="center">
 
                     <CheckBox
                         android:id="@+id/groupThursday"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
                         android:textSize="10sp"
@@ -187,8 +186,7 @@
 
                     <CheckBox
                         android:id="@+id/groupFriday"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
                         android:textSize="10sp"
@@ -196,14 +194,13 @@
 
                     <CheckBox
                         android:id="@+id/groupSaturday"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
                         android:textSize="10sp"
                         android:text="토요일"></CheckBox>
-                </TableRow>
-            </TableLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
 
 
         </LinearLayout>
@@ -227,7 +224,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="40dp"
             android:text="취소"
-            android:textSize="18sp"></Button>
+            android:textSize="18sp"
+            ></Button>
 
         <Button
             android:id="@+id/addGroupScheduleAdd"

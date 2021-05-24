@@ -3,8 +3,10 @@ package com.example.teamone;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +28,7 @@ public class calculateTime extends Activity {
     Button cancel, add;
     Boolean running;
     boolean[] weekday = new boolean[7];
+    MediaPlayer soundClock;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -49,6 +52,8 @@ public class calculateTime extends Activity {
         Saturday = findViewById(R.id.groupSaturday);
         cancel = findViewById(R.id.addGroupScheduleCancel);
         add = findViewById(R.id.addGroupScheduleAdd);
+
+        soundClock = MediaPlayer.create(this,R.raw.thik);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,15 +94,18 @@ public class calculateTime extends Activity {
         });
 
         hourUp.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ResourceAsColor")
             public boolean onTouch(View v, MotionEvent event) {
                 Thread a = new HourUpThread();
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         running = true;
+                        hourUp.setBackgroundDrawable(getResources().getDrawable(R.drawable.up_pressed));
                         a.start();
                         break;
                     case MotionEvent.ACTION_UP:
                         running = false;
+                        hourUp.setBackgroundDrawable(getResources().getDrawable(R.drawable.up));
                         a.interrupt();
                         break;
                 }
@@ -111,10 +119,12 @@ public class calculateTime extends Activity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         running = true;
+                        hourDown.setBackgroundDrawable(getResources().getDrawable(R.drawable.down_pressed));
                         a.start();
                         break;
                     case MotionEvent.ACTION_UP:
                         running = false;
+                        hourDown.setBackgroundDrawable(getResources().getDrawable(R.drawable.down));
                         a.interrupt();
                         break;
                 }
@@ -127,11 +137,13 @@ public class calculateTime extends Activity {
                 Thread a = new MinuteUpThread();
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        minuteUp.setBackgroundDrawable(getResources().getDrawable(R.drawable.up_pressed));
                         running = true;
                         a.start();
                         break;
                     case MotionEvent.ACTION_UP:
                         running = false;
+                        minuteUp.setBackgroundDrawable(getResources().getDrawable(R.drawable.up));
                         a.interrupt();
                         break;
                 }
@@ -145,10 +157,12 @@ public class calculateTime extends Activity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         running = true;
+                        minuteDown.setBackgroundDrawable(getResources().getDrawable(R.drawable.down_pressed));
                         a.start();
                         break;
                     case MotionEvent.ACTION_UP:
                         running = false;
+                        minuteDown.setBackgroundDrawable(getResources().getDrawable(R.drawable.down));
                         a.interrupt();
                         break;
                 }
@@ -285,6 +299,19 @@ public class calculateTime extends Activity {
             }
         } else {
             minute.setText(Integer.toString(H - 1));
+        }
+    }
+
+    protected void onDestroy(){
+        super.onDestroy();
+        killMediaPlayer(soundClock);
+    }
+    private void killMediaPlayer(MediaPlayer mediaplayer){
+        if(mediaplayer!=null){
+            try{mediaplayer.release();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

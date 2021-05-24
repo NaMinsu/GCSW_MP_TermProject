@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button myPageB = (Button) findViewById(R.id.btnMyPage);
+        myPageB.setSoundEffectsEnabled(false);
         myPageB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button groupB = (Button) selfLayout.findViewById(R.id.btnGroup);
+        groupB.setSoundEffectsEnabled(false);
         groupB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button friendB = (Button) selfLayout.findViewById(R.id.btnFriend);
+        friendB.setSoundEffectsEnabled(false);
         friendB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button settingB = (Button) selfLayout.findViewById(R.id.btnSetUp);
+        settingB.setSoundEffectsEnabled(false);
         settingB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

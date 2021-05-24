@@ -281,14 +281,10 @@ public class groupTable extends AppCompatActivity {
             }
         });
 
-
-        Button goBack = (Button) selfLayout.findViewById(R.id.btnToGList);
-        goBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        AddMember.setSelected(true);
+        cancel.setSelected(true);
+        resetB.setSelected(true);
+        calculating.setSelected(true);
 
     }
 

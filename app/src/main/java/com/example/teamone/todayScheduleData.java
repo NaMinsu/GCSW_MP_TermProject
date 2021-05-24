@@ -10,7 +10,7 @@ public class todayScheduleData {
     private String title;
     private String content;
     private String time;
-
+    
     public String getTitle() {
         return title;
     }

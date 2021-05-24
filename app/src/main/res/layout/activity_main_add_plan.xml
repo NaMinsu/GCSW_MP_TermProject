@@ -4,50 +4,52 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginHorizontal="30dp"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:background="@drawable/layout_border"
     android:layout_marginVertical="25dp"
-    >
+    android:background="@drawable/layout_border"
+    android:gravity="center"
+    android:orientation="vertical">
+
     <TextView
-        android:background="@color/mainColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/mainColor"
         android:text=" 일정 추가"
         android:textSize="25sp"
         android:textStyle="bold" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_margin="10dp"
         android:background="@drawable/layout_bottom"
-        >
+        android:orientation="vertical">
+
         <TextView
-            android:background="@color/lightGray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/lightGray"
             android:text="일정  이름" />
 
         <EditText
             android:id="@+id/planNameTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
             android:ems="10"
-            android:inputType="textShortMessage"
             android:hint="일정  이름"
-            android:layout_marginVertical="8dp"/>
+            android:inputType="textShortMessage" />
 
         <TextView
-            android:background="@color/lightGray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/lightGray"
             android:text="일정  시간" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp">
+
             <TextView
                 android:id="@+id/startTimeTxt_plan"
                 android:layout_width="0dp"
@@ -56,14 +58,15 @@
                 android:gravity="center"
                 android:text="시작시간"
                 android:textSize="15sp"></TextView>
+
             <Button
                 android:id="@+id/startTimeBtn_plan"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="변경"
-                android:textSize="18sp"
-                ></Button>
+                android:textSize="18sp"></Button>
+
             <TextView
                 android:id="@+id/endTimeTxt_plan"
                 android:layout_width="0dp"
@@ -72,29 +75,28 @@
                 android:gravity="center"
                 android:text="종료시간"
                 android:textSize="15sp"></TextView>
+
             <Button
                 android:id="@+id/endTimeBtn_plan"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="변경"
-                android:textSize="18sp"
-                ></Button>
+                android:textSize="18sp"></Button>
         </LinearLayout>
 
 
-
-
         <TextView
-            android:background="@color/lightGray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/lightGray"
             android:text="일정  기간" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp">
+
             <TextView
                 android:id="@+id/startDateTxt_plan"
                 android:layout_width="0dp"
@@ -103,14 +105,22 @@
                 android:gravity="center"
                 android:text="일정 일"
                 android:textSize="18sp"></TextView>
-            <Button
-                android:id="@+id/startDateBtn_plan"
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="변경"
-                android:textSize="18sp"
-                ></Button>
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/startDateBtn_plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="0sp"
+                    android:text="변경"
+                    android:textSize="18sp"></Button>
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -119,23 +129,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:gravity="center">
+
         <Button
             android:id="@+id/addPlanCancel"
-            android:text="취소"
-            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="40dp">
-        </Button>
+            android:layout_marginRight="40dp"
+            android:text="취소"
+            android:textSize="18sp"></Button>
+
         <Button
             android:id="@+id/addPlanAdd"
-            android:text="추가"
-            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"></Button>
+            android:layout_marginLeft="40dp"
+            android:text="추가"
+            android:textSize="18sp"></Button>
     </LinearLayout>
 
 </LinearLayout>

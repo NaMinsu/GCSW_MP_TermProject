@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class addSchedule extends Activity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference scheduleRef = database.getReference("schedule");
     int weekdayIndex;
+    MediaPlayer soundNext;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -51,6 +53,7 @@ public class addSchedule extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main_add_schedule);
 
+        soundNext = MediaPlayer.create(this,R.raw.clickpost);
 
         startTimeBtn = findViewById(R.id.startTimeBtn_main);
         endTimeBtn = findViewById(R.id.endTimeBtn_main);
@@ -60,6 +63,10 @@ public class addSchedule extends Activity {
         endDateBtn = findViewById(R.id.endDateBtn_main);
         cancelBtn = findViewById(R.id.addScheduleCancel);
         addBtn = findViewById(R.id.addScheduleAdd);
+
+        weekdayLeftBtn.setSoundEffectsEnabled(false);
+        weekdayRightBtn.setSoundEffectsEnabled(false);
+
 
         scheduleName = findViewById(R.id.scheduleNameTxt);
 
@@ -156,6 +163,7 @@ public class addSchedule extends Activity {
         weekdayLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                soundNext.start();
                 if (weekdayIndex == 0) {
                     weekdayIndex = 6;
                 } else {
@@ -167,6 +175,7 @@ public class addSchedule extends Activity {
         weekdayRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                soundNext.start();
                 if (weekdayIndex == 6) {
                     weekdayIndex = 0;
                 } else {
@@ -409,6 +418,18 @@ public class addSchedule extends Activity {
         });
 
 
+    }
+    protected void onDestroy(){
+        super.onDestroy();
+        killMediaPlayer(soundNext);
+    }
+    private void killMediaPlayer(MediaPlayer mediaplayer){
+        if(mediaplayer!=null){
+            try{mediaplayer.release();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
     /*
     날짜가 겹치는지 확인하는 함수인데
