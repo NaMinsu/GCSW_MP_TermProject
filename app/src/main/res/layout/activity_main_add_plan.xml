@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightGray"
+            android:paddingLeft="7dp"
             android:text="일정  이름" />
 
         <EditText
@@ -43,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightGray"
+            android:paddingLeft="7dp"
             android:text="일정  시간" />
 
         <LinearLayout
@@ -90,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightGray"
+            android:paddingLeft="7dp"
             android:text="일정  기간" />
 
         <LinearLayout

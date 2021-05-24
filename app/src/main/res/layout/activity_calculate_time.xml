@@ -30,6 +30,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightGray"
+            android:textStyle="bold"
+            android:paddingLeft="7dp"
+            android:textSize="16sp"
             android:text="회의  시간"
             />
 
@@ -42,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textSize="15sp"
                 android:text="시간"
                 android:textStyle="bold"></TextView>
 
@@ -49,6 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="15sp"
                 android:gravity="center"
                 android:text="분"
                 android:textStyle="bold"></TextView>
@@ -68,7 +73,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="0"
-                android:textSize="20sp"></TextView>
+                android:textSize="25sp"></TextView>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -100,7 +105,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="0"
-                android:textSize="20sp"></TextView>
+                android:textSize="25sp"></TextView>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -127,6 +132,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightGray"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:paddingLeft="7dp"
             android:text="요일 선택" />
 
         <LinearLayout
@@ -149,7 +157,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:text="일요일"></CheckBox>
 
                     <CheckBox
@@ -157,7 +165,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:text="월요일"></CheckBox>
 
                     <CheckBox
@@ -165,7 +173,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:text="화요일"></CheckBox>
 
                     <CheckBox
@@ -173,7 +181,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:text="수요일"></CheckBox>
 
                     <CheckBox
@@ -181,7 +189,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:text="목요일"></CheckBox>
 
                     <CheckBox
@@ -189,7 +197,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:text="금요일"></CheckBox>
 
                     <CheckBox
@@ -197,7 +205,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:text="토요일"></CheckBox>
                 </LinearLayout>
             </HorizontalScrollView>

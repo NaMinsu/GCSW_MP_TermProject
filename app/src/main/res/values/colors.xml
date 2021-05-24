@@ -8,8 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="mainColor">#FFFFaa66</color>
+    <color name="subColor">#FFC596</color>
     <color name="layerBGColor">#FFFFFFFF</color>
     <color name="lightGray">#AAAAAA</color>
+    <color name="lightGray_more">#CCCCCC</color>
 
     <color name="colorHeader">#fcfcfc</color>
     <color name="colorHeaderText">#7d7d7d</color>
