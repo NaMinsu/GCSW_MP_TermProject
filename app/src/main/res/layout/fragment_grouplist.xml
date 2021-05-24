@@ -21,13 +21,13 @@
             android:text="그룹 목록"
             android:textSize="28dp"
             android:background="@drawable/textview_solid"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:padding="3dp"
             android:layout_marginBottom="5dp"
             android:textStyle="bold"
             android:textAlignment="center" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -37,16 +37,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button1"
-                android:layout_marginRight="5dp"
-                android:text="+" />
+                android:layout_alignParentRight="true"
+                android:textStyle="bold"
+                android:text="그룹 추가" />
 
             <Button
                 android:id="@+id/btnDeleteGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button1"
-                android:text="-" />
-        </LinearLayout>
+                android:layout_toLeftOf="@+id/btnAddGroup"
+                android:layout_marginHorizontal="8dp"
+                android:textStyle="bold"
+                android:text="그룹 삭제" />
+        </RelativeLayout>
 
         <ScrollView
             android:id="@+id/glist"

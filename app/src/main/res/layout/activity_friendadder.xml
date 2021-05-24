@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="친구 계정명"
+        android:textStyle="bold"
         android:background="@drawable/textview_solid"
         android:padding="3dp"
         android:layout_margin="2dp"

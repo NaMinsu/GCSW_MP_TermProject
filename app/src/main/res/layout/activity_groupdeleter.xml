@@ -12,6 +12,7 @@
         android:background="@drawable/textview_solid"
         android:padding="3dp"
         android:layout_margin="2dp"
+        android:textStyle="bold"
         android:textSize="28dp"
         android:textColor="@color/black"
         android:textAlignment="center"

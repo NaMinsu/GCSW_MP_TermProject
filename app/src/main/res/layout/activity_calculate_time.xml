@@ -142,7 +142,7 @@
             android:layout_height="match_parent"
             >
 
-            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            <HorizontalScrollView
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 >
@@ -150,6 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:orientation = "horizontal"
+                    android:paddingVertical="8dp"
                     >
 
                     <CheckBox
@@ -157,7 +158,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="14sp"
+                        android:textSize="18sp"
                         android:text="일요일"></CheckBox>
 
                     <CheckBox
@@ -165,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="14sp"
+                        android:textSize="18sp"
                         android:text="월요일"></CheckBox>
 
                     <CheckBox
@@ -173,7 +174,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="14sp"
+                        android:textSize="18sp"
                         android:text="화요일"></CheckBox>
 
                     <CheckBox
@@ -181,15 +182,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="14sp"
-                        android:text="수요일"></CheckBox>
+                        android:text="수요일"
+                        android:textSize="18sp"></CheckBox>
 
                     <CheckBox
                         android:id="@+id/groupThursday"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="14sp"
+                        android:textSize="18sp"
                         android:text="목요일"></CheckBox>
 
                     <CheckBox
@@ -197,7 +198,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="14sp"
+                        android:textSize="18sp"
                         android:text="금요일"></CheckBox>
 
                     <CheckBox
@@ -205,7 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:checked="true"
-                        android:textSize="14sp"
+                        android:textSize="18sp"
                         android:text="토요일"></CheckBox>
                 </LinearLayout>
             </HorizontalScrollView>
@@ -224,6 +225,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:paddingBottom="10dp"
         android:gravity="center">
 
         <Button
