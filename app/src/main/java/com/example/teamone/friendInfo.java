@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.widget.ImageView;
@@ -14,21 +13,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 
 public class friendInfo extends Activity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -43,10 +39,8 @@ public class friendInfo extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_friendinfo);
-
         Intent intent_rec = getIntent();
         String fname_temp = intent_rec.getStringExtra("friendname");
-
         title = findViewById(R.id.fptitle);
         profile = findViewById(R.id.profile_image);
         fName = findViewById(R.id.fpname);
@@ -75,7 +69,6 @@ public class friendInfo extends Activity {
                 if (friendMail != null) {
                     String fid = friendMail.replace('.', '_');
                     DataSnapshot info = users.child(fid);
-
                     friendName = info.child("nickname").getValue().toString();
                     String title_text = friendName + "님의 정보";
                     title.setText(title_text);
@@ -88,10 +81,19 @@ public class friendInfo extends Activity {
 
                     link_image = info.child("profile_image").getValue().toString();
                     profile = findViewById(R.id.profile_image);
-                    new DownloadFilesTask().execute(link_image);
+                    putImage(link_image);
+                     // new DownloadFilesTask().execute(link_image); 로딩시간 단축을 위한 제안
                 }
+
             }
         });
+    }
+
+    private void putImage(String link) {
+        Glide.with(this)
+                .load(link)
+                .override(150, 150)
+                .into(profile);
     }
 
     @Override
@@ -100,13 +102,14 @@ public class friendInfo extends Activity {
             return false;
         return true;
     }
-
+/*
     private class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String... strings) {
             Bitmap bmp = null;
             try {
+
                 URL url = new URL(link_image);
                 bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             } catch (MalformedURLException e) {
@@ -114,7 +117,6 @@ public class friendInfo extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return bmp;
         }
 
@@ -128,4 +130,6 @@ public class friendInfo extends Activity {
             profile.setImageBitmap(result);
         }
     }
+
+ */
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentGroupList FragmentGroupList;
     FragmentFriendList FragmentFriendList;
     FragmentSettings FragmentSettings;
-
+    MediaPlayer mediaPlayer;
 
 
     @Override
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentGroupList = new FragmentGroupList();
         FragmentFriendList = new FragmentFriendList();
         FragmentSettings = new FragmentSettings();
+        mediaPlayer = MediaPlayer.create(this, R.raw.thik);
 
         Intent intent = getIntent();
         String s = intent.getStringExtra("fragment");
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         myPageB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer.start();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container,ScheduleFragment);
                 ft.addToBackStack(null).commit();
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         groupB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer.start();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, FragmentGroupList);
                 ft.addToBackStack(null).commit();
@@ -73,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         friendB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer.start();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, FragmentFriendList);
                 ft.addToBackStack(null).commit();
@@ -83,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         settingB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer.start();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, FragmentSettings);
                 ft.addToBackStack(null).commit();
@@ -90,5 +96,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    private void killMediaPlayer(){
+        if(mediaPlayer!=null){
+            try{mediaPlayer.release();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 
+    protected void onDestroy(){
+        super.onDestroy();
+        killMediaPlayer();
+    }
 }
