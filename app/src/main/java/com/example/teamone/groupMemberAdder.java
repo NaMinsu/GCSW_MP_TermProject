@@ -1,6 +1,7 @@
 package com.example.teamone;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class groupMemberAdder extends AppCompatActivity {
+public class groupMemberAdder extends Activity {
 
     View selfLayout;
     Button okB, cancelB;

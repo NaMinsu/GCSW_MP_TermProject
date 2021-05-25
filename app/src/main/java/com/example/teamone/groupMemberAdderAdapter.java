@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+//Adapter for groupmember activity. Show friend list by this adapter
 public class groupMemberAdderAdapter extends RecyclerView.Adapter<GMAViewHolder>{
 
     ArrayList<String> dataList;

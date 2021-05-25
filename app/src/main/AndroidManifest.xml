@@ -68,7 +68,8 @@
         <activity
             android:name=".friendInfo"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".groupMemberAdder" />
+        <activity android:name=".groupMemberAdder"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".groupDeleter"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />

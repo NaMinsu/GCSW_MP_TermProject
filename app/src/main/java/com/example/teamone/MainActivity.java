@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(s.equals("1")){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentGroupList).commit();
-        }
+        } //start main activity with fragmentGroupList when touch 뒤로가기 in group table
         else if(s.equals("2")){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentSettings).commit();
-        }
+        } //start main activity with fragment setting when touch 뒤로가기 in change info
         else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ScheduleFragment).commit();
         }
