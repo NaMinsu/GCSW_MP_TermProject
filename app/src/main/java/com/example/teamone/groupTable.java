@@ -261,6 +261,16 @@ public class groupTable extends AppCompatActivity {
             }
         });
 
+        Button goBack = (Button)selfLayout.findViewById(R.id.btnBack);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("fragment","1");
+                startActivity(intent);
+            }
+        });
+
         Button calculating = (Button) findViewById(R.id.calculate);
         calculating.setOnClickListener(new View.OnClickListener() {
             @Override

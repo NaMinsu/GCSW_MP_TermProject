@@ -27,10 +27,13 @@
             android:textSize="18sp"
             android:textAlignment="center"/>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+
 
             <Button
                 android:id="@+id/btnAddMember"
@@ -115,7 +118,14 @@
 
 
 
-
+    <Button
+        android:id="@+id/btnBack"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:drawableTop="@drawable/ic_baseline_west_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     </LinearLayout>
 
