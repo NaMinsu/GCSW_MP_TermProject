@@ -77,9 +77,6 @@
             android:name=".addSchedule"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".calculateGroupMeeting"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity
             android:name=".addPlan"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
     </application>

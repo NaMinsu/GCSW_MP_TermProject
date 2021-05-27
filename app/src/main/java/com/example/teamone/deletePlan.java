@@ -56,9 +56,7 @@ public class deletePlan extends Activity {
         setContentView(R.layout.activity_delete_plan);
         contextPlan = this;
 
-
         init();
-
 
         noPlan = findViewById(R.id.noDeletePlan);
         deletePlanCancel = findViewById(R.id.deletePlanCancel);
@@ -82,6 +80,10 @@ public class deletePlan extends Activity {
     /*
     계획이 있으면 계획이 없다 텍스트를 안보이게 하고
     계획이 없으면 계획이 없다 텍스트를 보이게 하는 함수입니다.
+     */
+    /*
+    if there isn't any plan, make the text(noPlan) invisible
+    if there is any plan, make the text(noPlan) visible
      */
     public void findNoPlan(){
         if(adapter.getItemCount()==0){
@@ -107,6 +109,10 @@ public class deletePlan extends Activity {
     /*
     Resume할 때 plan을 읽어와서 올리기
     (인터넷 연결되어있다면)
+     */
+    /*
+    Everytime the activitiy is onResume,
+    read plans from data and enter it into recycler view
      */
     public void onResume() {
         super.onResume();

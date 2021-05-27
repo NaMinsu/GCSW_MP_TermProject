@@ -8,6 +8,9 @@ public class todayScheduleDataItem {
      * todayScheduleData는 plan을 저장하기 위한 클래스인데
      * 계획 초기에 plan을 today schedule로 구상했었기 때문에 명칭이 겹쳐 이렇게 이름을 지었습니다.
      */
+    /*
+    class to define schedule
+     */
     private String title;
     private String content;
     private String time;

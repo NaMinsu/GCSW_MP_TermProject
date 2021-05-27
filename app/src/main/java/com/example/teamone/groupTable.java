@@ -84,6 +84,7 @@ public class groupTable extends AppCompatActivity {
         name = intent.getStringExtra("name");
         groupCode = intent.getStringExtra("code");
 
+        //read group schedule
         groupRef.child(groupCode).child("GroupSchedule").child("schedule").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
@@ -108,6 +109,7 @@ public class groupTable extends AppCompatActivity {
             }
         });
 
+        //read member's schedules
         groupRef.child(groupCode).child("members").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
@@ -144,13 +146,15 @@ public class groupTable extends AppCompatActivity {
                                         }
 
                                     }
-                                });//한사람의 스케쥴 한개 읽기
+                                });
                             }
                         }
                     });
                 }
             }
         });
+
+        //read member's plan
         groupRef.child(groupCode).child("members").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
@@ -186,7 +190,7 @@ public class groupTable extends AppCompatActivity {
                                         }
 
                                     }
-                                });//한사람의 스케쥴 한개 읽기
+                                });
                             }
                         }
                     });
@@ -214,9 +218,13 @@ public class groupTable extends AppCompatActivity {
             String[] starttime;
             String[] Endtime;
             String[] date;
+            boolean correct;
             @Override
             public void onClick(View view) {
 
+                correct =false;
+
+                //read group schedule and if there is group schedule, delete each user's plan(group schedule)
                 groupRef.child(groupCode).child("GroupSchedule").child("schedule").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
@@ -227,6 +235,7 @@ public class groupTable extends AppCompatActivity {
                             Endtime = fortable[3].split(":");
                             date = fortable[4].split("/");
                             deleteGroupPlan();
+                            correct=true;
                             planName = "not yet !@!@#@$";
                         }
 
@@ -241,14 +250,16 @@ public class groupTable extends AppCompatActivity {
                             planRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
-                                    String title = fortable[1];
-                                    String startTime = starttime[0]+":"+starttime[1];
-                                    startTime = convertPlanTime(startTime);
-                                    String endTime = Endtime[0]+":"+Endtime[1];
-                                    endTime = convertPlanTime(endTime);
-                                    String time = startTime+"~"+endTime;
-                                    String[] dates = convertPlanDate(date[0]+"/"+date[1]+"/"+date[2]);
-                                    deletePlan(title, dates[0] + dates[1] + dates[2], time,member.getKey());
+                                    if(correct) {
+                                        String title = fortable[1];
+                                        String startTime = starttime[0] + ":" + starttime[1];
+                                        startTime = convertPlanTime(startTime);
+                                        String endTime = Endtime[0] + ":" + Endtime[1];
+                                        endTime = convertPlanTime(endTime);
+                                        String time = startTime + "~" + endTime;
+                                        String[] dates = convertPlanDate(date[0] + "/" + date[1] + "/" + date[2]);
+                                        deletePlan(title, dates[0] + dates[1] + dates[2], time, member.getKey());
+                                    }
                                 }
                             });
                         }
@@ -338,6 +349,9 @@ public class groupTable extends AppCompatActivity {
         return DayOfWeek.SUNDAY;
     }
 
+    /*
+    calculate the new schedule's time to put in the group timetable
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void putCalcul() {
         LocalDate nowDate = LocalDate.now();
@@ -385,6 +399,9 @@ public class groupTable extends AppCompatActivity {
         });
     }
 
+    /*
+    result from add new group schedule
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -401,7 +418,7 @@ public class groupTable extends AppCompatActivity {
         }
 
     }
-
+    // remove data and create new group timetable
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void reset() {
         members.removeAll(members);
@@ -426,7 +443,7 @@ public class groupTable extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
 
-                                            String title = plan.child("title").getValue().toString();
+                                        String title = plan.child("title").getValue().toString();
                                         if (!title.equals(planName)) {
                                             String date = plan.child("date").getValue().toString();
                                             String time = plan.child("time").getValue().toString();
@@ -449,7 +466,7 @@ public class groupTable extends AppCompatActivity {
 
                                         }
                                     }
-                                });//한사람의 스케쥴 한개 읽기
+                                });
                             }
                         }
                     });
@@ -497,29 +514,29 @@ public class groupTable extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
                                         String title = task.getResult().child("title").getValue().toString();
-                                            String weekday = task.getResult().child("weekday").getValue().toString();
-                                            String Time = task.getResult().child("time").getValue().toString();
-                                            String[] times = Time.split("~");
-                                            String[] startTime = times[0].split(":");
-                                            String[] endTime = times[1].split(":");
-                                            String startDate = task.getResult().child("startDate").getValue().toString();
-                                            String endDate = task.getResult().child("endDate").getValue().toString();
-                                            String[] startDateSplit = startDate.split("/");
-                                            String[] endDateSplit = endDate.split("/");
+                                        String weekday = task.getResult().child("weekday").getValue().toString();
+                                        String Time = task.getResult().child("time").getValue().toString();
+                                        String[] times = Time.split("~");
+                                        String[] startTime = times[0].split(":");
+                                        String[] endTime = times[1].split(":");
+                                        String startDate = task.getResult().child("startDate").getValue().toString();
+                                        String endDate = task.getResult().child("endDate").getValue().toString();
+                                        String[] startDateSplit = startDate.split("/");
+                                        String[] endDateSplit = endDate.split("/");
 
-                                            LocalDate startLocalDate = LocalDate.of(Integer.parseInt(startDateSplit[0]), Integer.parseInt(startDateSplit[1]), Integer.parseInt(startDateSplit[2]));
-                                            LocalDate endLocalDate = LocalDate.of(Integer.parseInt(endDateSplit[0]), Integer.parseInt(endDateSplit[1]), Integer.parseInt(endDateSplit[2]));
-                                            LocalDate tmpDate = nowDate.with(TemporalAdjusters.nextOrSame(getDatePersonal(Integer.parseInt(weekday))));
+                                        LocalDate startLocalDate = LocalDate.of(Integer.parseInt(startDateSplit[0]), Integer.parseInt(startDateSplit[1]), Integer.parseInt(startDateSplit[2]));
+                                        LocalDate endLocalDate = LocalDate.of(Integer.parseInt(endDateSplit[0]), Integer.parseInt(endDateSplit[1]), Integer.parseInt(endDateSplit[2]));
+                                        LocalDate tmpDate = nowDate.with(TemporalAdjusters.nextOrSame(getDatePersonal(Integer.parseInt(weekday))));
 
-                                            if (getDateDif(tmpDate, startLocalDate) >= 0 && getDateDif(tmpDate, endLocalDate) <= 0) {
-                                                addNew(Integer.parseInt(weekday), "", "", new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])), new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
-                                                setColor(planName);
-                                            } else if (getDateDif(tmpDate, endLocalDate) > 0) {
-                                                deleteSchedule(title, startDateSplit[0] + startDateSplit[1] + startDateSplit[2], endDateSplit[0] + endDateSplit[1] + endDateSplit[2], Time, weekday,member.getKey());
-                                            }
+                                        if (getDateDif(tmpDate, startLocalDate) >= 0 && getDateDif(tmpDate, endLocalDate) <= 0) {
+                                            addNew(Integer.parseInt(weekday), "", "", new Time(Integer.parseInt(startTime[0]), Integer.parseInt(startTime[1])), new Time(Integer.parseInt(endTime[0]), Integer.parseInt(endTime[1])));
+                                            setColor(planName);
+                                        } else if (getDateDif(tmpDate, endLocalDate) > 0) {
+                                            deleteSchedule(title, startDateSplit[0] + startDateSplit[1] + startDateSplit[2], endDateSplit[0] + endDateSplit[1] + endDateSplit[2], Time, weekday,member.getKey());
                                         }
+                                    }
 
-                                });//한사람의 스케쥴 한개 읽기
+                                });
                             }
                         }
                     });
@@ -544,6 +561,14 @@ public class groupTable extends AppCompatActivity {
         timetable.add(schedules);
     }
 
+    /*
+    check if there is any time to put in new group schedule into group timetable
+    make each weekday's index and Schedul[e
+    get each weekday's schedules or plans and count, and merge it
+    if the weekday is selected, check if there is any time to put in new schedule
+    return the result
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean calculate(Schedule[] groupSchedule, Schedule newSchedule, int length) {
 
         int index = groupSchedule.length;
@@ -558,7 +583,6 @@ public class groupTable extends AppCompatActivity {
             }
         }
 
-        //요일 나누기
         for (int i = 0; i < index; i++) {
             if (groupSchedule[i].getDay() == 0) {
                 day[0][indicies[0]] = groupSchedule[i];
@@ -583,18 +607,22 @@ public class groupTable extends AppCompatActivity {
                 indicies[6]++;
             }
         }
-        //나눈 요일별로 merging function의 결과를 담을 class
+
         Schedule[][] merged = new Schedule[7][index];
 
-
-        //전체 초기화 및 요일별로 함수 돌리기
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < index; j++) {//요일 전체 초기화
+        LocalDate nowDate = LocalDate.now();
+        int weekday = getWeekdayIndex(nowDate.getDayOfWeek().toString());
+        int i=weekday+1;
+        if(i==7){
+            i=0;
+        }
+        boolean correct=true;
+        while(correct){
+            for (int j = 0; j < index; j++) {
                 merged[i][j] = new Schedule();
             }
             if (weekdayTrue[i] != false) {
                 if (indicies[i] != 0) {
-                    //요일별로 함수 실행, 그리고 여기서 available이 true가 나오면 true return하기
                     if (Merging(day[i], merged[i], newSchedule, indicies[i], length, i)) {
                         return true;
                     }
@@ -603,8 +631,15 @@ public class groupTable extends AppCompatActivity {
                     return true;
                 }
             }
+            i+=1;
+            if(i==7){
+                i=0;
+            }
+            if(i==weekday){
+                correct = false;
+            }
         }
-        return false; //모든요일에서 false가 return되면 return false
+        return false;
     }
 
     public boolean Merging(Schedule[] days, Schedule[] merging, Schedule newschedule, int index, int length, int day) {
@@ -748,6 +783,9 @@ public class groupTable extends AppCompatActivity {
     }
 
 
+    /*
+    if the planName is not set, change schedule which has same name of planName.
+     */
     public void setColor(String planName) {
         ArrayList<String> a = new ArrayList<String>();
         a.add(planName);

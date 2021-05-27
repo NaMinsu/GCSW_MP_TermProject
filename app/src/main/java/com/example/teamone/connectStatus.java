@@ -20,6 +20,10 @@ public class connectStatus {
     따라서 인터넷이 연결 안되면 offline을 만들어놓고
     연결되면 online을 만듭니다.
     */
+    /*
+    This is function that check Internet connectivity status
+    this returns 1 if wifi is connected, return 2 if LTE is connected, return 3 if internet is not connected
+     */
     public static int getConnectivityStatus(Context context){ //해당 context의 서비스를 사용하기위해서 context객체를 받는다.
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
 
@@ -32,7 +36,7 @@ public class connectStatus {
                 return TYPE_WIFI;
             }
         }
-        return TYPE_NOT_CONNECTED;  //연결이 되지않은 상태
+        return TYPE_NOT_CONNECTED;
     }
 
 

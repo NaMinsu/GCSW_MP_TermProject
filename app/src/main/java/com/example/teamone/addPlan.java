@@ -76,6 +76,10 @@ public class addPlan extends Activity {
         3시면 03시로 표기, 3분이면 03분으로 표기할 수 있도록 만들었습니다.
         결과적으로 03:03으로 입력되게 했습니다.
          */
+        /*
+        Button that set the start time of plan
+        Read time with TimePickerDialog, and show time (alway shows Number of digits in 10)
+         */
         startTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +111,10 @@ public class addPlan extends Activity {
         /*
         끝나는 시간을 정하는 버튼입니다.
         시작시간 버튼과 동일합니다.
+         */
+        /*
+        Button that set end time of plan
+        same with startTimeBtn
          */
         endTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +153,12 @@ public class addPlan extends Activity {
         그외에 시간과 같이 3일은 03일 3월은 03월 처럼 십의 자리를 표기했습니다.
         년/월/일 형식으로 텍스트를 표기했습니다.
          */
+        /*
+        Button that set date of plan
+        read date with DatePickDialog, increase the month by one (It shows the month less by one)
+        alway shows Number of digits in 10 (month, day)
+        Set the text "year"/"month"/"day"
+         */
         startDateBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -177,6 +191,9 @@ public class addPlan extends Activity {
         /*
         취소 버튼 클릭시 해당 액티비티를 종료합니다.
          */
+        /*
+        If the cancel button is clicked, finish the activity
+         */
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -189,6 +206,11 @@ public class addPlan extends Activity {
         각각의 일정 명, 시작 시간과 같은 정보를 문자열로 읽어오고,
         이름, 시간 등등 하나라도 입력하지 않은게 있다면 진행x
         일정 입력에 문제가 있는 사항이 있는지 없는지 파악하기 위해 boolean 타입의 correct 변수를 생성하여 true로 저장했습니다.
+         */
+        /*
+        Button that add plan with given information
+        Read information such as schedule name, start time, etc...
+        If any of them are not entered, do not add plan
          */
         addBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -215,6 +237,9 @@ public class addPlan extends Activity {
                     /*
                     시작 시간이 종료시간보다 늦을 경우 correct를 false로 변경합니다.
                      */
+                    /*
+                    if start time is later than endtime, make correct false
+                     */
                     if (startTimeSplit[0].compareTo(endTimeSplit[0]) > 0) {
                         correct = false;
                     } else if(startTimeSplit[0].compareTo(endTimeSplit[0]) == 0){
@@ -237,6 +262,10 @@ public class addPlan extends Activity {
                         겹치는 일정이 있는지 파악하기 위해 데이터베이스에서 일정을 모두 읽어옵니다.
                         하나라도 겹치는게 있다면 해당 일정은 데이터베이스로 들어가지 못하게 합니다.
                         우선 날짜가 겹치는 상황에서 시간이 겹치면 겹친다고 파악합니다.
+                         */
+                        /*
+                        Read every plan of the user to check if there are any overlapping plans.
+                        If there is any overlapping plan, do not add this plan
                          */
                         planRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 
@@ -277,6 +306,10 @@ public class addPlan extends Activity {
                                 메인화면에서 불러오는게 더 빨라 입력한 일정이 나오지 않기 때문에
                                 마지막 데이터가 저장되는것을 성공하면 해당 액티비티를 종료하는 것으로 했습니다.
                                  */
+                                /*
+                                if there is not any overlapping plans, add this plan.
+                                finish this activity after the last data of this plan is entered.
+                                 */
                                 if(!isOverlap) {
                                     planRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0] + startDateSplit[1] + startDateSplit[2] + "_" + startTimeTxtV + "~" + endTimeTxtV + "_" + planNameV).child("title").setValue(planNameV);
                                     planRef.child(FirstAuthActivity.getMyID()).child(startDateSplit[0] + startDateSplit[1] + startDateSplit[2] + "_" + startTimeTxtV + "~" + endTimeTxtV + "_" + planNameV).child("date").setValue(startDateTxtV);
@@ -310,6 +343,10 @@ public class addPlan extends Activity {
     일정은 기간이 따로 없고 해당 날짜에만 수행하기 때문에
     날짜가 같으면 true를 아니면 false를 리턴합니다.
      */
+    /*
+    If the date is same, return true
+    or false.
+     */
     private boolean isOverlapDate(String start,String startG){
         if (start.equals(startG)){
             return true;
@@ -327,6 +364,13 @@ public class addPlan extends Activity {
     (서로 교집합이 있는 상황에서 A가 더 앞에 있을 때)
 
     그리고 해당하는 상황에서 A와 B가 뒤바뀐 상황에 있으면 시간이 겹치는 것으로 했습니다.
+     */
+    /*
+    function that check if the time is overlapping
+    1. if A's start time is same or earlier than B's start time and A's end time is same or later than B's end time
+    2. if A's start time is earlier than B's end time and A's end time is earlier than B's end time
+    3,4. The situation in which A and B have changed.
+    if one of the four situation is true, return true
      */
     private boolean isOverlapTime(LocalTime start,LocalTime end, LocalTime startG,LocalTime endG){
         if(start.compareTo(startG)<=0&&end.compareTo(endG)>=0){

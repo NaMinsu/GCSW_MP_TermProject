@@ -78,6 +78,10 @@ public class deleteSchedule extends Activity {
     스케쥴이 있으면 스케쥴이 없다 텍스트를 안보이게 하고
     스케쥴이 없으면 스케쥴이 없다 텍스트를 보이게 하는 함수입니다.
      */
+    /*
+    if there isn't any schedule, make the text(noSchedule) invisible
+    if there is any schedule, make the text(noSchedule) visible
+     */
     public void findNoSchedule(){
         if(adapter.getItemCount()==0){
             noSchedule.setVisibility(View.VISIBLE);
@@ -99,6 +103,10 @@ public class deleteSchedule extends Activity {
     }
 
 
+    /*
+    Everytime the activitiy is onResume,
+    read schedules from data and enter it into recycler view
+     */
     public void onResume() {
         super.onResume();
         if(connectStatus.getConnectivityStatus(getApplicationContext())!=3) {

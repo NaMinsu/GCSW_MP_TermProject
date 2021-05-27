@@ -52,14 +52,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
         /*
-        로그인 버튼이 눌렸을 경우
+        If the Login button is clicked
          */
         logInButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                //아이디, 비밀번호 문자열
                 ID = String.valueOf(idText.getText());
                 PW = String.valueOf(pwText.getText());
 
@@ -126,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         /*
-        회원가입 텍스트가 눌렸을 경우
+        if the signupText is clicked
          */
         signUpText.setOnClickListener(new View.OnClickListener() {
 
@@ -150,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //로그인 화면 백버튼 시 이전 Activity 로 돌아가는 상황을 막기 위한 코드
+        //Code to prevent return to previous Activity when login screen back button
         moveTaskToBack(true);
     }
 

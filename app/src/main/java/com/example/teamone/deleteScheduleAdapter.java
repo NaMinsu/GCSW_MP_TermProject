@@ -50,8 +50,14 @@ public class deleteScheduleAdapter extends RecyclerView.Adapter<deleteScheduleAd
     리사이클러 뷰 내부에서 사용될 ItemViewHolder입니다.
     해당 ItemViewHolder에 있는 버튼을 클릭시
     리스트에서 제거하고 데이터베이스에서 삭제합니다.
-    또한 deletePlan 클래스의 findNoPlan 함수를 실행합니다.
+    또한 deleteSchedule 클래스의 findNoSchedule 함수를 실행합니다.
      */
+    /*
+    ItemViewHolder to be used inside the Recycler View.
+    Click the button on the itemViewHolder.
+    Remove from list and delete from database.
+    It also executes the findNoSchedule function of the deleteSchedule class.
+    */
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private todayScheduleDataItem data;

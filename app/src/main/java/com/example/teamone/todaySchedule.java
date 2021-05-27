@@ -18,8 +18,10 @@ import java.util.ArrayList;
 public class todaySchedule extends RecyclerView.Adapter<todaySchedule.ItemViewHolder> {
 
     /*
-    메인 fragment에서
+    class that define items to put in main fragment's recycler view
+    Actually this is not 'todaySchedule' but 'my every plan'
      */
+
     private ArrayList<todayScheduleData> listData = new ArrayList<todayScheduleData>();
 
     @NonNull

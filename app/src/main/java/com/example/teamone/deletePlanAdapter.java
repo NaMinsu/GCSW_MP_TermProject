@@ -45,13 +45,13 @@ public class deletePlanAdapter extends RecyclerView.Adapter<deletePlanAdapter.It
         return listData.size();
     }
 
-    public void remove(){listData.clear();}
+    public void remove() {
+        listData.clear();
+    }
 
     public void addItem(todayScheduleData data) {
         listData.add(data);
     }
-
-
 
 
     /*
@@ -59,6 +59,12 @@ public class deletePlanAdapter extends RecyclerView.Adapter<deletePlanAdapter.It
     해당 ItemViewHolder에 있는 버튼을 클릭시
     리스트에서 제거하고 데이터베이스에서 삭제합니다.
     또한 deletePlan 클래스의 findNoPlan 함수를 실행합니다.
+     */
+    /*
+    ItemViewHolder to be used inside the Recycler View.
+    Click the button on the itemViewHolder.
+    Remove from list and delete from database.
+    It also executes the findNoPlan function of the deletePlan class.
      */
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -91,19 +97,19 @@ public class deletePlanAdapter extends RecyclerView.Adapter<deletePlanAdapter.It
             deleteBtn.setOnClickListener(this);
         }
 
-        public void onClick(View v){
-            switch(v.getId()){
+        public void onClick(View v) {
+            switch (v.getId()) {
                 case R.id.deletePlanGoBtn:
                     String[] date = textView2.getText().toString().split("/");
-                    deletePlan(textView1.getText().toString(),date[0]+date[1]+date[2],textView3.getText().toString());
+                    deletePlan(textView1.getText().toString(), date[0] + date[1] + date[2], textView3.getText().toString());
                     listData.remove(data);
                     notifyDataSetChanged();
-                    ((deletePlan)deletePlan.contextPlan).findNoPlan();
+                    ((deletePlan) deletePlan.contextPlan).findNoPlan();
             }
         }
 
-        private void deletePlan(String title, String date, String time){
-            planRef.child(FirstAuthActivity.getMyID()).child(date+"_"+time+"_"+title).setValue(null);
+        private void deletePlan(String title, String date, String time) {
+            planRef.child(FirstAuthActivity.getMyID()).child(date + "_" + time + "_" + title).setValue(null);
         }
     }
 }

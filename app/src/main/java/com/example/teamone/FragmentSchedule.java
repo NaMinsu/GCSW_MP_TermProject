@@ -44,6 +44,10 @@ import java.util.ArrayList;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
+/*
+main fragment(Main Screen)
+this shows plans and timetable
+ */
 public class FragmentSchedule extends Fragment {
 
     TimetableView timetable;
@@ -79,12 +83,6 @@ public class FragmentSchedule extends Fragment {
                 // ...
             }
         });
-
-
-
-        /*
-        버튼 설정
-         */
 
         Button addSchedule = v.findViewById(R.id.addScheduleBtn);
 
@@ -139,7 +137,7 @@ public class FragmentSchedule extends Fragment {
 
 
     /*
-    스케쥴 fragment에 있는 시간표에 추가하는 함수입니다.
+    add new plan or schedule into timetable
      */
     protected void addNew(int day, String title, String place, Time startTime, Time endTime){
         ArrayList<Schedule> schedules = new ArrayList<Schedule>();
@@ -166,6 +164,9 @@ public class FragmentSchedule extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    /*
+    add new plan into plan recycler view
+     */
     private void getData(String title, String content, String time){
 
         numOfPlan++;
@@ -193,12 +194,15 @@ public class FragmentSchedule extends Fragment {
 
     /*
     onResume 할 때 매번 일정과 스케쥴을 다시 읽어들입니다.
-    (추가, 삭제할 경우 onResume이 발생합니다)
     다시 읽어들이는 과정에서 각각 시간이 지난 일정과 스케쥴은 모두 삭제합니다.
-    일정은 당일 이전이면 모두 삭제하고
-    스케쥴은 해당하는 주의 일요일 이전이면 삭제합니다.
-    또한 해당하는 주의 일요일~토요일 사이라면 시간표에 표시합니다.
+    일정이나 스케쥴은 당일 이전이면 삭제합니다.
+    또한 당일 ~ 6일뒤 사이라면 시간표에 표시합니다.
      */
+    /*
+    I read the schedule and schedule again every time I do on Resume.
+    In the process of re-reading, delete all plans and schedules that have passed their time.
+    If the plan or schedule is before the day, delete it.
+    It is also displayed in the timetable if it is between the same day and six days later.    */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onResume(){
         super.onResume();
@@ -285,9 +289,6 @@ public class FragmentSchedule extends Fragment {
 
             soundReload.start();
         }
-        /*
-        LTE와 WIFI 둘 중 하나라도 연결되어있지않다면
-         */
         else{
             database.goOffline();
             Toast.makeText(getContext(),"인터넷이 연결되지 않았습니다",Toast.LENGTH_SHORT).show();

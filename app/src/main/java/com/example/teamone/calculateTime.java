@@ -93,6 +93,11 @@ public class calculateTime extends Activity {
             }
         });
 
+        /*
+        If the hour, minute up, down button is onTouch,
+        increase/decrease the hour number with given thread
+        (It changes faster as the time the button pressed longer)
+         */
         hourUp.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ResourceAsColor")
             public boolean onTouch(View v, MotionEvent event) {
@@ -260,6 +265,11 @@ public class calculateTime extends Activity {
 
 
 
+    /*
+    The hour text coverage is (0~14)
+    The minute text coverage is (0~59)
+    if the minute text is 59 and if it increases, it becomes 0, and do goHourup()
+     */
     public Boolean goHourUp() {
         int H = Integer.parseInt(hour.getText().toString());
         if (H >= 14) {
