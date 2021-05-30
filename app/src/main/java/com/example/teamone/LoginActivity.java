@@ -68,19 +68,19 @@ public class LoginActivity extends AppCompatActivity {
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) { //로그인성공시
-                                        //Log.d(TAG, "signInWithEmail:success");
+                                    if (task.isSuccessful()) { //Login Successful
+                                        Log.d("LoginActivity", "signInWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
-                                        if (user.isEmailVerified()) {  // 이메일 인증을 완료하였다면
+                                        if (user.isEmailVerified()) {  // Email Authentication Check
                                             String stUserEmail = user.getEmail();
                                             SharedPreferences sf = getSharedPreferences("Users", MODE_PRIVATE);
                                             SharedPreferences.Editor editor = sf.edit();
                                             editor.putString("Email", stUserEmail);
                                             editor.commit();
-                                            /*https://jhshjs.tistory.com/56  SharedPreferences 참고
-                                              사용자가 앱을 지우기 전까지 기기속에 저장되는 데이터
-                                              로그인 할 때 이메일을 저장시켜, 앱 들어올 때 시작화면에서
-                                               정보 확인 후 이메일 정보가 있으면 로그인건너뛰는 식으로 만들었습니다.*/
+                                            /*https://jhshjs.tistory.com/56  SharedPreferences
+                                             Data stored on the device until the user clears the app
+                                            Save email when user log in, from the app launch screen.
+                                            After checking the user's information, if there is email information in the sf, it is made to skip login.*/
 
                                             String[] emailID = stUserEmail.split("\\.");
                                             String DBEmail = emailID[0] + "_" + emailID[1];
@@ -90,12 +90,8 @@ public class LoginActivity extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     // Log.d(TAG, "onDataChange: " + snapshot.getValue().toString());
                                                     User_Item nicknameCamera = snapshot.getValue(User_Item.class);
-                                                    /*프로필 사진을 불러오는 시간을 줄이려고 로그인 할 때 불러왔습니다
-                                                     이럴 시 ,다른 기기에서 같은 계정으로 동시에 로그인하고,
-                                                     프로필 사진을 한쪽기기에서만  바꾸는 상황이 온다면 다시 로그인 해야 다른기기에도 적용됩니다
-                                                     실제 앱이라면 동시 로그인을 막거나, 조치를 취하겠지만 아직은 정해진게 없어
-                                                      이렇게 두겠습니다.
-                                                      */
+                                                    /*Image URL was loaded when logging in to reduce the time to load profile pictures.*/
+
                                                     editor.putString("profile_image", nicknameCamera.getProfile_image());
                                                     editor.commit();
                                                 }
@@ -106,15 +102,15 @@ public class LoginActivity extends AppCompatActivity {
                                                 }
                                             });
                                             Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_LONG).show();
-                                            Intent in = new Intent(LoginActivity.this, FirstAuthActivity.class); // 첫 로그인시에 데이터 꼬이는 현상제거
+                                            Intent in = new Intent(LoginActivity.this, FirstAuthActivity.class); //Always do the examination
                                             startActivity(in);
                                         } else {
                                             Toast.makeText(LoginActivity.this, "이메일 인증을 완료해주세요.", Toast.LENGTH_LONG).show();
                                         }
-                                    } else { // 로그인 실패시
-                                        //  Log.w(TAG, "signInWithEmail:failure", task.getException()); 실패 로그 부분
+                                    } else { // When login fails to log in
+                                          Log.w("LoginActivity", "signInWithEmail:failure", task.getException()); //Failure Log Part
                                         Toast.makeText(LoginActivity.this, "Check your ID or Password", Toast.LENGTH_SHORT).show();
-                                        //     updateUI(null);
+
                                     }
                                 }
                             });

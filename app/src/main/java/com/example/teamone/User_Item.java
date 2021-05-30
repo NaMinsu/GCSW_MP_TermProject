@@ -3,7 +3,7 @@ package com.example.teamone;
 public class User_Item {
     String email;
     String profile_image;
-    // 나중에 여기에 닉네임도 넣기
+
     public String getEmail() {
         return email;
     }

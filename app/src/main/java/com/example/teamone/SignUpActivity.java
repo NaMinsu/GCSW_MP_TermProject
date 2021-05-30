@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,66 +42,66 @@ public class SignUpActivity extends AppCompatActivity {
     private StorageReference mStorageRef; // 기본 프로필 사진 등록을 위한 mStorageRef
     private FirebaseAuth mAuth;
     FirebaseDatabase database;
+    MediaPlayer mediaPlayer;
     EditText idText;
     EditText passwordText;
     EditText passwordCheckText;
     Button signUpBtn;
 
     String ID, PW, PWCheck;
-
+    String TAG = "SignUpActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
         idText = (EditText) findViewById(R.id.signUpId);
         passwordText = (EditText) findViewById(R.id.signUpPW);
         passwordCheckText = (EditText) findViewById(R.id.signUpPWCheck);
         signUpBtn = (Button) findViewById(R.id.signUpBtn);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        mediaPlayer = MediaPlayer.create(this, R.raw.thik);
         signUpBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                // 아이디, 비밀번호, 비밀번호 확인 문자열
+                mediaPlayer.start();
+                // ID, password, password verification string
                 ID = idText.getText().toString();
                 PW = passwordText.getText().toString();
                 PWCheck = passwordCheckText.getText().toString();
 
                 /*
-                1. 비밀번호와 비밀번호 확인이 같다면 회원가입 시도 후, 로그인 화면으로 넘어감
-                2. 비밀번호와 비밀번호 확인이 다르다면 Toast 알림
+                1. If the password and password confirmation are the same, try to sign up and move on to the login screen.
+                2. Toast notification if password and password verification are different
                  */
                 if (PW.equals(PWCheck)) {
                     if (ID.length() != 0 && PW.length() != 0) {
 
-                        //회원가입 시도
-                        mAuth.createUserWithEmailAndPassword(ID, PW) //유저 만들기
+                        //Attempt to sign up for membership
+                        mAuth.createUserWithEmailAndPassword(ID, PW) //Create User
                                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                            // Sign in success, update UI with the signed-in user's (회원가입 성공시)
-                                            //Log.d(TAG, "createUserWithEmail:success"); Tag 설정 해주신후 주석해제 해주세요 !
+                                            // Sign in success, update UI with the signed-in user's (When membership is successful)
+                                            Log.d(TAG, "createUserWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
-                                            //    updateUI(user);
+                                            // updateUI(user);
 
                                             String[] emailID = ID.split("\\.");
                                             String DBEmail = emailID[0]+"_"+emailID[1];
-                                            //lili13245@naver.com -> lili13245@naver_com 형식으로 저장됩니다.
+                                            //lili13245@naver.com -> lili13245@naver_com Saved as a format.
                                             DatabaseReference myRef = database.getReference("users").child(DBEmail);
                                             Hashtable<String, String> Message_log
                                                     = new Hashtable<String, String>();
                                             String UserID =user.getEmail();
                                             Message_log.put("email",UserID);
-                                            Message_log.put("nickname",UserID); // 기본 닉네임 설정
+                                            Message_log.put("nickname",UserID); // Default Nickname Settings
                                             myRef.setValue(Message_log);
                                             MakeBasicProfile(DBEmail, myRef);
-                                            // 기본 프로필을 만드는 것 나중에는 가입시 유저가 기본프로필사진 올라가는것보다 빨리 로그인 해버릴 수 있기 때문에 로딩을 추가하겠습니다
-
+                                            // Creating a default profile
                                             user.sendEmailVerification()
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
@@ -113,8 +114,8 @@ public class SignUpActivity extends AppCompatActivity {
                                             Intent Exit = new Intent(SignUpActivity.this, LoginActivity.class);
                                             startActivity(Exit);
                                         } else {
-                                            // If sign in fails, display a message to the user.(회원가입 실패시)
-                                            // Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                            // If sign in fails, display a message to the user.
+                                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                             Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                                     Toast.LENGTH_SHORT).show();
                                             //   updateUI(null);
@@ -139,7 +140,7 @@ public class SignUpActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         String datetime = dateformat.format(c.getTime());
         Glide.with(getApplicationContext()).asFile()
-                .load("https://ifh.cc/g/sephR3.png") // 12월에 만료 (무료 이미지 호스팅) 이미지를  load해서 Storage 에 올린후 그 링크를 받는 코드입니다
+                .load("https://ifh.cc/g/sephR3.png") // Code that loads the image (free image hosting) expired in December, uploads it to Storage, and receives the link.
                 .into(new CustomTarget<File>() {
                     @Override
                     public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
@@ -154,21 +155,21 @@ public class SignUpActivity extends AppCompatActivity {
                                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                     @Override
                                                     public void onSuccess(Uri uri) {
-                                                        // Log.d(TAG, "다운받기는 성공" + uri.toString());
+                                                         Log.d(TAG, "다운받기 성공" + uri.toString());
                                                         String stUri_Image = uri.toString();
                                                         myRef.child("profile_image").setValue(stUri_Image);
                                                     }
                                                 }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception exception) {
-                                                //  Log.d(TAG, "다운받기는 실패".toString());
+                                                  Log.d(TAG, "다운받기 실패".toString());
                                             }
                                         });
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
-                                // Log.d(TAG, "올리기 실패".toString());
+                                 Log.d(TAG, "올리기 실패".toString());
                             }
                         });
                     }
@@ -180,5 +181,18 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+    private void killMediaPlayer(){
+        if(mediaPlayer!=null){
+            try{mediaPlayer.release();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    protected void onDestroy(){
+        super.onDestroy();
+        killMediaPlayer();
     }
 }

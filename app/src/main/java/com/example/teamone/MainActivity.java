@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentFriendList FragmentFriendList;
     FragmentSettings FragmentSettings;
     MediaPlayer mediaPlayer;
-
+    /*We've linked each fragment to the main activity.*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

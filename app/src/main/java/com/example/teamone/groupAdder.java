@@ -66,12 +66,14 @@ public class groupAdder extends Activity {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for (DataSnapshot friend : task.getResult().getChildren()) {
-                    Friend_DBEmails.add(friend.getKey()); // 친구들의 db 이메일들
+                    Friend_DBEmails.add(friend.getKey()); // Friends' db emails.
                 }
 
             }
         });
-        // 닉네임은 회원이 자주 바꿀 수 있는데이터라,따로 저장해놓지 않고 화면에 정보를 불러올때마다 유저정보에서 불러와주었습니다
+        /*Nicknames are data that members can change frequently,
+         so they are not saved separately,
+         but they are recalled from user information whenever they are loaded onto the screen.*/
         usersRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
@@ -115,10 +117,10 @@ public class groupAdder extends Activity {
                     for (CheckBox box : list) {
                         usersRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
-                            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) { /*친구의 이메일로 검색을 하여 , 추가한 사람들에게도 그룹이 추가되도록 만들었습니다 */
-                                String fName = box.getText().toString();                        /*또한, 나중에 푸시알람을 만들때에 새로운 그룹  ~~~ 에 초대되었습니다 를알림으로 만들어줄것입니다 */
+                            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                                String fName = box.getText().toString();
                                 for (String getEmail : Friend_DBEmails) {
-                                    if (task.getResult().hasChild(getEmail)) { //<-혹시나 모르는 중간에 탈퇴하는 회원을 위해 한번 더 검사
+                                    if (task.getResult().hasChild(getEmail)) { //<-One more inspection for members who leave in the middle of an unexpected situation.
                                         if (box.isChecked() && task.getResult().child(getEmail).child("nickname").getValue().toString().equals(fName)) {
                                             UserGroupInfoRef.child(getEmail).child(datetime).child("name").setValue(gName);
                                             groupRef.child(datetime).child("members").child(getEmail).child("email").setValue(getEmail);
@@ -138,7 +140,7 @@ public class groupAdder extends Activity {
                             }
                         });
                     }
-                    groupRef.child(datetime).child("members").child(MyID).child("email").setValue(MyID); /*그룹을 만든 사람 맴버에 추가*/
+                    groupRef.child(datetime).child("members").child(MyID).child("email").setValue(MyID); /*Add a group to the creator member*/
                     groupRef.child(datetime).child("GroupName").child("name").setValue(gName);
                     groupRef.child(datetime).child("GroupSchedule").child("schedule").setValue("0");
                     MyToken = "no Token";
@@ -184,7 +186,7 @@ public class groupAdder extends Activity {
         Map<String, Object> data = new HashMap<>();
         data.put("token", regToken);
         data.put("text", message);
-        data.put("title", title); // 그룹명
+        data.put("title", title); // Group Name
         data.put("subtext", SubTitle);
         data.put("android_channel_id", "Group");
 

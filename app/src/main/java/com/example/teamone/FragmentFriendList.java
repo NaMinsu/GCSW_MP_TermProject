@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,6 @@ public class FragmentFriendList extends Fragment {
 
         RecyclerView rcView = v.findViewById(R.id.rcViewFriend);
         rcView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         friendshipRef.child(FirstAuthActivity.getMyID()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {

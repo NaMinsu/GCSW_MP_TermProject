@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -33,7 +34,7 @@ public class friendInfo extends Activity {
     String friendName, link_image, friendMail, friendSchool;
     TextView title, fName, fid, fschool;
     ImageView profile;
-
+  /* Gets the friend information that the user clicked on in the Friends list*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +83,7 @@ public class friendInfo extends Activity {
                     link_image = info.child("profile_image").getValue().toString();
                     profile = findViewById(R.id.profile_image);
                     putImage(link_image);
-                     // new DownloadFilesTask().execute(link_image); 로딩시간 단축을 위한 제안
+                     // new DownloadFilesTask().execute(link_image); Suggestions for faster loading times
                 }
 
             }
@@ -132,4 +133,5 @@ public class friendInfo extends Activity {
     }
 
  */
+
 }

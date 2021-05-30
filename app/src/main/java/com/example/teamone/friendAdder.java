@@ -3,6 +3,7 @@ package com.example.teamone;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class friendAdder extends Activity {
     View selfLayout;
     Button okB, cancelB;
+    MediaPlayer mediaPlayer;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference friendshipRef = database.getReference("friendship");
     DatabaseReference userRef = database.getReference("users");
@@ -40,12 +42,12 @@ public class friendAdder extends Activity {
         EditText fmailTxt = (EditText) findViewById(R.id.txtAccount);
         String MY_EMAIL = sf.getString("Email", "");
         selfLayout = findViewById(R.id.fAdder);
-
+        mediaPlayer = MediaPlayer.create(this, R.raw.quietswitch);
         okB = (Button) selfLayout.findViewById(R.id.btnOK);
         okB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mediaPlayer.start();
                 String fmail = fmailTxt.getText().toString().replace(".", "_");
                 /*
                 메일이 그냥 띄어쓰기만 있다거나 비어있으면 null point 에러가 발생해서 해당 코드를 삽입했습니다.
@@ -124,5 +126,19 @@ public class friendAdder extends Activity {
     @Override
     public void onBackPressed() {
         return;
+    }
+    private void killMediaPlayer(){
+        if(mediaPlayer!=null){
+            try{mediaPlayer.release();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        killMediaPlayer();
     }
 }

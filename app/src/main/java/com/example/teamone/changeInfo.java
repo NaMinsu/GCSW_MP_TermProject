@@ -1,6 +1,7 @@
 package com.example.teamone;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,10 +34,11 @@ import java.util.Locale;
 
 public class changeInfo extends AppCompatActivity {
     private static final String TAG = "changeInfo";
-    private StorageReference mStorageRef; // 프로필 사진 등록을 위한 mStorageRef
+    private StorageReference mStorageRef; // A profile pictures URL save to mStorageRef
     FirebaseDatabase database;
-    int REQUEST_IMAGE_CODE=1001; //이미지 변경용 코드입니다
-    Button btnNickname,btnSchool,btnBack;  // 이미지 변경용 임시 버튼을 만들었습니다
+    int REQUEST_IMAGE_CODE=1001; //Code for image change
+    Button btnNickname,btnSchool,btnBack;
+    MediaPlayer mediaPlayer;
     ImageView ChangeImage;
     String Nickname,School;
     EditText etNickname,etSchool;
@@ -51,6 +53,7 @@ public class changeInfo extends AppCompatActivity {
         etNickname = (EditText)selfLayout.findViewById(R.id.nickValue);
         etSchool = (EditText)selfLayout.findViewById(R.id.schoolValue);
         Progress = (ProgressView) selfLayout.findViewById(R.id.progress_circular);
+        mediaPlayer = MediaPlayer.create(this, R.raw.quietswitch);
         SharedPreferences sf = getSharedPreferences("Users", MODE_PRIVATE);
         String MY_EMAIL=sf.getString("Email","");
         String[] emailID = MY_EMAIL.split("\\.");
@@ -82,6 +85,7 @@ public class changeInfo extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer.start();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("fragment","2");
                 startActivity(intent);
@@ -94,9 +98,14 @@ public class changeInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Nickname = String.valueOf (etNickname.getText());
-                myRef.child("nickname").setValue(Nickname);
-                etNickname.setText("");
-                Toast.makeText(getApplicationContext(),"닉네임이 변경되었습니다!",Toast.LENGTH_SHORT).show();
+                if(Nickname.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else {
+                    mediaPlayer.start();
+                    myRef.child("nickname").setValue(Nickname);
+                    etNickname.setText("");
+                    Toast.makeText(getApplicationContext(), "닉네임이 변경되었습니다!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -107,9 +116,14 @@ public class changeInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 School = String.valueOf (etSchool.getText());
-                myRef.child("school").setValue(School);
-                etSchool.setText("");
-                Toast.makeText(getApplicationContext(),"학교가 변경되었습니다!",Toast.LENGTH_SHORT).show();
+                if(School.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "학교정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else {
+                    mediaPlayer.start();
+                    myRef.child("school").setValue(School);
+                    etSchool.setText("");
+                    Toast.makeText(getApplicationContext(), "학교가 변경되었습니다!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -122,7 +136,7 @@ public class changeInfo extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         SharedPreferences sf = getSharedPreferences("Users", MODE_PRIVATE);
         SharedPreferences.Editor editor = sf.edit();
-        String MY_EMAIL=sf.getString("Email",""); //SharedPreferences 에서 이메일을 가져오는것
+        String MY_EMAIL=sf.getString("Email",""); //Getting an email from SharedPreferences
         StorageReference profile_Ref = mStorageRef.child("users");
         if(requestCode==REQUEST_IMAGE_CODE && null != data){
             Progress.start();
@@ -135,7 +149,7 @@ public class changeInfo extends AppCompatActivity {
             Calendar c = Calendar.getInstance();
             String datetime = dateformat.format(c.getTime());
 
-            profile_Ref.child(DBEmail).child(datetime).child("profile.jpg").putFile(image) // 먼저 파일을 스토리지에 업로드하고
+            profile_Ref.child(DBEmail).child(datetime).child("profile.jpg").putFile(image) // First, upload the file to storage
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -146,9 +160,12 @@ public class changeInfo extends AppCompatActivity {
                                         public void onSuccess(Uri uri) {
                                             Log.d(TAG, "다운받기는 성공" + uri.toString());
                                             String stUri_Image = uri.toString();
-                                            myRef.child("profile_image").setValue(stUri_Image); //업로드에성공하면 이미지 주소를 받아 DB에 찍어준다
+                                            myRef.child("profile_image").setValue(stUri_Image);
+                                            /*If the upload is successful,
+                                              it will receive the image address and save it in DB.*/
+
                                             editor.putString("profile_image",stUri_Image);
-                                            editor.commit(); //유저의 기기 sf 에도 저장시켜준다
+                                            editor.commit(); //It can also be stored in the user's device, SF.
                                             Progress.stop();
 
                                             Glide.with(getApplicationContext())
@@ -174,5 +191,18 @@ public class changeInfo extends AppCompatActivity {
             });
 
         }
+    }
+    private void killMediaPlayer(){
+        if(mediaPlayer!=null){
+            try{mediaPlayer.release();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    protected void onDestroy(){
+        super.onDestroy();
+        killMediaPlayer();
     }
 }

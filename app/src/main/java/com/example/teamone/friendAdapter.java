@@ -76,4 +76,5 @@ class FriendViewHolder extends RecyclerView.ViewHolder {
     public void onBind(String dataTxt) {
         txt_name.setText(dataTxt);
     }
+
 }
