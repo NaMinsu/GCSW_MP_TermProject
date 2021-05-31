@@ -67,8 +67,8 @@ public class FragmentGroupList extends Fragment {
 
                     String gname = snapshot.child("name").getValue().toString();
                     String code = snapshot.getKey();
-                    String groupData = code + "@Admin_split@" + gname; // 방이름으로 사용하기 힘든 문자로 붙였습니다
-                    if (!groupItems.contains(groupData)) { /* 중복 입력 방지 */
+                    String groupData = code + "@Admin_split@" + gname; // I pasted it with characters that are difficult to use as the room name.
+                    if (!groupItems.contains(groupData)) { /* Avoid duplicate entries */
                         groupItems.add(groupData);
                     }
                 }
@@ -145,7 +145,7 @@ public class FragmentGroupList extends Fragment {
                 String groupData = gCode + "@Admin_split@" + gName;
 
                 groupMap.put(gName, gfriends);
-                if (!groupItems.contains(groupData)) { /* 중복 입력 방지 */
+                if (!groupItems.contains(groupData)) { /*Avoid duplicate entries */
                     groupItems.add(groupData);
                 }
 

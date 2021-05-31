@@ -41,13 +41,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri Sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"+ getApplicationContext().getPackageName() + "/" +R.raw.bell);
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        /* 안드로이드 오레오 버전 대응 */
+        /* Android Oreo version compatible */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel;
             if(id.equals("Group"))
                 channel = new NotificationChannel(id, id, NotificationManager.IMPORTANCE_HIGH);
             else
-                channel = new NotificationChannel(id, id, NotificationManager.IMPORTANCE_LOW); /*중요도가 낮은 알림입니다*/
+                channel = new NotificationChannel(id, id, NotificationManager.IMPORTANCE_LOW); /*This is a low-priority notification*/
 
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)

@@ -42,14 +42,19 @@ public class groupTable extends AppCompatActivity {
 
     TimetableView timetable;
     private todaySchedule adapter;
+    private FirebaseFunctions mFunctions;
     FirebaseDatabase Database  =FirebaseDatabase.getInstance();
     DatabaseReference scheduleRef = Database.getReference("schedule");
     DatabaseReference groupRef = Database.getReference("grouplist");
     DatabaseReference planRef = Database.getReference("plan");
-    ArrayList<String> members; /*이 리스트는 나중에 푸시 알림을 보낼때*/
-    String name;               /*선택한 맴버들의 토큰 정보를 저장하는곳으로 ?*/
+    DatabaseReference usersRef = Database.getReference("users");
+    ArrayList<String> WantPushMembers;
+    ArrayList<String> membersToken;
+    ArrayList<String> members;
+    String name;
     String groupCode;
     ArrayList<Schedule> total;
+
     String planName = "not yet !@!@#@$";
     boolean[] weekdayTrue = new boolean[7];
     int hourInt, minuteInt;
@@ -57,13 +62,14 @@ public class groupTable extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grouptable);
         View selfLayout = (View) findViewById(R.id.gtLayout);
+        mFunctions = FirebaseFunctions.getInstance();
+        WantPushMembers = new ArrayList<>();
+        membersToken = new ArrayList<>();
         members = new ArrayList<>();
         total = new ArrayList<>();
-
         LocalDate nowDate = LocalDate.now();
         LocalDate sunday = nowDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
         LocalDate satday = nowDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
@@ -114,6 +120,9 @@ public class groupTable extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 for (DataSnapshot member : task.getResult().getChildren()) {
+                    String Want = member.child("WantPush").getValue().toString();
+                    if(Want.equals("1")){ WantPushMembers.add(member.getKey()); } // Want Push User (for Push on/off)
+
                     members.add(member.getKey());
                     scheduleRef.child(member.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
@@ -199,7 +208,17 @@ public class groupTable extends AppCompatActivity {
 
             }
         });
-
+      //read User's info
+        usersRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+                for (String GroupMember : WantPushMembers) {
+                    if (task.getResult().child(GroupMember).hasChild("token")) {
+                        membersToken.add(task.getResult().child(GroupMember).child("token").getValue().toString());
+                    }
+                }
+            }
+        });
 
         Button resetB = (Button) findViewById(R.id.reset);
         resetB.setOnClickListener(new View.OnClickListener() {
@@ -391,6 +410,11 @@ public class groupTable extends AppCompatActivity {
                         setColor(planName);
                         //String date, String startTime, String endTime, String title
                         addPlan(calculDateStr, startHour + ":" + startMinute, endHour + ":" + endMinute, name + "'s meeting");
+                        if(!membersToken.isEmpty()){
+                            for(String token:membersToken){
+                                On_MakeNotification(token, name, "새로운 일정이 추가되었습니다.", "TeamOne");
+                            }
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "가능한 시간이 없습니다", Toast.LENGTH_SHORT).show();
                     }
@@ -917,5 +941,50 @@ public class groupTable extends AppCompatActivity {
         } else {
             return 0;
         }
+    }
+    public Task<String> sendFCM(String regToken, String title, String message, String SubTitle) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", regToken);
+        data.put("text", message);
+        data.put("title", title); // 그룹명
+        data.put("subtext", SubTitle);
+        data.put("android_channel_id", "Group");
+
+        return mFunctions
+                .getHttpsCallable("sendFCM")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        String result = (String) Objects.requireNonNull(task.getResult()).getData().toString();
+                        Log.d("SendPush", "then: " + result);
+                        return result;
+                    }
+                });
+    }
+
+    private void On_MakeNotification(String token, String Title, String text, String SubTitle) {
+        sendFCM(token, Title, text, SubTitle)
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Exception e = task.getException();
+
+                            if (e instanceof FirebaseFunctionsException) {
+                                FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                FirebaseFunctionsException.Code code = ffe.getCode();
+                                Object details = ffe.getDetails();
+                            }
+
+                            Log.w("SendPush", "makeNotification:onFailure", e);
+                            return;
+                        }
+
+                        String result = task.getResult();
+
+                    }
+                });
+
     }
 }
