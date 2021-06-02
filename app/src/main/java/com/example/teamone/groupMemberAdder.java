@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+// for add groupmember in group table
 public class groupMemberAdder extends Activity {
 
     View selfLayout;
@@ -55,9 +56,10 @@ public class groupMemberAdder extends Activity {
         View selfLayout = findViewById(R.id.gmAdder);
 
         Intent intent = getIntent();
-        String GroupName = intent.getStringExtra("name"); //방이름
-        String timeCode = intent.getStringExtra("code");
+        String GroupName = intent.getStringExtra("name"); //group name
+        String timeCode = intent.getStringExtra("code"); // group's unique code
 
+        //read all the friends list of the user
         friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
@@ -70,7 +72,7 @@ public class groupMemberAdder extends Activity {
             @Override
             public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
                 for (String getEmail : Friend_DBEmails) {
-                    if (task.getResult().hasChild(getEmail)) { // 친구 이름을 친구가 설정한 닉네임으로 불러오게끔 수정하였습니다
+                    if (task.getResult().hasChild(getEmail)) { // Show friend's name by friend's nickname they made
                         friends.add(task.getResult().child(getEmail).child("nickname").getValue().toString());
                     }
                 }
@@ -125,7 +127,7 @@ public class groupMemberAdder extends Activity {
                     finish();
                 }
             }
-        });
+        }); // add new member who checked by the current user and store the data in DB
 
 
         cancelB = (Button)selfLayout.findViewById(R.id.btnCancel);
@@ -136,6 +138,7 @@ public class groupMemberAdder extends Activity {
             }
         });
     }
+
     public Task<String> sendFCM(String regToken, String title, String message, String SubTitle) {
         Map<String, Object> data = new HashMap<>();
         data.put("token", regToken);

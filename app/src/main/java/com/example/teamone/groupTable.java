@@ -113,7 +113,7 @@ public class groupTable extends AppCompatActivity {
                 }
 
             }
-        });
+        });//read group's meeting schedule
 
         //read member's schedules
         groupRef.child(groupCode).child("members").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -163,7 +163,7 @@ public class groupTable extends AppCompatActivity {
             }
         });
 
-        //read member's plan
+        //read member's plan & show only plan in 7 days
         groupRef.child(groupCode).child("members").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
@@ -220,6 +220,8 @@ public class groupTable extends AppCompatActivity {
             }
         });
 
+        //Above reading from DB is done only 1 time. So if someone change their schedule or add new schedule, user need to
+        //user need to reset to call that data
         Button resetB = (Button) findViewById(R.id.reset);
         resetB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -299,7 +301,7 @@ public class groupTable extends AppCompatActivity {
                 intent.putExtra("fragment","1");
                 startActivity(intent);
             }
-        });
+        });//fragment "1" is grouplist fragment
 
         Button calculating = (Button) findViewById(R.id.calculate);
         calculating.setOnClickListener(new View.OnClickListener() {
@@ -308,8 +310,10 @@ public class groupTable extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), calculateTime.class);
                 startActivityForResult(intent, 0);
             }
-        });
+        });//setting rule of meeting and calculating group's meeting
 
+
+        //send group name and groupcode to add new member in this group
         Button AddMember = (Button) selfLayout.findViewById(R.id.btnAddMember);
         AddMember.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -319,7 +323,7 @@ public class groupTable extends AppCompatActivity {
                 intent.putExtra("code", groupCode);
                 startActivity(intent);
             }
-        });
+        });//
 
         AddMember.setSelected(true);
         cancel.setSelected(true);
@@ -442,6 +446,7 @@ public class groupTable extends AppCompatActivity {
         }
 
     }
+
     // remove data and create new group timetable
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void reset() {

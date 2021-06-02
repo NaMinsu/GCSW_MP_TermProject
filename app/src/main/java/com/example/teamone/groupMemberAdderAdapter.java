@@ -18,10 +18,11 @@ public class groupMemberAdderAdapter extends RecyclerView.Adapter<GMAViewHolder>
     private static ArrayList<CheckBox> checklist = new ArrayList<>();
 
     public groupMemberAdderAdapter(ArrayList<String> list) {dataList = list;}
+    //dataList is a data for store user's friends email
 
     @NonNull
     @Override
-    public GMAViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GMAViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { // ViewGroup that show friends' information to user
         Context ctx = parent.getContext();
         LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.items_groupfriends, parent, false);

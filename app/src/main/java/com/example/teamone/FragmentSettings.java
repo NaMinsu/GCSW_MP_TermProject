@@ -29,6 +29,8 @@ import org.w3c.dom.Text;
 
 import static android.content.Context.MODE_PRIVATE;
 
+
+//Show user information like profile image, school, nickname and change info
 public class FragmentSettings extends Fragment {
 
     TextView schoolname,nickname,eMails;
