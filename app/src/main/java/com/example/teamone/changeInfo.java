@@ -73,6 +73,7 @@ public class changeInfo extends AppCompatActivity {
                 .circleCrop()
                 .into(ChangeImage);
 
+        //change image
         ChangeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +82,7 @@ public class changeInfo extends AppCompatActivity {
             }
         });
 
+        //go to setting fragment. fragment "2" is setting fragment
         btnBack = (Button)selfLayout.findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +94,7 @@ public class changeInfo extends AppCompatActivity {
             }
         });
 
-
+        //change nickname and store changing nickname in DB
         btnNickname = (Button)selfLayout.findViewById(R.id.btnNicknameChange);
         btnNickname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +111,7 @@ public class changeInfo extends AppCompatActivity {
             }
         });
 
-
+        //change school name and store changing school in DB
         School = String.valueOf(etSchool.getText());
         btnSchool = (Button)selfLayout.findViewById(R.id.btnSchoolChange);
         btnSchool.setOnClickListener(new View.OnClickListener() {

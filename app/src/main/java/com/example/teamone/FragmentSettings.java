@@ -56,6 +56,7 @@ public class FragmentSettings extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance();
         eMails.setText(MY_EMAIL);
+
          /*The user information stored in the DB is retrieved and displayed on the screen.*/
         Users = mDatabase.getReference("users").child(DBEmail);
         Users.child("nickname").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
