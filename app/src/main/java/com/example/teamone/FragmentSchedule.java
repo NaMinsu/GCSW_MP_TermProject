@@ -244,7 +244,7 @@ public class FragmentSchedule extends Fragment {
 
                         if (getDateDif(tmpDate, nowDate) < 0) {
                             deletePlan(title, dateSplit[0] + dateSplit[1] + dateSplit[2], time);
-                        } else if (getDateDif(tmpDate, nowDate) > 0 && getDateDif(tmpDate, nextDate) < 0) {
+                        } else if (getDateDif(tmpDate, nowDate) >= 0 && getDateDif(tmpDate, nextDate) <= 0) {
                             addNew(weekday, title, "", new Time(startHour, startMinute), new Time(endHour, endMinute));
                             getData(title, date, time);
                         } else {
