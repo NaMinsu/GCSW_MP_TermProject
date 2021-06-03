@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/mainColor"
-        android:text=" 그룹 스케쥴 추가"
+        android:text=" 미팅 시간 계산"
         android:textSize="25sp"
         android:textStyle="bold"
 
