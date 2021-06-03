@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -89,6 +90,9 @@ public class groupTable extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         groupCode = intent.getStringExtra("code");
+
+        TextView names = (TextView)findViewById(R.id.grouptableName);
+        names.setText(name);
 
         //read group schedule
         groupRef.child(groupCode).child("GroupSchedule").child("schedule").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

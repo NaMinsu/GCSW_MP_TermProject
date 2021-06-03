@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.functions.HttpsCallableResult;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +61,9 @@ public class groupMemberAdder extends Activity {
         Intent intent = getIntent();
         String GroupName = intent.getStringExtra("name"); //group name
         String timeCode = intent.getStringExtra("code"); // group's unique code
+
+        TextView groupNames = (TextView)findViewById(R.id.GroupNames);
+        groupNames.setText(GroupName);
 
         //read all the friends list of the user
         friendshipRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

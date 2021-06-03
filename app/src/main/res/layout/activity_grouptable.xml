@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="그룹 시간표"
+            android:id ="@+id/grouptableName"
             android:textStyle="bold"
             android:textSize="18sp"
             android:textAlignment="center"/>

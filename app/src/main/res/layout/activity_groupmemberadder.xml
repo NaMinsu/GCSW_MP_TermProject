@@ -17,7 +17,8 @@
         android:layout_margin="2dp"
         android:textSize="28dp"
         android:textColor="@color/black"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:id="@+id/GroupNames"/>
 
     <TextView
         android:layout_width="match_parent"
