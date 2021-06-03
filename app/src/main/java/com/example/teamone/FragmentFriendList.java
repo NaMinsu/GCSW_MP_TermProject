@@ -65,7 +65,8 @@ public class FragmentFriendList extends Fragment {
                     String fname = snapshot.child("name").getValue().toString();
                     String fid = snapshot.child("email").getValue().toString();
                     if(!friendList.contains(fname)) {
-                        friendList.add(fname);
+                        // if this friend already exists in local storage, do not store data
+                        friendList.add(fname); // add list to show in recyclerview
                         infoTable.put(fname, fid);
                     }
                 }
@@ -106,8 +107,9 @@ public class FragmentFriendList extends Fragment {
 
     @Override
     public void onStart() {
+        // if this fragment is started, refresh recyclerview data
         super.onStart();
-       adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     @Override

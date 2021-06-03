@@ -13,23 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
-//67번째 줄에 그룹name도 같이 넘기도록 수정했습니다.
-//레이아웃에 visibility="gone"인 코드뷰(구분을 위한 날짜)를 만들어,이것으로 이용하도록 수정했습니다 .
 public class groupAdapter extends RecyclerView.Adapter<GroupViewHolder>{
     Context mContext;
     ArrayList<String> dataList;
 
+    // constructor of adapter
     groupAdapter(Context c, ArrayList<String> list) {
-        mContext = c;
-        dataList = list;
+        mContext = c; // context of adapted activity
+        dataList = list; // list of group to show
     }
 
     @NonNull
     @Override
     public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context ctx = parent.getContext();
+        Context ctx = parent.getContext(); // get context
+        // inflation
         LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        // setup recyclerview item
         View view = inflater.inflate(R.layout.items_group, parent, false);
         GroupViewHolder cvh = new GroupViewHolder(view, mContext);
 
@@ -38,11 +38,13 @@ public class groupAdapter extends RecyclerView.Adapter<GroupViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
-        holder.onBind((String)dataList.get(position));
+        // show data in view
+        holder.onBind(dataList.get(position));
     }
 
     @Override
     public int getItemCount() {
+        // counting items only list is not null
         if (dataList != null)
             return dataList.size();
         else
@@ -50,23 +52,29 @@ public class groupAdapter extends RecyclerView.Adapter<GroupViewHolder>{
     }
 }
 
+// Viewholder of adapter
 class GroupViewHolder extends RecyclerView.ViewHolder {
-    public TextView txtView;
-    public TextView CodeView;
+    public TextView txtView; // group name textview
+    public TextView CodeView; // group code textview
     Context ctx;
 
+    // constructor of viewholder
     public GroupViewHolder(@NonNull View itemView, Context c) {
         super(itemView);
         ctx = c;
         txtView = itemView.findViewById(R.id.groupName);
         CodeView = itemView.findViewById(R.id.GroupCode);
+
+        // put OnClickListener to process click event
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // if a group is clicked, redirect group table page
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     Intent intent = new Intent(ctx, groupTable.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+                    // send group name and code to get group data from database
                     intent.putExtra("code", CodeView.getText().toString());
                     intent.putExtra("name", txtView.getText().toString());
                     ctx.startActivity(intent);
@@ -75,6 +83,7 @@ class GroupViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
+    // the function to show group name
     public void onBind(String data) {
     String[] Data = data.split("@Admin_split@");
         CodeView.setText(Data[0]);
