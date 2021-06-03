@@ -119,6 +119,7 @@ public class groupMemberAdder extends Activity {
                                         if (box.isChecked() && task.getResult().child(getEmail).child("nickname").getValue().toString().equals(fname)) {
                                             UsersGroupRef.child(getEmail).child(timeCode).child("name").setValue(GroupName); /*Add a group to a friend's group list (visible on the Friends screen)*/
                                             groupRef.child(timeCode).child("members").child(getEmail).child("email").setValue(getEmail); /*Add to member list (to DBEmail for easy access to members' data)*/
+                                            groupRef.child(timeCode).child("members").child(getEmail).child("WantPush").setValue("1");
                                             if (task.getResult().child(getEmail).hasChild("token")) {
                                                 String token = task.getResult().child(getEmail).child("token").getValue().toString();
                                                 On_MakeNotification(token, GroupName, "새로운 그룹에 초대되었습니다.", "TeamOne");
