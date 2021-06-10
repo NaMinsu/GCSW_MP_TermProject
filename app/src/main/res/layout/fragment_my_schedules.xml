@@ -113,7 +113,7 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <com.example.teamone.TimetableView
+            <com.gcsw.teamone.TimetableView
                 android:id="@+id/timetable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

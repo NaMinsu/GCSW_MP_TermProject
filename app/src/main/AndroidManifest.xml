@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.teamone">
+    package="com.gcsw.teamone">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,7 +14,7 @@
         android:theme="@style/Theme.TeamOne">
 
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name="com.gcsw.teamone.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
@@ -39,11 +39,11 @@
             android:value="false" />
 
         <activity
-            android:name=".calculateTime"
+            android:name="com.gcsw.teamone.calculateTime"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".FirstAuthActivity">
+        <activity android:name="com.gcsw.teamone.SignUpActivity" />
+        <activity android:name="com.gcsw.teamone.MainActivity" />
+        <activity android:name="com.gcsw.teamone.FirstAuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,33 +51,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".deletePlan"
+            android:name="com.gcsw.teamone.deletePlan"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".deleteSchedule"
+            android:name="com.gcsw.teamone.deleteSchedule"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".changeInfo" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".groupTable" />
+        <activity android:name="com.gcsw.teamone.changeInfo" />
+        <activity android:name="com.gcsw.teamone.LoginActivity" />
+        <activity android:name="com.gcsw.teamone.groupTable" />
         <activity
-            android:name=".groupAdder"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity
-            android:name=".friendAdder"
+            android:name="com.gcsw.teamone.groupAdder"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".friendInfo"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".groupMemberAdder"
+            android:name="com.gcsw.teamone.friendAdder"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".groupDeleter"
+            android:name="com.gcsw.teamone.friendInfo"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name="com.gcsw.teamone.groupMemberAdder"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".addSchedule"
+            android:name="com.gcsw.teamone.groupDeleter"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".addPlan"
+            android:name="com.gcsw.teamone.addSchedule"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name="com.gcsw.teamone.addPlan"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
     </application>
 

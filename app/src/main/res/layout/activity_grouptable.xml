@@ -106,7 +106,7 @@
         android:layout_weight="7"
         >
 
-        <com.example.teamone.TimetableView
+        <com.gcsw.teamone.TimetableView
             android:id="@+id/timetable_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
