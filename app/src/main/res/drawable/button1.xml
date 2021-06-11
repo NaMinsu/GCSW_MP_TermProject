@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/mainColor" />
+    <solid android:color="@drawable/buttoncolor" />
     <stroke
         android:width="0dp"
         android:color="@color/mainColor" />
