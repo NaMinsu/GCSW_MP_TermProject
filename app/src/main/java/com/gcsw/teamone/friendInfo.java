@@ -89,7 +89,7 @@ public class friendInfo extends Activity {
     private void putImage(String link) {
         Glide.with(this)
                 .load(link)
-                .override(150, 150)
+                .override(400, 400)
                 .into(profile);
     }
 

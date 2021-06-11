@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout selfLayout = (LinearLayout) findViewById(R.id.mainLayout);
 
 
-        Button myPageB = (Button) findViewById(R.id.btnMyPage);
+        ImageButton myPageB = (ImageButton) findViewById(R.id.btnMyPage);
         myPageB.setSoundEffectsEnabled(false);
         myPageB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button groupB = (Button) selfLayout.findViewById(R.id.btnGroup);
+        ImageButton groupB = (ImageButton) selfLayout.findViewById(R.id.btnGroup);
         groupB.setSoundEffectsEnabled(false);
         groupB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button friendB = (Button) selfLayout.findViewById(R.id.btnFriend);
+        ImageButton friendB = (ImageButton) selfLayout.findViewById(R.id.btnFriend);
         friendB.setSoundEffectsEnabled(false);
         friendB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button settingB = (Button) selfLayout.findViewById(R.id.btnSetUp);
+        ImageButton settingB = (ImageButton) selfLayout.findViewById(R.id.btnSetUp);
         settingB.setSoundEffectsEnabled(false);
         settingB.setOnClickListener(new View.OnClickListener() {
             @Override
