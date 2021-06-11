@@ -24,7 +24,7 @@ public class friendInfo extends Activity {
     DatabaseReference friendRef = database.getReference("friendship");
     DatabaseReference userRef = database.getReference("users");
     String friendName, link_image, friendMail, friendSchool;
-    TextView title, fName, fid, fschool;
+    TextView title, fName, fid,fid2, fschool,fschool2;
     ImageView profile;
 
     @Override
@@ -38,7 +38,12 @@ public class friendInfo extends Activity {
         profile = findViewById(R.id.profile_image);
         fName = findViewById(R.id.fpname);
         fid = findViewById(R.id.fpid);
+        fid2 = findViewById(R.id.fpid2);
         fschool = findViewById(R.id.fpcollage);
+        fschool2 = findViewById(R.id.fpcollage2);
+
+        fschool2.setSelected(true);
+        fid2.setSelected(true);
 
         friendRef.child(FirstAuthActivity.getMyID()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -48,8 +53,8 @@ public class friendInfo extends Activity {
                     String username = ds.child("name").getValue().toString();
                     if (username.equals(fname_temp)) {
                         friendMail = ds.child("email").getValue().toString();
-                        String id_text = "· E-mail: " + friendMail;
-                        fid.setText(id_text);
+                        String id_text = friendMail;
+                        fid2.setText(id_text);
                     }
                 }
             }
@@ -67,10 +72,9 @@ public class friendInfo extends Activity {
                     title.setText(title_text);
                     String name_text = "· 이름: " + friendName;
                     fName.setText(name_text);
-                    friendSchool = "· 학교: ";
                     if (info.child("school").exists())
-                        friendSchool = friendSchool + info.child("school").getValue().toString();
-                    fschool.setText(friendSchool);
+                        friendSchool = info.child("school").getValue().toString();
+                    fschool2.setText(friendSchool);
 
                     link_image = info.child("profile_image").getValue().toString();
                     profile = findViewById(R.id.profile_image);
