@@ -56,7 +56,7 @@ You can make your group if you want to make an appointment for your team project
 ![grouplist](./resource/grouplist.png)
 In this scene, show the list of groups you are participated and create or delete the group that you made.
 
-If you click a group name, you can see this screen:
+If you click a group name, you can see this screen:  
 ![grouptable](./resource/grouptable.png)
 You can see group timetable, gray part is assigned time, white part is empty time, and colored(orange) part is appointment time. You can also make an appointment by calculating empty time based on group timetable.
 
@@ -66,7 +66,7 @@ Our app works in groups, groups work in friends. You can add your friends for ma
 ![friendlist](./resource/friendlist.png)
 In this scene, show the list of your friends and add or delete the friend.
 
-If you click a friend name, you can see this pop-up:
+If you click a friend name, you can see this pop-up:  
 ![friendinfo](./resource/friendinfo.png)
 You can see friend's information.
 
