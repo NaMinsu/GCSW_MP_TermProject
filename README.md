@@ -37,22 +37,22 @@ Our app consists of 5 main scenes to serve functions above to user:
 
 ## Sign In/Sign Up Page
 
-You should sign up for using our app by your e-mail address.
+You should sign up for using our app by your e-mail address.  
 ![SignUp](./resource/signup.png)
 
-If you already signed up, you can sign in your ID.
+If you already signed up, you can sign in your ID.  
 ![SignIn](./resource/signin.png)
 
 
 ## My Schedule Page
 
-You can manage your timetable and temporary schedules in mypage fragement.
+You can manage your timetable and temporary schedules in mypage fragement.  
 ![main](./resource/mypage.png)
 This scene divide two side, plan side for management of temporary schedule and timetable side for management of regular schedules.
 
 ## Group Page
 
-You can make your group if you want to make an appointment for your team project, plan with friend, etc.
+You can make your group if you want to make an appointment for your team project, plan with friend, etc.  
 ![grouplist](./resource/grouplist.png)
 In this scene, show the list of groups you are participated and create or delete the group that you made.
 
@@ -62,7 +62,7 @@ You can see group timetable, gray part is assigned time, white part is empty tim
 
 ## Friend Page
 
-Our app works in groups, groups work in friends. You can add your friends for making group.
+Our app works in groups, groups work in friends. You can add your friends for making group.  
 ![friendlist](./resource/friendlist.png)
 In this scene, show the list of your friends and add or delete the friend.
 
@@ -73,7 +73,7 @@ You can see friend's information.
 
 ## Setting Page
 
-In addition, You can edit your information or log out in setting scene.
+In addition, You can edit your information or log out in setting scene.  
 ![setting](./resource/setting.png)
 
 
